@@ -202,7 +202,7 @@ namespace Genealogy
 					RomanNumerals.ToRomanNumeral(titles[0].NameIndex),
 					getLastname (year),
 					titles[0].Title.Rank,
-					titles[0].Title.RuledTerritory.Name,
+					titles[0].Title.Realm.Name,
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth)
 				);
 			else

@@ -68,7 +68,7 @@ namespace Genealogy
 				Ruler.getLastname(year),
 				SuccessionIndex,
 				Title.Rank,
-				Title.RuledTerritory,
+				Title.Realm,
 				(year >= End) ? (Start + " - " + End) : ("since " + Start)
 			);
 		}

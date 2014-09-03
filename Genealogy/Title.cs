@@ -18,7 +18,7 @@ namespace Genealogy
 			private set;
 		}
 
-		public Country RuledTerritory {
+		public Country Realm {
 			get;
 			private set;
 		}
@@ -35,7 +35,7 @@ namespace Genealogy
 
 			this.Established = established;
 			this.strategy = strategy;
-			this.RuledTerritory = ruledTerritory;
+			this.Realm = ruledTerritory;
 			this.Rank = rank;
 
 			reigns.Add(new Reign (this, firstRuler, established));
