@@ -5,7 +5,7 @@ namespace Genealogy.Chronicle
 {
 	public interface IEventProvider
 	{
-		IEnumerable<Event> getEvents();
+		IEnumerable<Event> Events { get; }
 	}
 }
 

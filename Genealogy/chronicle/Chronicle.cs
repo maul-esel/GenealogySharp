@@ -12,7 +12,7 @@ namespace Genealogy.Chronicle
 
 		public Chronicle(IEventProvider source) {
 			Events =
-				(from e in source.getEvents ()
+				(from e in source.Events
 				orderby e.Year ascending
 				select e)
 					.ToArray();

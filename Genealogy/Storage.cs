@@ -51,17 +51,13 @@ namespace Genealogy
 			loadTitles();
 		}
 
-		public IEnumerable<Event> getEvents()
-		{
-			return
-				(from p in Persons
-				from e in p.getEvents ()
-				select e)
-			.Concat (
-				from t in Titles
-				from e in t.getEvents ()
-				select e
-			);
+		public IEnumerable<Event> Events {
+			get {
+				return
+					from p in Persons.Cast<IEventProvider>().Concat(Titles)
+					from e in p.Events
+					select e;
+			}
 		}
 
 		private void loadCountries() {

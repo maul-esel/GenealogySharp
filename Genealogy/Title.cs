@@ -42,13 +42,14 @@ namespace Genealogy
 			calculateReigns();
 		}
 
-		public IEnumerable<Event> getEvents()
-		{
-			return
-				(from r in Reigns
-				from e in r.getEvents()
-				select e)
-			.Concat(new Event[] { new EstablishingEvent(this) });
+		public IEnumerable<Event> Events {
+			get {
+				return
+					(from r in Reigns
+					from e in r.Events
+					select e)
+				.Concat(new Event[] { new EstablishingEvent(this) });
+			}
 		}
 
 		#region reigns

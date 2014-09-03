@@ -32,11 +32,12 @@ namespace Genealogy
 			this.Start = start;
 		}
 
-		public IEnumerable<Event> getEvents()
-		{
-			if (SuccessionIndex == 1)
-				return new Event[] { };
-			return new Event[] { new SuccessionEvent(this) };
+		public IEnumerable<Event> Events {
+			get {
+				if (SuccessionIndex == 1)
+					return new Event[] { };
+				return new Event[] { new SuccessionEvent(this) };
+			}
 		}
 
 		public int End {

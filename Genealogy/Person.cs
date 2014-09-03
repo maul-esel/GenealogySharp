@@ -130,16 +130,17 @@ namespace Genealogy
 
 		#endregion
 
-		public IEnumerable<Event> getEvents()
-		{
-			var events = new Event[] { new BirthEvent(this), new DeathEvent(this) };
-			if (Gender == Gender.Female)
-				return events;
-			return events.Concat(
-				from m in Marriages
-				from e in m.getEvents()
-				select e
-			);
+		public IEnumerable<Event> Events {
+			get {
+				Event[] events = new Event[] { new BirthEvent(this), new DeathEvent(this) };
+				if (Gender == Gender.Female)
+					return events;
+				return events.Concat(
+					from m in Marriages
+					from e in m.Events
+					select e
+				);
+			}
 		}
 
 		public Marriage marryTo(Person spouse, int year)

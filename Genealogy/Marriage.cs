@@ -55,9 +55,10 @@ namespace Genealogy
 			return child;
 		}
 
-		public IEnumerable<Event> getEvents()
-		{
-			return new Event[] { new MarriageEvent(this) };
+		public IEnumerable<Event> Events {
+			get {
+				return new Event[] { new MarriageEvent(this) };
+			}
 		}
 	}
 }
