@@ -184,5 +184,35 @@ namespace Genealogy
 			titles.Remove(r);
 		}
 		#endregion
+
+		public override string ToString()
+		{
+			return ToString(YearOfDeath);
+		}
+
+		public string ToString(int year)
+		{
+			var titles = getTitles(year);
+			if (titles.Length == 0)
+				return Firstname + " " + getLastname(year);
+			else if (titles.Length == 1)
+				return string.Format(
+					"{0} {1}. {2}, {3} of {4}, {5}",
+					Firstname,
+					RomanNumerals.ToRomanNumeral(titles[0].NameIndex),
+					getLastname (year),
+					titles[0].Title.Rank,
+					titles[0].Title.RuledTerritory.Name,
+					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth)
+				);
+			else
+				return string.Format (
+					"{0} {1}, {2}\n\t{3}",
+					Firstname,
+					getLastname (year),
+					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth),
+					string.Join("\n\t", titles.Select(r => r.ToString(year)))
+				);
+		}
 	}
 }

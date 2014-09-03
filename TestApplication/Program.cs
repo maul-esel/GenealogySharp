@@ -10,7 +10,7 @@ namespace Genealogy.TestApplication
 			foreach (var c in s.Countries)
 				Console.WriteLine("Country: " + c.Name);
 			foreach (var p in s.Persons)
-				Console.WriteLine("Person: " + p.Firstname + " " + p.Lastname);
+				Console.WriteLine("Person: " + p);
 			foreach (var t in s.Titles)
 				foreach (var r in t.Reigns)
 					Console.WriteLine(r);
