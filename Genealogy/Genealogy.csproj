@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2E7628B8-625A-4B59-A489-AD9719302555}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Genealogy</RootNamespace>
+    <AssemblyName>Genealogy</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Person.cs" />
+    <Compile Include="Marriage.cs" />
+    <Compile Include="Country.cs" />
+    <Compile Include="Title.cs" />
+    <Compile Include="Gender.cs" />
+    <Compile Include="Rank.cs" />
+    <Compile Include="ConflictingMarriagesException.cs" />
+    <Compile Include="Assertions.cs" />
+    <Compile Include="Reign.cs" />
+    <Compile Include="Storage.cs" />
+    <Compile Include="chronicle\Chronicle.cs" />
+    <Compile Include="chronicle\Event.cs" />
+    <Compile Include="chronicle\IEventProvider.cs" />
+    <Compile Include="chronicle\BirthEvent.cs" />
+    <Compile Include="chronicle\DeathEvent.cs" />
+    <Compile Include="chronicle\EstablishingEvent.cs" />
+    <Compile Include="chronicle\SuccessionEvent.cs" />
+    <Compile Include="chronicle\EventBase.cs" />
+    <Compile Include="chronicle\MarriageEvent.cs" />
+    <Compile Include="succession\SuccessionStrategy.cs" />
+    <Compile Include="FamilyTreeUtil.cs" />
+    <Compile Include="succession\GenderPreference.cs" />
+    <Compile Include="succession\Lineality.cs" />
+    <Compile Include="succession\Primogeniture.cs" />
+    <Compile Include="succession\CognaticLineality.cs" />
+    <Compile Include="succession\UterineLineality.cs" />
+    <Compile Include="succession\AgnaticLineality.cs" />
+    <Compile Include="succession\AbsolutePreference.cs" />
+    <Compile Include="succession\MalePreference.cs" />
+    <Compile Include="succession\MaleOnlyPreference.cs" />
+    <Compile Include="succession\FemalePreference.cs" />
+    <Compile Include="succession\FemaleOnlyPreference.cs" />
+    <Compile Include="succession\FallbackSuccessionStrategy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="chronicle\" />
+    <Folder Include="succession\" />
+  </ItemGroup>
+</Project>

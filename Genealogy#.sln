@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genealogy", "Genealogy\Genealogy.csproj", "{2E7628B8-625A-4B59-A489-AD9719302555}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{A0D22072-0278-4416-AD42-E496083D9B81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inspector", "Inspector\Inspector.csproj", "{7BE62F79-E5AB-401D-9E80-BAA30191AE65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E7628B8-625A-4B59-A489-AD9719302555}.Debug|x86.ActiveCfg = Debug|x86
+		{2E7628B8-625A-4B59-A489-AD9719302555}.Debug|x86.Build.0 = Debug|x86
+		{2E7628B8-625A-4B59-A489-AD9719302555}.Release|x86.ActiveCfg = Release|x86
+		{2E7628B8-625A-4B59-A489-AD9719302555}.Release|x86.Build.0 = Release|x86
+		{7BE62F79-E5AB-401D-9E80-BAA30191AE65}.Debug|x86.ActiveCfg = Debug|x86
+		{7BE62F79-E5AB-401D-9E80-BAA30191AE65}.Debug|x86.Build.0 = Debug|x86
+		{7BE62F79-E5AB-401D-9E80-BAA30191AE65}.Release|x86.ActiveCfg = Release|x86
+		{7BE62F79-E5AB-401D-9E80-BAA30191AE65}.Release|x86.Build.0 = Release|x86
+		{A0D22072-0278-4416-AD42-E496083D9B81}.Debug|x86.ActiveCfg = Debug|x86
+		{A0D22072-0278-4416-AD42-E496083D9B81}.Debug|x86.Build.0 = Debug|x86
+		{A0D22072-0278-4416-AD42-E496083D9B81}.Release|x86.ActiveCfg = Release|x86
+		{A0D22072-0278-4416-AD42-E496083D9B81}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Inspector\Inspector.csproj
+	EndGlobalSection
+EndGlobal

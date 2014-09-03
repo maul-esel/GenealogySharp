@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+	<countries>
+		<country name="France"/>
+		<country name="Spain"/>
+		<country name="Denmark"/>
+		<country name="Germany"/>
+		<country name="Poland"/>
+	</countries>
+	<persons>
+		<person id="1" birth="704" death="799" gender="male" firstname="Theodor" birthname="Graugreif">
+			<marriages>
+				<marriage wife="2" year="743">
+					<children>
+						<person id="11" birth="745" death="803" gender="male" firstname="Franz"/>
+						<person id="12" birth="750" death="840" gender="female" firstname="Mary"/>
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+		<person id="2" birth="710" death="789" gender="female" firstname="Elizabeth" birthname="Tudor"/>
+		<person id="3" birth="730" death="810" gender="male" firstname="Louis" birthname="Bourbon">
+			<marriages>
+				<marriage wife="12" year="765">
+					<children>
+						<person id="31" birth="768" death="843" gender="male" firstname="Ludwig"/>
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+	</persons>
+	<titles>
+		<title firstRuler="1" established="742" country="Denmark" rank="Archduke">
+			<succession>
+				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title firstRuler="3" established="754" country="France" rank="King">
+			<succession>
+				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+			</succession>
+		</title>
+	</titles>
+</data>
