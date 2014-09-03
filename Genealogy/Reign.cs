@@ -48,11 +48,16 @@ namespace Genealogy
 			get { return Title.Reigns.ToList().IndexOf(this) + 1; }
 		}
 
+		public int NameIndex {
+			get { return Title.Reigns.Take(SuccessionIndex).Where(r => r.Ruler.Firstname == Ruler.Firstname).Count(); }
+		}
+
 		public override string ToString()
 		{
 			return string.Format(
-				"{0} {1}, {2}. {3} of {4}, {5} - {6}",
+				"{0} {1}. {2}, {3}. {4} of {5}, {6} - {7}",
 			    Ruler.Firstname,
+				RomanNumerals.ToRomanNumeral(NameIndex),
 			    Ruler.getLastname(Start),
 			    SuccessionIndex,
 			    Title.Rank,

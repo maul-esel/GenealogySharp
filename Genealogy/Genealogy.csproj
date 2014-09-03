@@ -65,6 +65,7 @@
     <Compile Include="succession\FemalePreference.cs" />
     <Compile Include="succession\FemaleOnlyPreference.cs" />
     <Compile Include="succession\FallbackSuccessionStrategy.cs" />
+    <Compile Include="RomanNumerals.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

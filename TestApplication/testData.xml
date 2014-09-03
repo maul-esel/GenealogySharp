@@ -24,6 +24,7 @@
 				<marriage wife="12" year="765">
 					<children>
 						<person id="31" birth="768" death="843" gender="male" firstname="Ludwig"/>
+						<person id="32" birth="770" death="852" gender="male" firstname="Louis"/>
 					</children>
 				</marriage>
 			</marriages>
