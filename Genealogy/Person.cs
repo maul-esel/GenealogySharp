@@ -88,24 +88,6 @@ namespace Genealogy
 			get { return (from m in Marriages from c in m.Children select c).ToArray(); }
 		}
 
-		public Person[] Siblings {
-			get {
-				if (parentMarriage == null)
-					return new Person[0];
-				else
-					return parentMarriage.Children.Except(new Person[] { this }).ToArray();
-			}
-		}
-
-		public Person[] PatrilinealHalfSiblings {
-			get {
-				if (Father == null)
-					return new Person[0];
-				else
-					return Father.Children.Except(new Person[] { this }).ToArray();
-			}
-		}
-
 		public string Lastname {
 			get { return getLastname(YearOfDeath); }
 		}
@@ -116,7 +98,7 @@ namespace Genealogy
 
 			if (currentMarriage(year) == null) // no longer married (i.e. widowed)
 				return Marriages.Last().Husband.Birthname;
-			else // still married (count should be 1)
+			else // still married
 				return currentMarriage(year).Husband.Birthname;
 		}
 
