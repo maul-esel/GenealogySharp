@@ -34,6 +34,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="InspectorWindow.cs" />
+    <Compile Include="TitleDetailsWindow.cs" />
+    <Compile Include="PersonWindow.cs" />
+    <Compile Include="WindowBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

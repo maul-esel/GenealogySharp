@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Genealogy.Inspector
 {
-	public class InspectorWindow : Form
+	public class InspectorWindow : WindowBase
 	{
 		public Storage DataStorage {
 			get;
@@ -15,7 +15,7 @@ namespace Genealogy.Inspector
 		private Label noDataLoaded = new Label();
 		private ListView titleList = new ListView();
 
-		public InspectorWindow() : base()
+		public InspectorWindow()
 		{
 			SuspendLayout();
 
@@ -35,8 +35,7 @@ namespace Genealogy.Inspector
 			noDataLoaded.BorderStyle = BorderStyle.FixedSingle;
 			Controls.Add(noDataLoaded);
 
-			Label info = new Label();
-			info.Text = "Double-click any title to get further information";
+			Label info = createBoldLabel("Double-click any title to get further information");
 			info.Dock = DockStyle.Bottom;
 			info.TextAlign = ContentAlignment.MiddleCenter;
 			Controls.Add(info);
@@ -55,6 +54,19 @@ namespace Genealogy.Inspector
 				closeStorage();
 				openStorage(dialog.FileName);
 			}
+		}
+
+		private void onTitleOpen(object sender, EventArgs e)
+		{
+			if (titleList.SelectedItems.Count > 0)
+				new TitleDetailsWindow(titleList.SelectedItems[0].Tag as Title).Show(this);
+		}
+
+		private void onTitleEnter(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+				onTitleOpen(sender, e);
+			e.Handled = true;
 		}
 
 		private void closeStorage()
@@ -77,11 +89,12 @@ namespace Genealogy.Inspector
 			foreach (Title title in DataStorage.Titles) {
 				ListViewItem item = new ListViewItem(title.Rank.ToString());
 				item.SubItems.AddRange(new ListViewItem.ListViewSubItem[] {
-					new ListViewItem.ListViewSubItem(item, title.RuledTerritory.Name),
+					new ListViewItem.ListViewSubItem(item, title.Realm.Name),
 					new ListViewItem.ListViewSubItem(item, title.Established.ToString()),
 					new ListViewItem.ListViewSubItem(item, title.Reigns.First().ToString()),
 					new ListViewItem.ListViewSubItem(item, title.Reigns.Last().ToString())
 				});
+				item.Tag = title;
 				titleList.Items.Add(item);
 			}
 			titleList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -89,15 +102,15 @@ namespace Genealogy.Inspector
 
 		private void setupTitleList()
 		{
-			//titleList.Size = new Size(800, 600);
 			titleList.Dock = DockStyle.Fill;
 
 			titleList.View = View.Details;
-			titleList.HeaderStyle = ColumnHeaderStyle.Clickable;
 			titleList.FullRowSelect = true;
 			titleList.GridLines = true;
 
-			titleList.Columns.Clear();
+			titleList.DoubleClick += onTitleOpen;
+			titleList.KeyUp += onTitleEnter;
+
 			titleList.Columns.Add("Rank");
 			titleList.Columns.Add("Territory");
 			titleList.Columns.Add("Established");
