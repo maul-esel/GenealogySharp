@@ -14,6 +14,7 @@ namespace Genealogy
 
 		private readonly string birthname;
 		private readonly List<Marriage> marriageList = new List<Marriage>();
+		private readonly List<Reign> titles = new List<Reign>();
 
 		public int ID {
 			get;
@@ -92,7 +93,8 @@ namespace Genealogy
 			get { return getLastname(YearOfDeath); }
 		}
 
-		public string getLastname(int year) {
+		public string getLastname(int year)
+		{
 			if (Gender == Gender.Male || Marriages.Count() == 0 || year <= Marriages.First().Start) // male or not (yet) married
 				return Birthname;
 
@@ -102,12 +104,23 @@ namespace Genealogy
 				return currentMarriage(year).Husband.Birthname;
 		}
 
-		public Marriage currentMarriage(int year) {
+		public Marriage currentMarriage(int year)
+		{
 			return Marriages.FirstOrDefault(marriage => marriage.Start < year && year <= marriage.End);
 		}
 
-		public bool isAlive(int year) {
+		public bool isAlive(int year)
+		{
 			return YearOfBirth <= year && YearOfDeath >= year;
+		}
+
+		public Reign[] Titles {
+			get { return titles.ToArray(); }
+		}
+
+		public Reign[] getTitles(int year)
+		{
+			return titles.Where(r => r.Start < year).ToArray();
 		}
 
 		#endregion
@@ -125,6 +138,7 @@ namespace Genealogy
 			}
 		}
 
+		#region marriages
 		public Marriage marryTo(Person spouse, int year)
 		{
 			this.assertAlive(year);
@@ -154,6 +168,21 @@ namespace Genealogy
 
 			marriageList.Add(marriage);
 		}
+		#endregion
+
+		#region titles
+		internal void AddTitle(Reign r)
+		{
+			if (r.Ruler != this)
+				throw new Exception();
+			if (!titles.Contains(r))
+				titles.Add(r);
+		}
+
+		internal void RemoveTitle(Reign r)
+		{
+			titles.Remove(r);
+		}
+		#endregion
 	}
 }
-

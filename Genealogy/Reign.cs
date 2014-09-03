@@ -30,6 +30,8 @@ namespace Genealogy
 			this.Title = title;
 			this.Ruler = ruler;
 			this.Start = start;
+
+			ruler.AddTitle(this);
 		}
 
 		public IEnumerable<Event> Events {
