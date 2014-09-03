@@ -34,7 +34,6 @@
   <ItemGroup>
     <Compile Include="Person.cs" />
     <Compile Include="Marriage.cs" />
-    <Compile Include="Country.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Rank.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="succession\FemaleOnlyPreference.cs" />
     <Compile Include="succession\FallbackSuccessionStrategy.cs" />
     <Compile Include="RomanNumerals.cs" />
+    <Compile Include="Realm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

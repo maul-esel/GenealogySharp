@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data>
-	<countries>
-		<country name="France"/>
-		<country name="Spain"/>
-		<country name="Denmark"/>
-		<country name="Germany"/>
-		<country name="Poland"/>
-	</countries>
+	<realms>
+		<realm name="France" ruler="2">
+			<realm name="Provence" ruler="3"/>
+		</realm>
+		<realm name="Spain" ruler="2"/>
+		<realm name="Denmark" ruler="1"/>
+		<realm name="Germany" ruler="2"/>
+		<realm name="Poland" ruler="1"/>
+	</realms>
 	<persons>
 		<person id="1" birth="704" death="799" gender="male" firstname="Theodor" birthname="Graugreif">
 			<marriages>
@@ -31,14 +33,19 @@
 		</person>
 	</persons>
 	<titles>
-		<title firstRuler="1" established="742" country="Denmark" rank="Archduke">
+		<title id="1" firstRuler="1" established="742" rank="Archduke">
 			<succession>
 				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
 			</succession>
 		</title>
-		<title firstRuler="3" established="754" country="France" rank="King">
+		<title id="2" firstRuler="3" established="754" rank="King">
 			<succession>
 				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="3" firstRuler="2" established="735" rank="Duke">
+			<succession>
+				<strategy name="primogeniture" preference="female" lineality="uterine"/>
 			</succession>
 		</title>
 	</titles>

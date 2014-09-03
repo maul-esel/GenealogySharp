@@ -89,7 +89,7 @@ namespace Genealogy.Inspector
 			foreach (Title title in DataStorage.Titles) {
 				ListViewItem item = new ListViewItem(title.Rank.ToString());
 				item.SubItems.AddRange(new ListViewItem.ListViewSubItem[] {
-					new ListViewItem.ListViewSubItem(item, title.Realm.Name),
+					new ListViewItem.ListViewSubItem(item, joinRealmNames(title.Realms)),
 					new ListViewItem.ListViewSubItem(item, title.Established.ToString()),
 					new ListViewItem.ListViewSubItem(item, title.Reigns.First().ToString()),
 					new ListViewItem.ListViewSubItem(item, title.Reigns.Last().ToString())

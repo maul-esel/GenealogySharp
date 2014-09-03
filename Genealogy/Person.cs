@@ -200,9 +200,9 @@ namespace Genealogy
 					"{0} {1}. {2}, {3} of {4}, {5}",
 					Firstname,
 					RomanNumerals.ToRomanNumeral(titles[0].NameIndex),
-					getLastname (year),
+					getLastname(year),
 					titles[0].Title.Rank,
-					titles[0].Title.Realm.Name,
+					joinRealmNames(titles[0].Title.Realms),
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth)
 				);
 			else
@@ -213,6 +213,13 @@ namespace Genealogy
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth),
 					string.Join("\n\t", titles.Select(r => r.ToString(year)))
 				);
+		}
+
+		private static string joinRealmNames(IEnumerable<Realm> realms)
+		{
+			if (realms.Count() == 1)
+				return realms.First().Name;
+			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
 		}
 	}
 }

@@ -12,15 +12,20 @@ namespace Genealogy
 		#region attributes
 		private readonly SuccessionStrategy strategy;
 		private readonly List<Reign> reigns = new List<Reign>();
+		private readonly List<Realm> realms = new List<Realm>();
+
+		public int ID {
+			get;
+			private set;
+		}
 
 		public Rank Rank {
 			get;
 			private set;
 		}
 
-		public Country Realm {
-			get;
-			private set;
+		public Realm[] Realms {
+			get { return realms.ToArray(); }
 		}
 
 		public int Established {
@@ -29,17 +34,23 @@ namespace Genealogy
 		}
 		#endregion
 
-		public Title(Person firstRuler, int established, SuccessionStrategy strategy, Country ruledTerritory, Rank rank)
+		public Title(int id, Person firstRuler, int established, SuccessionStrategy strategy, Rank rank)
 		{
 			firstRuler.assertAlive(established);
 
+			this.ID = id;
 			this.Established = established;
 			this.strategy = strategy;
-			this.Realm = ruledTerritory;
 			this.Rank = rank;
 
 			reigns.Add(new Reign (this, firstRuler, established));
 			calculateReigns();
+		}
+
+		internal void AddRealm(Realm r)
+		{
+			if (!realms.Contains(r))
+				realms.Add(r);
 		}
 
 		public IEnumerable<Event> Events {

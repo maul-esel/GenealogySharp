@@ -29,7 +29,7 @@ namespace Genealogy.Inspector
 			table.Controls.Add(createBoldLabel("Established in:"), 0, 2);
 
 			table.Controls.Add(createLabel(subject.Rank.ToString()), 1, 0);
-			table.Controls.Add(createLabel(subject.Realm.ToString()), 1, 1);
+			table.Controls.Add(createLabel(joinRealmNames(subject.Realms)), 1, 1);
 			table.Controls.Add(createLabel(subject.Established.ToString()), 1, 2);
 
 			setupReignList();

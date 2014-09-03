@@ -155,7 +155,7 @@ namespace Genealogy.Inspector
 					reign.SuccessionIndex.ToString(),
 					reign.Ruler.Firstname + " " + RomanNumerals.ToRomanNumeral(reign.NameIndex) + ".",
 					reign.Title.Rank.ToString(),
-					reign.Title.Realm.Name,
+					joinRealmNames(reign.Title.Realms),
 					reign.Start.ToString(),
 					reign.End.ToString()
 				});

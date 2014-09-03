@@ -68,9 +68,16 @@ namespace Genealogy
 				Ruler.getLastname(year),
 				SuccessionIndex,
 				Title.Rank,
-				Title.Realm,
+				joinRealmNames(Title.Realms),
 				(year >= End) ? (Start + " - " + End) : ("since " + Start)
 			);
+		}
+
+		private static string joinRealmNames(IEnumerable<Realm> realms)
+		{
+			if (realms.Count() == 1)
+				return realms.First().Name;
+			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
 		}
 	}
 }

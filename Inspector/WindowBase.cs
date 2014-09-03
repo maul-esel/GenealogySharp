@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Genealogy.Inspector
@@ -17,6 +18,13 @@ namespace Genealogy.Inspector
 			Label label = new Label();
 			label.Text = text;
 			return label;
+		}
+
+		protected static string joinRealmNames(Realm[] realms)
+		{
+			if (realms.Count() == 1)
+				return realms.First().Name;
+			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
 		}
 	}
 }
