@@ -11,8 +11,8 @@ namespace Genealogy.Chronicle
 			return string.Format (
 				"Death of {0} {1}",
 				p.Firstname,
-				p.getLastname ()
-				) + (p.getLastname () != p.Birthname ? " (née " + p.Birthname + ")" : "");
+				p.Lastname
+			) + (p.Lastname != p.Birthname ? " (née " + p.Birthname + ")" : "");
 			// TODO: titles?
 		}
 	}

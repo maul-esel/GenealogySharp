@@ -56,7 +56,7 @@ namespace Genealogy
 			this.parentMarriage = parentMarriage;
 
 			if (Father != null)
-				birthname = Father.getLastname();
+				birthname = Father.Lastname;
 		}
 
 		public Person(int id, int birth, int death, Gender gender, string firstname, string birthname)
@@ -106,8 +106,8 @@ namespace Genealogy
 			}
 		}
 
-		public string getLastname() {
-			return getLastname(YearOfDeath);
+		public string Lastname {
+			get { return getLastname(YearOfDeath); }
 		}
 
 		public string getLastname(int year) {
