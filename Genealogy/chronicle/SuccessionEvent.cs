@@ -9,8 +9,8 @@ namespace Genealogy.Chronicle
 
 		private static string getMessage(Reign r)
 		{
-			var previous = r.Title.Reigns [r.SuccessionIndex - 2].Ruler;
-			return r + " follows " + previous.Firstname + " " + previous.Lastname;
+			var previous = r.Title.Reigns[r.SuccessionIndex - 2];
+			return r.ToString(r.Start) + " follows " + previous.ToString(r.Start);
 		}
 	}
 }

@@ -54,16 +54,20 @@ namespace Genealogy
 
 		public override string ToString()
 		{
+			return ToString(End);
+		}
+
+		public string ToString(int year)
+		{
 			return string.Format(
-				"{0} {1}. {2}, {3}. {4} of {5}, {6} - {7}",
-			    Ruler.Firstname,
+				"{0} {1}. {2}, {3}. {4} of {5} {6}",
+				Ruler.Firstname,
 				RomanNumerals.ToRomanNumeral(NameIndex),
-			    Ruler.getLastname(Start),
-			    SuccessionIndex,
-			    Title.Rank,
-			    Title.RuledTerritory,
-				Start,
-				End
+				Ruler.getLastname(year),
+				SuccessionIndex,
+				Title.Rank,
+				Title.RuledTerritory,
+				(year >= End) ? (Start + " - " + End) : ("since " + Start)
 			);
 		}
 	}

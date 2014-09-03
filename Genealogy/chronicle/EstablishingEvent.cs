@@ -9,7 +9,7 @@ namespace Genealogy.Chronicle
 
 		private static string getMessage(Title t)
 		{
-			return "New established regime: " + t.Reigns[0];
+			return "New established regime: " + t.Reigns[0].ToString(t.Established);
 		}
 	}
 }
