@@ -232,7 +232,7 @@ namespace Genealogy
 
 			SuccessionStrategy[] strategies = new SuccessionStrategy[strategyNodes.Count];
 			while (strategyNodes.MoveNext())
-				strategies[strategyNodes.CurrentPosition] = getStrategyImpl(strategyNodes.Current);
+				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
 
 			return new FallbackSuccessionStrategy (strategies);
 		}
