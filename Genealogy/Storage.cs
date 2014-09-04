@@ -92,34 +92,34 @@ namespace Genealogy
 		#region load persons
 		private void loadPersons()
 		{
-			var ancestorNodes = navigator.Select ("/data/persons/person");
+			var ancestorNodes = navigator.Select("/data/persons/person");
 			while (ancestorNodes.MoveNext()) {
 				Person current = new Person (
 					int.Parse(ancestorNodes.Current.GetAttribute("id", "")),
-					int.Parse(ancestorNodes.Current.GetAttribute ("birth", "")),
-					int.Parse(ancestorNodes.Current.GetAttribute ("death", "")),
-					getGender(ancestorNodes.Current.GetAttribute ("gender", "")),
+					int.Parse(ancestorNodes.Current.GetAttribute("birth", "")),
+					int.Parse(ancestorNodes.Current.GetAttribute("death", "")),
+					getGender(ancestorNodes.Current.GetAttribute("gender", "")),
 					ancestorNodes.Current.GetAttribute("firstname", ""),
 					ancestorNodes.Current.GetAttribute("birthname", "")
 				);
 				addPerson(current);
 
 				if (current.Gender == Gender.Male)
-					processMarriages (current);
+					processMarriages(current);
 			}
 
 			if (pendingMarriages.Count > 0)
 				throw new Exception();
 
 			Persons = personRegister.Values.ToArray();
-			RootAncestors = Persons.Where (p => p.Father == null).ToArray ();
+			RootAncestors = Persons.Where(p => p.Father == null).ToArray();
 		}
 
 		private void processMarriages(Person husband)
 		{
-			var marriageNodes = navigator.Select ("/data/persons//person[@id=" + husband.ID + "]/marriages/marriage");
+			var marriageNodes = navigator.Select("/data/persons//person[@id=" + husband.ID + "]/marriages/marriage");
 			while (marriageNodes.MoveNext()) {
-				int wifeID = int.Parse(marriageNodes.Current.GetAttribute ("wife", ""));
+				int wifeID = int.Parse(marriageNodes.Current.GetAttribute("wife", ""));
 				if (personRegister.ContainsKey(wifeID))
 					processMarriage(husband, marriageNodes.Current, wifeID);
 				else
@@ -132,20 +132,20 @@ namespace Genealogy
 			processChildren(
 				husband.marryTo(
 					personRegister[wifeID],
-					int.Parse(marriageNode.GetAttribute ("year", ""))
+					int.Parse(marriageNode.GetAttribute("year", ""))
 				),
 				marriageNode
 			);
 		}
 
 		private void processChildren(Marriage m, XPathNavigator node) {
-			var childNodes = node.Select ("./children/person");
+			var childNodes = node.Select("./children/person");
 			while (childNodes.MoveNext()) {
-				var current = m.addChild (
-					int.Parse(childNodes.Current.GetAttribute ("id", "")),
-					int.Parse(childNodes.Current.GetAttribute ("birth", "")),
-					int.Parse(childNodes.Current.GetAttribute ("death", "")),
-					getGender(childNodes.Current.GetAttribute ("gender", "")),
+				var current = m.addChild(
+					int.Parse(childNodes.Current.GetAttribute("id", "")),
+					int.Parse(childNodes.Current.GetAttribute("birth", "")),
+					int.Parse(childNodes.Current.GetAttribute("death", "")),
+					getGender(childNodes.Current.GetAttribute("gender", "")),
 					childNodes.Current.GetAttribute("firstname", "")
 				);
 				addPerson(current);
