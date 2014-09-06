@@ -7,8 +7,6 @@ namespace Genealogy
 {
 	public class Marriage : IEventProvider
 	{
-		internal static readonly Marriage NULL = null;
-
 		private readonly List<Person> childrenList = new List<Person>();
 
 		public Person Husband {
@@ -51,7 +49,7 @@ namespace Genealogy
 			birth.assertBetween(Start, End);
 
 			Person child = new Person(id, birth, death, gender, firstname, this);
-			childrenList.Add (child);
+			childrenList.Add(child);
 			return child;
 		}
 

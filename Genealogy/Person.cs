@@ -61,7 +61,7 @@ namespace Genealogy
 		}
 
 		public Person(int id, int birth, int death, Gender gender, string firstname, string birthname)
-		: this(id, birth, death, gender, firstname, Marriage.NULL) {
+		: this(id, birth, death, gender, firstname, null as Marriage) {
 			this.birthname = birthname;
 		}
 		#endregion
