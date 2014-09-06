@@ -89,6 +89,10 @@ namespace Genealogy.Inspector
 			titleList.Dock = DockStyle.Fill;
 			titleList.View = View.Details;
 			titleList.FullRowSelect = true;
+			titleList.DoubleClick += (s, e) => {
+				if (titleList.SelectedItems.Count > 0)
+					new TitleDetailsWindow((titleList.SelectedItems[0].Tag as Reign).Title).Show(this.Owner);
+			};
 			right.Controls.Add(titleList, 0, 2);
 
 			right.Controls.Add(createBoldLabel("Children"), 0, 3);
@@ -101,6 +105,12 @@ namespace Genealogy.Inspector
 			childrenList.Dock = DockStyle.Fill;
 			childrenList.View = View.Details;
 			childrenList.FullRowSelect = true;
+			childrenList.DoubleClick += (s, e) => {
+				if (childrenList.SelectedItems.Count > 0) {
+					detailsSubject = childrenList.SelectedItems[0].Tag as Person;
+					loadDetails();
+				}
+			};
 			right.Controls.Add(childrenList, 0, 4);
 
 			makeRoot.Dock = DockStyle.Bottom;
