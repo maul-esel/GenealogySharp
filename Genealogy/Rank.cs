@@ -4,10 +4,14 @@ namespace Genealogy
 {
 	public enum Rank
 	{
+		GodEmperor,
+
+		Pharaoh,
 		Emperor,
 		Caesar,
 		Tsar,
 
+		HighKing,
 		King,
 		Khan,
 		Shah,
