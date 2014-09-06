@@ -1,51 +1,272 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data>
 	<realms>
-		<realm name="France" ruler="2">
-			<realm name="Provence" ruler="3"/>
+		<realm name="France" ruler="10">
+			<realm name="Provence" ruler="11"/>
+			<realm name="Alsace" ruler="12"/>
 		</realm>
-		<realm name="Spain" ruler="2"/>
-		<realm name="Denmark" ruler="1"/>
-		<realm name="Germany" ruler="2"/>
-		<realm name="Poland" ruler="1"/>
+		<realm name="Spain" ruler="20">
+			<realm name="Catalonia" ruler="21"/>
+			<realm name="Léon" ruler="22"/>
+		</realm>
+		<realm name="Denmark" ruler="30">
+			<realm name="Nord-Schleswig" ruler="31"/>
+		</realm>
+		<realm name="Germany" ruler="40">
+			<realm name="Preussen" ruler="41"/>
+			<realm name="Lothringen" ruler="12"/>
+			<realm name="Bayern" ruler="43"/>
+		</realm>
+		<realm name="Poland" ruler="50">
+			<realm name="Schlesien" ruler="51"/>
+		</realm>
 	</realms>
 	<persons>
-		<person id="1" birth="704" death="799" gender="male" firstname="Theodor" birthname="Graugreif">
+		<person id="10" birth="800" death="826" gender="male" firstname="Louis" birthname="Francois">
 			<marriages>
-				<marriage wife="2" year="743">
+				<marriage wife="121" year="823">
 					<children>
-						<person id="11" birth="745" death="803" gender="male" firstname="Franz"/>
-						<person id="12" birth="750" death="840" gender="female" firstname="Mary"/>
+						<person id="101" birth="824" death="889" gender="male" firstname="Jean">
+							<marriages>
+								<marriage wife="502" year="853">
+									<children>
+										<person id="1011" birth="855" death="942" gender="female" firstname="Claire"/>
+										<person id="1012" birth="859" death="957" gender="male" firstname="Jean">
+											<marriages>
+												<marriage wife="4311" year="884">
+													<children>
+														<person id="10121" birth="887" death="973" gender="male" firstname="Francois">
+															<marriages>
+																<marriage wife="5034" year="912">
+																	<children>
+																		<person id="101211" birth="913" death="985" gender="female" firstname="Marie"/>
+																		<person id="101212" birth="917" death="993" gender="male" firstname="Jean"/>
+																	</children>
+																</marriage>
+															</marriages>
+														</person>
+														<person id="10122" birth="889" death="964" gender="female" firstname="Laura"/><!-- daughter + son -->
+													</children>
+												</marriage>
+											</marriages>
+										</person>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
+						<person id="102" birth="824" death="895" gender="female" firstname="Marie"/><!-- married to 501 -->
+						<person id="103" birth="826" death="885" gender="female" firstname="Claire"/><!-- married to 431 -->
 					</children>
 				</marriage>
 			</marriages>
 		</person>
-		<person id="2" birth="710" death="789" gender="female" firstname="Elizabeth" birthname="Tudor"/>
-		<person id="3" birth="730" death="810" gender="male" firstname="Louis" birthname="Bourbon">
+		<person id="11" birth="787" death="834" gender="female" firstname="Claire" birthname="Bourbon"/><!-- married to 12 -->
+		<person id="12" birth="790" death="863" gender="male" firstname="Otto" birthname="Steinfels">
 			<marriages>
-				<marriage wife="12" year="765">
+				<marriage wife="11" year="806">
 					<children>
-						<person id="31" birth="768" death="843" gender="male" firstname="Ludwig"/>
-						<person id="32" birth="770" death="852" gender="male" firstname="Louis"/>
+						<person id="121" birth="807" death="874" gender="female" firstname="Claire"/><!-- married to 10, 2013 -->
 					</children>
 				</marriage>
 			</marriages>
 		</person>
+
+		<person id="20" birth="745" death="852" gender="male" firstname="Carlos" birthname="Aragon">
+			<marriages>
+				<marriage wife="21" year="769">
+					<children>
+						<person id="201" birth="776" death="848" gender="female" firstname="Isabella"/><!-- married to 22 -->
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+		<person id="21" birth="759" death="842" gender="female" firstname="Isabella" birthname="Toledo"/><!-- married to 20 -->
+		<person id="22" birth="769" death="818" gender="male" firstname="Fernando" birthname="Sancho">
+			<marriages>
+				<marriage wife="201" year="794">
+					<children>
+						<person id="2011" birth="799" death="836" gender="female" firstname="Maria"/><!-- married to 50 -->
+						<person id="2012" birth="807" death="864" gender="female" firstname="Isabella"/><!-- married to 2012 -->
+						<person id="2013" birth="808" death="872" gender="male" firstname="Fernando">
+							<marriages>
+								<marriage wife="121" year="832">
+									<children>
+										<person id="20131" birth="842" death="920" gender="male" firstname="Carlos"/>
+										<person id="20132" birth="847" death="935" gender="female" firstname="Joanna"/>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+
+		<person id="30" birth="695" death="777" gender="male" firstname="Erik" birthname="Olafson">
+		</person>
+		<person id="31" birth="702" death="799" gender="female" firstname="Lara" birthname="Holstein"/><!-- married to 40 -->
+
+		<person id="40" birth="723" death="814" gender="male" firstname="Karl" birthname="Müller">
+			<marriages>
+				<marriage wife="31" year="741">
+					<children>
+						<person id="401" birth="742" death="835" gender="female" firstname="Maria"/>
+						<person id="402" birth="748" death="823" gender="male" firstname="Otto"/>
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+		<person id="41" birth="731" death="834" gender="male" firstname="Ludwig" birthname="Müller">
+			<marriages>
+			</marriages>
+		</person>
+		<person id="43" birth="811" death="870" gender="male" firstname="Horst" birthname="Horst">
+			<marriages>
+				<marriage wife="2012" year="830">
+					<children>
+						<person id="431" birth="836" death="895" gender="male" firstname="Horst">
+							<marriages>
+								<marriage wife="103" year="844">
+									<children>
+										<person id="4311" birth="857" death="948" gender="female" firstname="Laura"/><!-- married to 1012 -->
+										<person id="4312" birth="860" death="937" gender="male" firstname="Horst">
+											<marriages>
+												<marriage wife="5031" year="880">
+													<children>
+														<person id="43121" birth="884" death="953" gender="female" firstname="Claire"/>
+														<person id="43122" birth="889" death="942" gender="male" firstname="Leopold">
+															<marriages>
+																<marriage wife="10122" year="904">
+																	<children>
+																		<person id="431221" birth="905" death="967" gender="male" firstname="Gottfried"/>
+																		<person id="431222" birth="905" death="982" gender="female" firstname="Laura"/>
+																		<person id="431223" birth="907" death="978" gender="female" firstname="Siegfried"/>
+																	</children>
+																</marriage>
+															</marriages>
+														</person>
+													</children>
+												</marriage>
+											</marriages>
+										</person>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
+						<person id="432" birth="838" death="901" gender="female" firstname="Isabella"/><!-- married to 503 -->
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+
+		<person id="50" birth="789" death="837" gender="male" firstname="August" birthname="Kasimierz">
+			<marriages>
+				<marriage wife="2011" year="818">
+					<children>
+						<person id="501" birth="823" death="912" gender="male" firstname="Kasimir">
+							<marriages>
+								<marriage wife="102" year="841">
+									<children>
+										<person id="5011" birth="845" death="923" gender="male" firstname="Louis"/>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
+						<person id="502" birth="826" death="894" gender="female" firstname="Isabella"/><!-- married to 101 -->
+						<person id="503" birth="829" death="903" gender="male" firstname="August">
+							<marriages>
+								<marriage wife="432" year="855">
+									<children>
+										<person id="5031" birth="861" death="935" gender="female" firstname="Maria"/><!-- married to 4312 -->
+										<person id="5032" birth="867" death="937" gender="female" firstname="Anna"/>
+										<person id="5033" birth="872" death="929" gender="male" firstname="Leopold"/>
+										<person id="5034" birth="880" death="967" gender="female" firstname="Elisabeth"/><!-- married to 10121 -->
+									</children>
+								</marriage>
+							</marriages>
+						</person>
+					</children>
+				</marriage>
+			</marriages>
+		</person>
+		<person id="51" birth="801" death="860" gender="male" firstname="Wladislaw" birthname="Jagiello">
+		</person>
+
 	</persons>
 	<titles>
-		<title id="1" firstRuler="1" established="742" rank="Archduke">
+		<title id="10" firstRuler="10" established="815" rank="King">
+			<succession>
+				<strategy name="primogeniture" preference="male" lineality="agnatic"/>
+				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="11" firstRuler="11" established="816" rank="Count">
+			<succession>
+				<strategy name="primogeniture" preference="absolute" lineality="uterine"/>
+				<strategy name="primogeniture" preference="female" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="12" firstRuler="12" established="807" rank="Earl">
+			<succession>
+				<strategy name="primogeniture" preference="male" lineality="agnatic"/>
+				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+			</succession>
+		</title>
+
+		<title id="20" firstRuler="20" established="799" rank="King">
+			<succession>
+				<strategy name="primogeniture" preference="absolute" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="21" firstRuler="21" established="807" rank="Prince">
+			<succession>
+				<strategy name="primogeniture" preference="female" lineality="agnatic"/>
+				<strategy name="primogeniture" preference="absolute" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="22" firstRuler="22" established="799" rank="GrandDuke">
+			<succession>
+				<strategy name="primogeniture" preference="absolute" lineality="cognatic"/>
+			</succession>
+		</title>
+
+		<title id="30" firstRuler="30" established="735" rank="GodEmperor">
+			<succession>
+				<strategy name="primogeniture" preference="absolute" lineality="agnatic"/>
+				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="31" firstRuler="31" established="736" rank="Markgrave">
+			<succession>
+				<strategy name="primogeniture" preference="absolute" lineality="cognatic"/>
+			</succession>
+		</title>
+
+		<title id="40" firstRuler="40" established="800" rank="Emperor">
+			<succession>
+				<strategy name="primogeniture" preference="maleOnly" lineality="agnatic"/>
+				<strategy name="primogeniture" preference="absolute" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="41" firstRuler="41" established="801" rank="King">
 			<succession>
 				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
 			</succession>
 		</title>
-		<title id="2" firstRuler="3" established="754" rank="King">
+		<title id="43" firstRuler="43" established="850" rank="King">
 			<succession>
-				<strategy name="primogeniture" preference="male" lineality="cognatic"/>
+				<strategy name="primogeniture" preference="maleOnly" lineality="agnatic"/>
 			</succession>
 		</title>
-		<title id="3" firstRuler="2" established="735" rank="Duke">
+
+		<title id="50" firstRuler="50" established="819" rank="Tsar">
 			<succession>
-				<strategy name="primogeniture" preference="female" lineality="uterine"/>
+				<strategy name="primogeniture" preference="female" lineality="cognatic"/>
+			</succession>
+		</title>
+		<title id="51" firstRuler="51" established="837" rank="Landgrave">
+			<succession>
+				<strategy name="primogeniture" preference="absolute" lineality="cognatic"/>
 			</succession>
 		</title>
 	</titles>
