@@ -15,7 +15,7 @@ namespace Genealogy
 		}
 
 		public static void assertAlive(this Person p, int year) {
-			if (p.YearOfBirth > year || p.YearOfDeath < year)
+			if (!p.isAlive(year))
 				throw new Exception();
 		}
 

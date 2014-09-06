@@ -55,9 +55,6 @@ namespace Genealogy
 			this.Gender = gender;
 			this.Firstname = firstname;
 			this.parentMarriage = parentMarriage;
-
-			if (Father != null)
-				birthname = Father.Lastname;
 		}
 
 		public Person(int id, int birth, int death, Gender gender, string firstname, string birthname)
@@ -72,7 +69,7 @@ namespace Genealogy
 		}
 
 		public string Birthname {
-			get { return birthname; }
+			get { return Father != null ? Father.Lastname : birthname; }
 		}
 
 		/* can be null */
