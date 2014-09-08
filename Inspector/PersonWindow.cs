@@ -133,6 +133,7 @@ namespace Genealogy.Inspector
 
 			Button openTree = new Button();
 			openTree.Text = "Open Family Tree";
+			openTree.Dock = DockStyle.Bottom;
 			openTree.Click += (s, e) => {
 				new TreeWindow(detailsSubject).Show(Owner);
 			};

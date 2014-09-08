@@ -6,6 +6,7 @@ namespace Genealogy.Inspector
 	{
 		public TreeWindow(Person root)
 		{
+			Text = "Genealogy Inspector - Family Tree";
 			Width = 1000;
 			Height = 500;
 
