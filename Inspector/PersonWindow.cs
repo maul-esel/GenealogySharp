@@ -6,13 +6,7 @@ namespace Genealogy.Inspector
 {
 	public class PersonWindow : WindowBase
 	{
-		private enum Lineage {
-			male,
-			female,
-			both
-		}
-
-		private Lineage treeLineage = Lineage.both;
+		private Lineality treeLineage = Lineality.Cognatic;
 
 		private Person treeRoot;
 		private Person detailsSubject;
@@ -128,11 +122,11 @@ namespace Genealogy.Inspector
 			right.Controls.Add(makeRoot, 0, 5);
 
 			ComboBox lineageCombo = new ComboBox();
-			lineageCombo.Items.AddRange(new object[] { Lineage.both, Lineage.male, Lineage.female });
+			lineageCombo.Items.AddRange(new object[] { Lineality.Cognatic, Lineality.Agnatic, Lineality.Uterine });
 			lineageCombo.SelectedItem = treeLineage;
 			lineageCombo.DropDownStyle = ComboBoxStyle.DropDownList;
 			lineageCombo.SelectedValueChanged += (s, e) => {
-				treeLineage = (Lineage)lineageCombo.SelectedItem;
+				treeLineage = (Lineality)lineageCombo.SelectedItem;
 				loadTree();
 			};
 			right.Controls.Add(lineageCombo, 0, 6);
@@ -236,11 +230,11 @@ namespace Genealogy.Inspector
 		private bool matchesLineage(Gender g)
 		{
 			switch (treeLineage) {
-				case Lineage.both:
+				case Lineality.Cognatic:
 					return true;
-				case Lineage.male:
+				case Lineality.Agnatic:
 					return g == Gender.Male;
-				case Lineage.female:
+				case Lineality.Uterine:
 					return g == Gender.Female;
 			}
 			return false;

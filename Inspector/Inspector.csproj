@@ -37,6 +37,7 @@
     <Compile Include="TitleDetailsWindow.cs" />
     <Compile Include="PersonWindow.cs" />
     <Compile Include="WindowBase.cs" />
+    <Compile Include="Lineality.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
