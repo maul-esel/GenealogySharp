@@ -21,9 +21,13 @@ namespace TreeGraphControl
 		public virtual ITreeNode RootNode {
 			get { return rootNode; }
 			set {
+				if (rootNode != null)
+					rootNode.DescendantsChanged -= onRootDescendantsChanged;
+
 				rootNode = value;
 				if (rootNode != null)
 					rootNode.DescendantsChanged += onRootDescendantsChanged;
+
 				InvalidateLayout();
 			}
 		}
