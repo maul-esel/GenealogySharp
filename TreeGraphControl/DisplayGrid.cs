@@ -23,6 +23,12 @@ namespace TGC
 			return cells.Exists(cell => cell.Column == col && cell.Line == line);
 		}
 
+		public virtual int MaxColumnInLine(int line)
+		{
+			var lineCells = cells.Where(cell => cell.Line == line);
+			return lineCells.Count() > 0 ? lineCells.Max(cell => cell.Column) : 0;
+		}
+
 		public virtual int MaxColumn {
 			get { return cells.Count > 0 ? cells.Max(cell => cell.Column) : 0; }
 		}

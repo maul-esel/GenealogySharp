@@ -126,7 +126,7 @@ namespace TGC
 				var childCols = node.ChildNodes.Select(child => positions[child].Column);
 				column = (childCols.Min() + childCols.Max()) / 2;
 			} else
-				column = grid.MaxColumn + 1;
+				column = grid.MaxColumnInLine(line) + 1;
 
 			positions.Add(node, grid.Reserve(column, line, node));
 		}
