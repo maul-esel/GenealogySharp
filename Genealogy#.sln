@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestAppl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inspector", "Inspector\Inspector.csproj", "{7BE62F79-E5AB-401D-9E80-BAA30191AE65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeGraphControl", "TreeGraphControl\TreeGraphControl.csproj", "{E9873263-142B-454F-A602-38690CA6AD94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +27,10 @@ Global
 		{A0D22072-0278-4416-AD42-E496083D9B81}.Debug|x86.Build.0 = Debug|x86
 		{A0D22072-0278-4416-AD42-E496083D9B81}.Release|x86.ActiveCfg = Release|x86
 		{A0D22072-0278-4416-AD42-E496083D9B81}.Release|x86.Build.0 = Release|x86
+		{E9873263-142B-454F-A602-38690CA6AD94}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E9873263-142B-454F-A602-38690CA6AD94}.Debug|x86.Build.0 = Debug|Any CPU
+		{E9873263-142B-454F-A602-38690CA6AD94}.Release|x86.ActiveCfg = Release|Any CPU
+		{E9873263-142B-454F-A602-38690CA6AD94}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Inspector\Inspector.csproj
