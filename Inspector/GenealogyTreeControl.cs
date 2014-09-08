@@ -140,7 +140,9 @@ namespace Genealogy.Inspector
 								selectedNode = sibling as PersonNode;
 						}
 						break;
-					//case Keys.Enter:
+					case Keys.Enter:
+						new PersonWindow(selectedNode.Person).Show(FindForm().Owner);
+						break;
 				}
 				Refresh();
 			}
