@@ -26,12 +26,16 @@ namespace TGC
 		public virtual ITreeNode RootNode {
 			get { return rootNode; }
 			set {
-				if (rootNode != null)
+				if (rootNode != null) {
 					rootNode.DescendantsChanged -= onRootDescendantsChanged;
+					rootNode.VisibilityChanged -= onRootDescendantsChanged;
+				}
 
 				rootNode = value;
-				if (rootNode != null)
+				if (rootNode != null) {
 					rootNode.DescendantsChanged += onRootDescendantsChanged;
+					rootNode.VisibilityChanged += onRootDescendantsChanged;
+				}
 
 				InvalidateLayout();
 			}
@@ -118,15 +122,18 @@ namespace TGC
 
 		protected virtual void PositionNode(ITreeNode node, DisplayGrid grid, int line)
 		{
-			int column;
+			if (!node.Visible)
+				return;
 
-			if (node.ChildNodes.Length > 0) {
-				foreach (ITreeNode child in node.ChildNodes)
+			int column;
+			var visibleChildren = node.ChildNodes.Where(child => child.Visible);
+			if (visibleChildren.Count() > 0) {
+				foreach (ITreeNode child in visibleChildren)
 					PositionNode(child, grid, line + 1);
-				var childCols = node.ChildNodes.Select(child => positions[child].Column);
+				var childCols = visibleChildren.Select(child => positions[child].Column);
 				column = (childCols.Min() + childCols.Max()) / 2;
 			} else
-				column = grid.MaxColumnInLine(line) + 1;
+				column = grid.MaxColumn + 1;
 
 			positions.Add(node, grid.Reserve(column, line, node));
 		}
@@ -157,12 +164,13 @@ namespace TGC
 			g.DrawRectangle(TreeNodeBorderPen, rect.X, rect.Y, rect.Width, rect.Height);
 			g.DrawString(node.Text, Font, TreeNodeTextBrush, rect, format);
 
-			if (node.ChildNodes.Length > 0) {
+			var visibleChildren = node.ChildNodes.Where(child => child.Visible);
+			if (visibleChildren.Count() > 0) {
 				PointF start = new PointF(rect.X + rect.Width / 2, rect.Bottom);
 				PointF second = new PointF(start.X, rect.Bottom + lineMargin / 2);
 				g.DrawLine(ConnectionLinePen, start, second);
 
-				foreach (ITreeNode child in node.ChildNodes) {
+				foreach (ITreeNode child in visibleChildren) {
 					PointF childPosition = getCell(positions[child]).Location;
 					PointF third = new PointF(childPosition.X + columnWidth / 2, second.Y);
 					PointF last = new PointF(third.X, childPosition.Y);
