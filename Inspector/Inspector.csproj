@@ -38,6 +38,8 @@
     <Compile Include="PersonWindow.cs" />
     <Compile Include="WindowBase.cs" />
     <Compile Include="Lineality.cs" />
+    <Compile Include="GenealogyTreeControl.cs" />
+    <Compile Include="PersonNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,6 +51,10 @@
     <ProjectReference Include="..\Genealogy\Genealogy.csproj">
       <Project>{2E7628B8-625A-4B59-A489-AD9719302555}</Project>
       <Name>Genealogy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TreeGraphControl\TreeGraphControl.csproj">
+      <Project>{E9873263-142B-454F-A602-38690CA6AD94}</Project>
+      <Name>TreeGraphControl</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

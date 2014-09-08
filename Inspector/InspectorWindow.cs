@@ -43,7 +43,7 @@ namespace Genealogy.Inspector
 			setupTitleList();
 			Controls.Add(titleList);
 
-			ResumeLayout ();
+			ResumeLayout();
 			PerformLayout();
 		}
 
