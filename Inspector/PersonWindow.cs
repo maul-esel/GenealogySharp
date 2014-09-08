@@ -131,6 +131,13 @@ namespace Genealogy.Inspector
 			};
 			right.Controls.Add(lineageCombo, 0, 6);
 
+			Button openTree = new Button();
+			openTree.Text = "Open Family Tree";
+			openTree.Click += (s, e) => {
+				new TreeWindow(detailsSubject).Show(Owner);
+			};
+			right.Controls.Add(openTree, 0, 7);
+
 			loadDetails();
 			loadTree();
 

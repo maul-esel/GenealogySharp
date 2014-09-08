@@ -40,6 +40,7 @@
     <Compile Include="Lineality.cs" />
     <Compile Include="GenealogyTreeControl.cs" />
     <Compile Include="PersonNode.cs" />
+    <Compile Include="TreeWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
