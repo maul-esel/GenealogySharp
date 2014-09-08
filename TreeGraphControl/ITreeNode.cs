@@ -1,6 +1,6 @@
 using System;
 
-namespace TreeGraphControl
+namespace TGC
 {
 	public interface ITreeNode
 	{

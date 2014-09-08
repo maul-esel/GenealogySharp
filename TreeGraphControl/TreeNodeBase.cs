@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TreeGraphControl
+namespace TGC
 {
 	public abstract class TreeNodeBase : ITreeNode
 	{
