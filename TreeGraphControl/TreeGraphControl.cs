@@ -109,7 +109,7 @@ namespace TGC
 		public virtual void DoLayout()
 		{
 			if (rootNode != null)
-				PositionNode(rootNode, grid, 1);
+				PositionNode(rootNode, grid, 1, 1);
 			isLayoutValid = true;
 		}
 
@@ -120,7 +120,7 @@ namespace TGC
 			positions.Clear();
 		}
 
-		protected virtual void PositionNode(ITreeNode node, DisplayGrid grid, int line)
+		protected virtual void PositionNode(ITreeNode node, DisplayGrid grid, int line, int minCol)
 		{
 			if (!node.Visible)
 				return;
@@ -128,12 +128,14 @@ namespace TGC
 			int column;
 			var visibleChildren = node.ChildNodes.Where(child => child.Visible);
 			if (visibleChildren.Count() > 0) {
+				int minColumn = Math.Max(grid.MaxColumnInLine(line) + 1, minCol);
+				int i = 0;
 				foreach (ITreeNode child in visibleChildren)
-					PositionNode(child, grid, line + 1);
+					PositionNode(child, grid, line + 1, minColumn - (visibleChildren.Count() / 2) + i++);
 				var childCols = visibleChildren.Select(child => positions[child].Column);
-				column = (childCols.Min() + childCols.Max()) / 2;
+				column = Math.Max((childCols.Min() + childCols.Max()) / 2, minColumn);
 			} else
-				column = grid.MaxColumn + 1;
+				column = new[] { grid.MaxColumnInLine(line) + 1, minCol }.Max();
 
 			positions.Add(node, grid.Reserve(column, line, node));
 		}
