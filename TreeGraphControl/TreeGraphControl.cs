@@ -205,6 +205,11 @@ namespace TreeGraphControl
 		#endregion
 		#endregion
 
+		public ITreeNode HitTest(PointF point)
+		{
+			return positions.Where(pair => getCell(pair.Value).Contains(point)).Select(pair => pair.Key).FirstOrDefault();
+		}
+
 		protected override void OnResize(System.EventArgs e)
 		{
 			base.OnResize(e);
