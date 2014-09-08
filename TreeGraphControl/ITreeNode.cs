@@ -6,7 +6,9 @@ namespace TGC
 	{
 		string Text { get; }
 		ITreeNode[] ChildNodes { get; }
+		bool Visible { get; }
 		event EventHandler DescendantsChanged;
+		event EventHandler VisibilityChanged;
 	}
 }
 

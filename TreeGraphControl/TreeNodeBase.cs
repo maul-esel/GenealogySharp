@@ -19,7 +19,17 @@ namespace TGC
 			get { return childNodes.ToArray(); }
 		}
 
+		private bool visible = true;
+		public virtual bool Visible {
+			get { return visible; }
+			protected set {
+				visible = value;
+				OnVisibilityChanged();
+			}
+		}
+
 		public virtual event EventHandler DescendantsChanged;
+		public virtual event EventHandler VisibilityChanged;
 		#endregion
 
 		#region constructors
@@ -38,7 +48,7 @@ namespace TGC
 		protected TreeNodeBase(IEnumerable<ITreeNode> children)
 			: this()
 		{
-			childNodes.AddRange(children);
+			AddChildNodes(children);
 		}
 
 		protected TreeNodeBase()
@@ -51,14 +61,17 @@ namespace TGC
 		{
 			childNodes.Add(child);
 			child.DescendantsChanged += OnDescendantsChanged;
+			child.VisibilityChanged += OnDescendantsChanged;
 			OnDescendantsChanged();
 		}
 
 		protected virtual void AddChildNodes(IEnumerable<ITreeNode> children)
 		{
 			childNodes.AddRange(children);
-			foreach (ITreeNode child in children)
+			foreach (ITreeNode child in children) {
 				child.DescendantsChanged += OnDescendantsChanged;
+				child.VisibilityChanged += OnDescendantsChanged;
+			}
 			OnDescendantsChanged();
 		}
 
@@ -73,13 +86,16 @@ namespace TGC
 		{
 			childNodes.Remove(child);
 			child.DescendantsChanged -= OnDescendantsChanged;
+			child.VisibilityChanged -= OnDescendantsChanged;
 			OnDescendantsChanged();
 		}
 
 		protected virtual void RemoveAllChildNodes()
 		{
-			foreach (ITreeNode child in childNodes)
+			foreach (ITreeNode child in childNodes) {
 				child.DescendantsChanged -= OnDescendantsChanged;
+				child.VisibilityChanged -= OnDescendantsChanged;
+			}
 			childNodes.Clear();
 			OnDescendantsChanged();
 		}
@@ -93,6 +109,12 @@ namespace TGC
 		protected virtual void OnDescendantsChanged(object sender, EventArgs e)
 		{
 			OnDescendantsChanged();
+		}
+
+		protected virtual void OnVisibilityChanged()
+		{
+			if (VisibilityChanged != null)
+				VisibilityChanged(this, new EventArgs());
 		}
 		#endregion
 	}
