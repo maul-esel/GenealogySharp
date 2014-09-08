@@ -50,30 +50,36 @@ namespace TGC
 		protected virtual void AddChildNode(ITreeNode child)
 		{
 			childNodes.Add(child);
+			child.DescendantsChanged += OnDescendantsChanged;
 			OnDescendantsChanged();
 		}
 
 		protected virtual void AddChildNodes(IEnumerable<ITreeNode> children)
 		{
 			childNodes.AddRange(children);
+			foreach (ITreeNode child in children)
+				child.DescendantsChanged += OnDescendantsChanged;
 			OnDescendantsChanged();
 		}
 
 		protected virtual void ReplaceChildNodes(IEnumerable<ITreeNode> children)
 		{
-			childNodes.Clear();
-			childNodes.AddRange(children);
+			RemoveAllChildNodes();
+			AddChildNodes(children);
 			OnDescendantsChanged();
 		}
 
 		protected virtual void RemoveChildNode(ITreeNode child)
 		{
 			childNodes.Remove(child);
+			child.DescendantsChanged -= OnDescendantsChanged;
 			OnDescendantsChanged();
 		}
 
 		protected virtual void RemoveAllChildNodes()
 		{
+			foreach (ITreeNode child in childNodes)
+				child.DescendantsChanged -= OnDescendantsChanged;
 			childNodes.Clear();
 			OnDescendantsChanged();
 		}
@@ -82,6 +88,11 @@ namespace TGC
 		{
 			if (DescendantsChanged != null)
 				DescendantsChanged(this, new EventArgs());
+		}
+
+		protected virtual void OnDescendantsChanged(object sender, EventArgs e)
+		{
+			OnDescendantsChanged();
 		}
 		#endregion
 	}
