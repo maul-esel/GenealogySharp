@@ -6,7 +6,13 @@ namespace Genealogy.Inspector
 {
 	public class PersonWindow : WindowBase
 	{
-		private Gender treeLineage = Gender.Male;
+		private enum Lineage {
+			male,
+			female,
+			both
+		}
+
+		private Lineage treeLineage = Lineage.both;
 
 		private Person treeRoot;
 		private Person detailsSubject;
@@ -122,11 +128,11 @@ namespace Genealogy.Inspector
 			right.Controls.Add(makeRoot, 0, 5);
 
 			ComboBox lineageCombo = new ComboBox();
-			lineageCombo.Items.AddRange(new object[] { Gender.Male, Gender.Female });
+			lineageCombo.Items.AddRange(new object[] { Lineage.both, Lineage.male, Lineage.female });
 			lineageCombo.SelectedItem = treeLineage;
 			lineageCombo.DropDownStyle = ComboBoxStyle.DropDownList;
 			lineageCombo.SelectedValueChanged += (s, e) => {
-				treeLineage = (Gender)lineageCombo.SelectedItem;
+				treeLineage = (Lineage)lineageCombo.SelectedItem;
 				loadTree();
 			};
 			right.Controls.Add(lineageCombo, 0, 6);
@@ -221,10 +227,23 @@ namespace Genealogy.Inspector
 		{
 			TreeNode node = new TreeNode(
 				p.Firstname + " " + p.Lastname,
-				(from c in p.Children where p.Gender == treeLineage || p == treeRoot orderby c.YearOfBirth ascending select getTreeNode(c)).ToArray()
+				(from c in p.Children where matchesLineage(p.Gender) || p == treeRoot orderby c.YearOfBirth ascending select getTreeNode(c)).ToArray()
 			);
 			node.Tag = p;
 			return node;
+		}
+
+		private bool matchesLineage(Gender g)
+		{
+			switch (treeLineage) {
+				case Lineage.both:
+					return true;
+				case Lineage.male:
+					return g == Gender.Male;
+				case Lineage.female:
+					return g == Gender.Female;
+			}
+			return false;
 		}
 
 		private void onLoadPerson(object sender, EventArgs e)
