@@ -17,7 +17,7 @@ namespace Genealogy.Inspector
  				lineality = value;
 				OnLinealityChanged();
 				removeDuplicates();
-				SelectedNode = menuNode = null;
+				SelectedNode = null;
 			}
 		}
 
@@ -41,24 +41,6 @@ namespace Genealogy.Inspector
 		{
 			if (LinealityChanged != null)
 				LinealityChanged(this, new EventArgs());
-		}
-
-		private ContextMenu nodeMenu = new ContextMenu();
-
-		public GenealogyTreeControl()
-		{
-			nodeMenu.MenuItems.Add(new MenuItem("Make Root", (s, e) => {
-				if (menuNode != null) {
-					RootNode = menuNode;
-					Refresh();
-				}
-			}));
-			nodeMenu.MenuItems.Add(new MenuItem("Open Details", (s, e) => {
-				if (menuNode != null)
-					new PersonWindow(menuNode.Person).Show(FindForm().Owner);
-			}));
-			MouseClick += onClick;
-			KeyUp += onKeyUp;
 		}
 
 		private void removeDuplicates()
@@ -88,24 +70,6 @@ namespace Genealogy.Inspector
 			list.Add(node);
 			foreach (PersonNode child in node.ChildNodes)
 				collectNodes(child, list);
-		}
-
-		private PersonNode menuNode = null;
-
-		private void onClick(object sender, MouseEventArgs e)
-		{
-			menuNode = null;
-			PersonNode node = HitTest(new PointF(e.X, e.Y)) as PersonNode;
-			if (node != null && e.Button == MouseButtons.Right) {
-				menuNode = node;
-				nodeMenu.Show(this, e.Location);
-			}
-		}
-
-		private void onKeyUp(object sender, KeyEventArgs e)
-		{
-			if (SelectedNode != null && e.KeyCode == Keys.Enter)
-				new PersonWindow(SelectedPerson).Show(FindForm().Owner);
 		}
 	}
 }
