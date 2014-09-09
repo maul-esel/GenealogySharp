@@ -172,6 +172,18 @@ namespace TGC
 				SelectedNodeChanged(this, new EventArgs());
 		}
 
+		public bool layoutSuspended = false;
+
+		public void SuspendLayoutAndRedraw()
+		{
+			layoutSuspended = true;
+		}
+
+		public void ResumeLayoutAndRedraw()
+		{
+			layoutSuspended = false;
+		}
+
 		#region layout
 		public virtual void DoLayout()
 		{
@@ -182,6 +194,9 @@ namespace TGC
 
 		public virtual void InvalidateLayout()
 		{
+			if (layoutSuspended)
+				return;
+
 			isLayoutValid = false;
 			grid = new DisplayGrid();
 			positions.Clear();
@@ -211,6 +226,9 @@ namespace TGC
 		#region painting
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			if (layoutSuspended)
+				return;
+
 			base.OnPaint(e);
 			if (rootNode == null)
 				return;
