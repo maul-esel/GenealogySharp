@@ -48,7 +48,7 @@ namespace Genealogy.Inspector
 		private void onPersonDetails(object s, EventArgs e)
 		{
 			if (reignList.SelectedItems.Count > 0)
-				new PersonWindow((reignList.SelectedItems[0].Tag as Reign).Ruler).Show();
+				new TreeWindow((reignList.SelectedItems[0].Tag as Reign).Ruler).Show(Owner);
 		}
 
 		private void onPersonEnter(object s, KeyEventArgs e)

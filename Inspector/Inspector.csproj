@@ -35,7 +35,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="InspectorWindow.cs" />
     <Compile Include="TitleDetailsWindow.cs" />
-    <Compile Include="PersonWindow.cs" />
     <Compile Include="WindowBase.cs" />
     <Compile Include="Lineality.cs" />
     <Compile Include="GenealogyTreeControl.cs" />
