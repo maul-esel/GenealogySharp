@@ -46,6 +46,8 @@ namespace Genealogy.Inspector
 		public void Destroy()
 		{
 			control.LinealityChanged -= adjustVisibility;
+			foreach (PersonNode child in ChildNodes)
+				child.Destroy();
 		}
 
 		private static string formatText(Person p)
