@@ -25,24 +25,25 @@ namespace Genealogy.Inspector
 
 		private void adjustVisibility(object sender, EventArgs e)
 		{
-			if (control.RootNode == this)
-				return;
-			switch (control.Lineality) {
-				case Lineality.Agnatic:
-					Visible = Person.Gender == Gender.Male;
-					break;
-				case Lineality.Uterine:
-					Visible = Person.Gender == Gender.Female;
-					break;
-				case Lineality.Cognatic:
-					Visible = true;
-					break;
+			foreach (PersonNode child in ChildNodes) {
+				if (control.RootNode == this
+				    || (control.Lineality == Lineality.Cognatic)
+				    || (control.Lineality == Lineality.Agnatic && Person.Gender == Gender.Male)
+				    || (control.Lineality == Lineality.Uterine && Person.Gender == Gender.Female))
+					child.Show();
+				else
+					child.Hide();
 			}
 		}
 
 		public void Hide()
 		{
 			Visible = false;
+		}
+
+		public void Show()
+		{
+			Visible = true;
 		}
 
 		public void Destroy()
