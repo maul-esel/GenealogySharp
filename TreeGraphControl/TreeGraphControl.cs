@@ -338,7 +338,7 @@ namespace TGC
 		{
 			if (SelectedNode != null)
 				if (directionKeys.Contains(e.KeyCode)) {
-					ITreeNode parent = positions.Keys.FirstOrDefault(node => node.ChildNodes.Contains(SelectedNode));
+					ITreeNode parent = GetParentNode(SelectedNode);
 					switch (e.KeyCode) {
 						case Keys.Up:
 							if (parent != null)
@@ -370,6 +370,11 @@ namespace TGC
 		protected override bool IsInputKey(Keys keyData)
 		{
 			return directionKeys.Contains(keyData) || base.IsInputKey(keyData);
+		}
+
+		public ITreeNode GetParentNode(ITreeNode child)
+		{
+			return positions.Keys.FirstOrDefault(node => node.ChildNodes.Contains(child));
 		}
 	}
 }
