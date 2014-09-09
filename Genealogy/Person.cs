@@ -108,7 +108,7 @@ namespace Genealogy
 
 		public bool isAlive(int year)
 		{
-			return YearOfBirth <= year && YearOfDeath >= year;
+			return YearOfBirth <= year && YearOfDeath > year;
 		}
 
 		public Reign[] Titles {
