@@ -15,7 +15,11 @@ namespace Genealogy.Inspector
 			get { return lineality; }
 			set {
  				lineality = value;
+
+				SuspendLayoutAndRedraw();
 				OnLinealityChanged();
+				ResumeLayoutAndRedraw();
+
 				removeDuplicates();
 				SelectedNode = null;
 			}
@@ -51,6 +55,8 @@ namespace Genealogy.Inspector
 			List<PersonNode> nodes = new List<PersonNode>();
 			collectNodes(RootNode as PersonNode, nodes);
 
+			SuspendLayoutAndRedraw();
+
 			var duplicatesToHide =
 				from node in nodes
 				group node by node.Person into nodeGroup
@@ -63,6 +69,10 @@ namespace Genealogy.Inspector
 				foreach (var parent in collapsibleParents)
 					parent.ChildNodes.Cast<PersonNode>().First(child => child.Person == duplicate.Key).Hide();
 			}
+
+			ResumeLayoutAndRedraw();
+			InvalidateLayout();
+			Refresh();
 		}
 
 		private void collectNodes(PersonNode node, List<PersonNode> list)
