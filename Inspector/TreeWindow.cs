@@ -1,4 +1,4 @@
-using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -12,7 +12,7 @@ namespace Genealogy.Inspector
 		private readonly Label diedLabel = new Label();
 		private readonly Label fatherLink = new LinkLabel();
 		private readonly Label motherLink = new LinkLabel();
-		private readonly ListBox titleList = new ListBox();
+		private readonly ListBox titleList = new ReignListBox();
 		private readonly ListView childrenList = new ListView();
 
 		private Person TreeRoot {
@@ -167,7 +167,7 @@ namespace Genealogy.Inspector
 			titleList.Items.Clear();
 			foreach (Reign reign in subject.Titles)
 				titleList.Items.Add(reign);
-			// TODO: nicer display for titles
+			titleList.MinimumSize = new Size(titleList.MinimumSize.Width, (titleList.Items.Count + 1) * titleList.ItemHeight);
 
 			childrenList.Items.Clear();
 			childrenList.Groups.Clear();

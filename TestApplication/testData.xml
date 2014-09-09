@@ -318,7 +318,7 @@
 				<strategy name="primogeniture" preference="female" lineality="cognatic"/>
 			</succession>
 		</title>
-		<title id="12" firstRuler="12" established="807" rank="Earl">
+		<title id="12" firstRuler="12" established="807" rank="Duke">
 			<succession>
 				<strategy name="primogeniture" preference="male" lineality="agnatic"/>
 				<strategy name="primogeniture" preference="male" lineality="cognatic"/>

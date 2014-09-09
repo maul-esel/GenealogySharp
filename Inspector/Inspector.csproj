@@ -40,6 +40,8 @@
     <Compile Include="GenealogyTreeControl.cs" />
     <Compile Include="PersonNode.cs" />
     <Compile Include="TreeWindow.cs" />
+    <Compile Include="ReignListBox.cs" />
+    <Compile Include="Crown.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -56,5 +58,8 @@
       <Project>{E9873263-142B-454F-A602-38690CA6AD94}</Project>
       <Name>TreeGraphControl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="crowns.jpg" />
   </ItemGroup>
 </Project>

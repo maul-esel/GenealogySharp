@@ -10,20 +10,22 @@ namespace Genealogy
 		Emperor,
 		Caesar,
 		Tsar,
-
 		HighKing,
+
 		King,
 		Khan,
 		Shah,
 		Sultan,
 
 		Prince,
-		Duke,
-		Emir,
-		Bey,
 
 		Archduke,
 		GrandDuke,
+
+		Duke,
+		Emir,
+
+		Bey,
 		Markgrave,
 		Landgrave,
 		Count,
@@ -33,4 +35,3 @@ namespace Genealogy
 		Baron
 	}
 }
-
