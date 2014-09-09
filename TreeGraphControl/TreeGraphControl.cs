@@ -20,7 +20,7 @@ namespace TGC
 		public TreeGraphControl(ITreeNode root)
 			: this()
 		{
-			rootNode = root;
+			RootNode = root;
 		}
 
 		private ITreeNode rootNode;
@@ -40,6 +40,7 @@ namespace TGC
 
 				SelectedNode = null;
 				InvalidateLayout();
+				Refresh();
 			}
 		}
 
