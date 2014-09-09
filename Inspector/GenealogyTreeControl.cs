@@ -17,7 +17,7 @@ namespace Genealogy.Inspector
  				lineality = value;
 				OnLinealityChanged();
 				removeDuplicates();
-				selectedNode = menuNode = null;
+				SelectedNode = menuNode = null;
 			}
 		}
 
@@ -28,8 +28,11 @@ namespace Genealogy.Inspector
 					throw new ArgumentException();
 				base.RootNode = value;
 				removeDuplicates();
-				selectedNode = menuNode = null;
 			}
+		}
+
+		public Person SelectedPerson {
+			get { return SelectedNode == null ? null : (SelectedNode as PersonNode).Person; }
 		}
 
 		public event EventHandler LinealityChanged;
@@ -87,82 +90,22 @@ namespace Genealogy.Inspector
 				collectNodes(child, list);
 		}
 
-		private PersonNode selectedNode = null;
 		private PersonNode menuNode = null;
 
 		private void onClick(object sender, MouseEventArgs e)
 		{
 			menuNode = null;
 			PersonNode node = HitTest(new PointF(e.X, e.Y)) as PersonNode;
-			if (node != null) {
-				if (e.Button == MouseButtons.Right) {
-					menuNode = node;
-					nodeMenu.Show(this, e.Location);
-				} else if (e.Button == MouseButtons.Left) {
-					if (node != selectedNode) {
-						selectedNode = node;
-						Refresh();
-					}
-				}
-			} else if (selectedNode != null) {
-				selectedNode = null;
-				Refresh();
+			if (node != null && e.Button == MouseButtons.Right) {
+				menuNode = node;
+				nodeMenu.Show(this, e.Location);
 			}
 		}
 
 		private void onKeyUp(object sender, KeyEventArgs e)
 		{
-			if (selectedNode != null) {
-				List<PersonNode> nodes = new List<PersonNode>();
-				collectNodes(RootNode as PersonNode, nodes);
-				PersonNode parent = nodes.FirstOrDefault(node => node.ChildNodes.Contains(selectedNode));
-
-				switch (e.KeyCode) {
-					case Keys.Up:
-						if (parent != null)
-							selectedNode = parent;
-						break;
-					case Keys.Down:
-						if (selectedNode.ChildNodes.Where(child => child.Visible).Count() > 0)
-							selectedNode = selectedNode.ChildNodes.First(child => child.Visible) as PersonNode;
-						break;
-					case Keys.Left:
-						if (parent != null && parent.ChildNodes.Where(child => child.Visible).Count() > 1) {
-							ITreeNode sibling = parent.ChildNodes.Take(parent.ChildNodes.ToList().IndexOf(selectedNode)).LastOrDefault(node => node.Visible);
-							if (sibling != null)
-								selectedNode = sibling as PersonNode;
-						}
-						break;
-					case Keys.Right:
-						if (parent != null && parent.ChildNodes.Where(child => child.Visible).Count() > 1) {
-							ITreeNode sibling = parent.ChildNodes.Skip(parent.ChildNodes.ToList().IndexOf(selectedNode) + 1).FirstOrDefault(node => node.Visible);
-							if (sibling != null)
-								selectedNode = sibling as PersonNode;
-						}
-						break;
-					case Keys.Enter:
-						new PersonWindow(selectedNode.Person).Show(FindForm().Owner);
-						break;
-				}
-				Refresh();
-			}
-		}
-
-		protected override void paintTreeNode(Graphics g, ITreeNode node, DisplayGrid.Cell cell)
-		{
-			base.paintTreeNode(g, node, cell);
-			if (node == selectedNode)
-				highlightNode(g, cell);
-		}
-
-		private void highlightNode(Graphics g, DisplayGrid.Cell cell)
-		{
-			RectangleF rect = getCell(cell);
-			g.DrawRectangle(new Pen(Color.DarkBlue, 4),
-			                rect.X,
-			                rect.Y,
-			                rect.Width,
-			                rect.Height);
+			if (SelectedNode != null && e.KeyCode == Keys.Enter)
+				new PersonWindow(SelectedPerson).Show(FindForm().Owner);
 		}
 	}
 }
