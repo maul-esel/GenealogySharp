@@ -8,21 +8,21 @@ namespace Genealogy.Inspector
 	{
 		private readonly Title subject;
 
-		private ListView reignList = new ListView();
+		private ReignListBox reignList = new ReignListBox();
 
 		public TitleDetailsWindow(Title title)
 		{
 			Text = "Genealogy Inspector - View Title";
 			this.subject = title;
 
-			Resize += onResize;
-
 			TableLayoutPanel panel = new TableLayoutPanel();
-			panel.Size = ClientSize;
 			Controls.Add(panel);
+			panel.Dock = DockStyle.Fill;
+			panel.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
 
 			TableLayoutPanel table = new TableLayoutPanel();
-			panel.Controls.Add(table);
+			panel.Controls.Add(table, 0, 0);
+			panel.Dock = DockStyle.Fill;
 
 			table.Controls.Add(createBoldLabel("Title:"), 0, 0);
 			table.Controls.Add(createBoldLabel("Realm:"), 0, 1);
@@ -32,23 +32,23 @@ namespace Genealogy.Inspector
 			table.Controls.Add(createLabel(joinRealmNames(subject.Realms)), 1, 1);
 			table.Controls.Add(createLabel(subject.Established.ToString()), 1, 2);
 
-			setupReignList();
-			panel.Controls.Add(reignList);
+			reignList.Margin = new Padding(5);
+			panel.Controls.Add(reignList, 0, 1);
+			reignList.Dock = DockStyle.Fill;
+			reignList.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
+
+			reignList.Items.AddRange(subject.Reigns);
+
+			reignList.DoubleClick += onPersonDetails;
+			reignList.KeyUp += onPersonEnter;
 
 			PerformLayout();
-			reignList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-		}
-
-		private void onResize(object sender, EventArgs e)
-		{
-			Controls[0].Size = ClientSize;
-			reignList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 		}
 
 		private void onPersonDetails(object s, EventArgs e)
 		{
-			if (reignList.SelectedItems.Count > 0)
-				new TreeWindow((reignList.SelectedItems[0].Tag as Reign).Ruler).Show(Owner);
+			if (reignList.SelectedItem != null)
+				new TreeWindow((reignList.SelectedItem as Reign).Ruler).Show(Owner);
 		}
 
 		private void onPersonEnter(object s, KeyEventArgs e)
@@ -57,36 +57,5 @@ namespace Genealogy.Inspector
 				onPersonDetails(s, e);
 			e.Handled = true;
 		}
-
-		private void setupReignList()
-		{
-			reignList.Dock = DockStyle.Fill;
-
-			reignList.View = View.Details;
-			reignList.FullRowSelect = true;
-			reignList.GridLines = true;
-
-			reignList.DoubleClick += onPersonDetails;
-			reignList.KeyUp += onPersonEnter;
-
-			reignList.Columns.Add("#");
-			reignList.Columns.Add("First Name");
-			reignList.Columns.Add("Last Name");
-			reignList.Columns.Add("Start");
-			reignList.Columns.Add("End");
-
-			foreach (Reign reign in subject.Reigns) {
-				ListViewItem item = new ListViewItem(reign.SuccessionIndex.ToString());
-				item.SubItems.AddRange(new ListViewItem.ListViewSubItem[] {
-					new ListViewItem.ListViewSubItem(item, reign.Ruler.Firstname + " " + RomanNumerals.ToRomanNumeral(reign.NameIndex)),
-					new ListViewItem.ListViewSubItem(item, reign.Ruler.Lastname),
-					new ListViewItem.ListViewSubItem(item, reign.Start.ToString()),
-					new ListViewItem.ListViewSubItem(item, reign.End.ToString())
-				});
-				item.Tag = reign;
-				reignList.Items.Add(item);
-			}
-		}
 	}
 }
-

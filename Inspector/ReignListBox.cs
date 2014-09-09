@@ -20,7 +20,7 @@ namespace Genealogy.Inspector
 					base.OnDrawItem(e);
 				else {
 					if (e.State.HasFlag(DrawItemState.Selected))
-						e.Graphics.FillRectangle(Brushes.LightYellow, e.Bounds);
+						e.Graphics.FillRectangle(Brushes.Beige, e.Bounds);
 					else
 						e.Graphics.FillRectangle(Brushes.White, e.Bounds);
 
