@@ -25,6 +25,8 @@ namespace Genealogy.Inspector
 
 		private void adjustVisibility(object sender, EventArgs e)
 		{
+			if (control.RootNode == this)
+				return;
 			switch (control.Lineality) {
 				case Lineality.Agnatic:
 					Visible = Person.Gender == Gender.Male;
