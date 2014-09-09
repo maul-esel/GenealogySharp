@@ -53,6 +53,14 @@ namespace Genealogy.TestApplication
 			var chronicle = new Genealogy.Chronicle.Chronicle(s);
 			Console.WriteLine("\n\nCHRONICLE:\n------------------\n");
 			Console.WriteLine(chronicle.ToString());
+
+			var unmarried = from p in s.Persons
+				where p.Marriages.Length == 0
+					orderby p.YearOfBirth
+					group p by p.Gender into genderGroup
+					select genderGroup;
+			Console.WriteLine("Unmarried:\n\tmale:\n\t\t" + string.Join("\n\t\t", unmarried.First(g => g.Key == Gender.Male).Select(p => p.Firstname + " " + p.Birthname + " " + p.YearOfBirth + " - " + p.YearOfDeath + " " + p.ID)));
+			Console.WriteLine("\n\tfemale:\n\t\t" + string.Join("\n\t\t", unmarried.First(g => g.Key == Gender.Female).Select(p => p.Firstname + " " + p.Birthname + " " + p.YearOfBirth + " - " + p.YearOfDeath + " " + p.ID)));
 		}
 	}
 }
