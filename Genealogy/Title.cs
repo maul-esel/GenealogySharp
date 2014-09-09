@@ -43,7 +43,7 @@ namespace Genealogy
 			this.strategy = strategy;
 			this.Rank = rank;
 
-			reigns.Add(new Reign (this, firstRuler, established));
+			reigns.Add(new Reign(this, firstRuler, established));
 			calculateReigns();
 		}
 

@@ -43,7 +43,7 @@ namespace Genealogy.Succession
 		}
 
 		private Person successorViaOldestChild(Person self, int yearOfSuccession) {
-			if (!lineality.considerChildren (self))
+			if (!lineality.considerChildren(self))
 				return null;
 
 			var firstChild = genderPreference.firstChild(self);
@@ -81,4 +81,3 @@ namespace Genealogy.Succession
 		}
 	}
 }
-

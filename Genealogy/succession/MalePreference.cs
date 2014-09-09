@@ -39,8 +39,8 @@ namespace Genealogy.Succession
 		public Person nextUncleOrAunt(Person parent, Person grandparent)
 		{
 			var unclesAndAunts = grandparent.Children
-				.Where (c => c.YearOfBirth > parent.YearOfBirth)
-				.OrderBy (c => c.YearOfBirth);
+				.Where(c => c.YearOfBirth > parent.YearOfBirth)
+				.OrderBy(c => c.YearOfBirth);
 			return unclesAndAunts.FirstOrDefault(c => c.Gender == Gender.Male)
 				?? unclesAndAunts.FirstOrDefault();
 		}
