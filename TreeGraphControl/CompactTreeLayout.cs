@@ -8,8 +8,8 @@ namespace TGC
 	{
 		public void Layout(VisualTreeNode root)
 		{
-			maxColumns.Clear();
 			PositionNode(root, 0, 0);
+			maxColumns.Clear();
 		}
 
 		private readonly Dictionary<int, int> maxColumns = new Dictionary<int, int>();
