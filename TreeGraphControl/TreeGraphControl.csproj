@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E9873263-142B-454F-A602-38690CA6AD94}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>TreeGraphControl</RootNamespace>
+    <RootNamespace>TGC</RootNamespace>
     <AssemblyName>TreeGraphControl</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
