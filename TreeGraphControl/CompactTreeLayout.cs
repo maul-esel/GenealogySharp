@@ -22,7 +22,7 @@ namespace TGC
 
 		protected virtual bool isLeafNode(VisualTreeNode node)
 		{
-			return node.Children.Count(child => child.Node.Visible) > 0;
+			return node.Children.Count(child => child.Node.Visible) == 0;
 		}
 
 		protected virtual void PositionNode(VisualTreeNode node, int depth, int minCol)
@@ -31,7 +31,7 @@ namespace TGC
 				return;
 
 			node.Y = depth;
-			int minX = Math.Max(maxColumn(depth), minCol);
+			int minX = Math.Max(maxColumn(depth) + 1, minCol);
 
 			if (isLeafNode(node))
 				node.X = minX;
