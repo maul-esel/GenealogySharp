@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TGC
 {
-	public struct VisualTreeNode
+	public class VisualTreeNode
 	{
 		public ITreeNode Node {
 			get;
@@ -36,7 +36,6 @@ namespace TGC
 		}
 
 		public VisualTreeNode(ITreeNode node)
-		: this()
 		{
 			Node = node;
 			Children = node.ChildNodes.Select(child => new VisualTreeNode(child)).ToArray();
