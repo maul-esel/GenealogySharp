@@ -175,12 +175,12 @@ namespace TGC
 
 		public bool layoutSuspended = false;
 
-		public void SuspendLayoutAndRedraw()
+		public void SuspendLayoutAndPainting()
 		{
 			layoutSuspended = true;
 		}
 
-		public void ResumeLayoutAndRedraw()
+		public void ResumeLayoutAndPainting()
 		{
 			layoutSuspended = false;
 		}
