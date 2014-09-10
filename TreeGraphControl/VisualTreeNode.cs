@@ -36,6 +36,7 @@ namespace TGC
 		}
 
 		public VisualTreeNode(ITreeNode node)
+		: this()
 		{
 			Node = node;
 			Children = node.ChildNodes.Select(child => new VisualTreeNode(child)).ToArray();
