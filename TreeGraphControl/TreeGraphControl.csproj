@@ -43,6 +43,7 @@
     <Compile Include="VisualTreeNode.cs" />
     <Compile Include="ITreeLayout.cs" />
     <Compile Include="CompactTreeLayout.cs" />
+    <Compile Include="TreeSearch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
