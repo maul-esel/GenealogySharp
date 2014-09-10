@@ -42,6 +42,7 @@
     <Compile Include="DisplayGrid.cs" />
     <Compile Include="VisualTreeNode.cs" />
     <Compile Include="ITreeLayout.cs" />
+    <Compile Include="CompactTreeLayout.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
