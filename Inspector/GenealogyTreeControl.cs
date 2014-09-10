@@ -16,9 +16,9 @@ namespace Genealogy.Inspector
 			set {
  				lineality = value;
 
-				SuspendLayoutAndRedraw();
+				SuspendLayoutAndPainting();
 				OnLinealityChanged();
-				ResumeLayoutAndRedraw();
+				ResumeLayoutAndPainting();
 
 				removeDuplicates();
 				SelectedNode = null;
@@ -55,7 +55,7 @@ namespace Genealogy.Inspector
 			List<PersonNode> nodes = new List<PersonNode>();
 			collectNodes(RootNode as PersonNode, nodes);
 
-			SuspendLayoutAndRedraw();
+			SuspendLayoutAndPainting();
 
 			var duplicatesToHide =
 				from node in nodes
@@ -70,7 +70,7 @@ namespace Genealogy.Inspector
 					parent.ChildNodes.Cast<PersonNode>().First(child => child.Person == duplicate.Key).Hide();
 			}
 
-			ResumeLayoutAndRedraw();
+			ResumeLayoutAndPainting();
 			InvalidateLayout();
 			Refresh();
 		}
