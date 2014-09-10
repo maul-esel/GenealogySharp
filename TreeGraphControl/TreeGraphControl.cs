@@ -308,7 +308,10 @@ namespace TGC
 
 		public ITreeNode HitTest(PointF point)
 		{
-			return TreeSearch.FindFirst(currentLayout, node => getCell(node.X, node.Y).Contains(point)).Node;
+			VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => getCell(node.X, node.Y).Contains(point));
+			if (visualNode != null)
+				return visualNode.Node;
+			return null;
 		}
 
 		protected override void OnResize(System.EventArgs e)
@@ -369,7 +372,10 @@ namespace TGC
 
 		public ITreeNode GetParentNode(ITreeNode child)
 		{
-			return TreeSearch.FindFirst(currentLayout, node => node.Node.ChildNodes.Contains(child)).Node;
+			VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => node.Node.ChildNodes.Contains(child));
+			if (visualNode != null)
+				return visualNode.Node;
+			return null;
 		}
 	}
 }
