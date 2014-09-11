@@ -292,7 +292,6 @@ namespace TGC
 					maxColumn = node.X;
 				if (node.Y > maxLine)
 					maxLine = node.Y;
-				Console.WriteLine("(" + node.X + ", " + node.Y + ")");
 				return true;
 			});
 
