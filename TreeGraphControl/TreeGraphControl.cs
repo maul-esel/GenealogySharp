@@ -166,6 +166,35 @@ namespace TGC
 
 		protected virtual void OnSelectedNodeChanged()
 		{
+			if (SelectedNode != null && currentLayout != null) {
+				// scroll into view
+				VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => node.Node == SelectedNode);
+				if (visualNode != null) {
+					RectangleF View = new RectangleF(Math.Abs(AutoScrollPosition.X),
+					                                 Math.Abs(AutoScrollPosition.Y),
+					                                 ClientSize.Width - SystemInformation.VerticalScrollBarWidth,
+					                                 ClientSize.Height - SystemInformation.HorizontalScrollBarHeight);
+					RectangleF Node = new RectangleF(visualNode.X * (columnWidth + columnMargin),
+					                               visualNode.Y * (lineHeight + lineMargin),
+					                               columnWidth,
+					                               lineHeight);
+					if (!View.Contains(Node)) {
+						Console.WriteLine(View.ToString() + " !>= " + Node.ToString());
+						Point newScrollPosition = new Point(Math.Abs(AutoScrollPosition.X), Math.Abs(AutoScrollPosition.Y));
+						if (View.Right < Node.Right)
+							newScrollPosition.X += (int)(Node.Right - View.Right);
+						else if (View.Left > Node.Left)
+							newScrollPosition.X += (int)(Node.Left - View.Left);
+
+						if (View.Bottom < Node.Bottom)
+							newScrollPosition.Y += (int)(Node.Bottom - View.Bottom);
+						else if (View.Top > Node.Top)
+							newScrollPosition.Y += (int)(Node.Top - View.Top);
+						AutoScrollPosition = newScrollPosition;
+						Refresh();
+					}
+				}
+			}
 			if (SelectedNodeChanged != null)
 				SelectedNodeChanged(this, new EventArgs());
 		}
