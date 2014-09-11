@@ -6,10 +6,11 @@ using System.Windows.Forms;
 
 namespace TGC
 {
-	public class TreeGraphControl : Control
+	public class TreeGraphControl : ScrollableControl
 	{
 		public TreeGraphControl()
 		{
+			AutoScroll = true;
 			TreeLayout = new BuchheimTreeLayout();
 
 			SelectedTreeNodeBackground = TreeNodeBackground = new SolidBrush(Color.White);
@@ -173,6 +174,7 @@ namespace TGC
 		public bool layoutSuspended = false;
 		private bool isLayoutValid = false;
 		private VisualTreeNode currentLayout;
+		private int maxColumn, maxLine;
 
 		public ITreeLayout TreeLayout {
 			get;
@@ -198,12 +200,22 @@ namespace TGC
 				throw new Exception("root is null");
 
 			TreeLayout.Layout(currentLayout = new VisualTreeNode(RootNode));
+			TreeSearch.Traverse(currentLayout, node => {
+				if (node.X > maxColumn)
+					maxColumn = node.X;
+				if (node.Y > maxLine)
+					maxLine = node.Y;
+				return true;
+			});
+			calculateMinTreeSize();
+
 			isLayoutValid = true;
 		}
 
 		public virtual void InvalidateLayout()
 		{
 			isLayoutValid = false;
+			maxColumn = maxLine = 0;
 		}
 		#endregion
 
@@ -252,6 +264,7 @@ namespace TGC
 
 				foreach (VisualTreeNode child in visibleChildren) {
 					PointF childPosition = getCell(child.X, child.Y).Location;
+
 					PointF third = new PointF(childPosition.X + columnWidth / 2, second.Y);
 					PointF last = new PointF(third.X, childPosition.Y);
 
@@ -265,17 +278,31 @@ namespace TGC
 
 		protected virtual RectangleF getCell(int X, int Y)
 		{
-			return new RectangleF(
+			RectangleF rect = new RectangleF(
 				5 + X * (columnWidth + columnMargin),
 				5 + Y * (lineHeight + lineMargin),
 				columnWidth,
 				lineHeight
 			);
+			rect.Offset(AutoScrollPosition);
+			return rect;
 		}
 
 		#region dimensions
 		protected static readonly float marginColRatio = 5;
 		protected static readonly float marginLineRatio = 2;
+		protected static readonly int minColMargin = 5;
+		protected static readonly int minLineMargin = 20;
+
+		protected Size minTreeSize = new Size();
+		protected void calculateMinTreeSize()
+		{
+			Size minNodeSize = minimalNodeSize();
+			AutoScrollMinSize = minTreeSize = new Size(
+				maxColumn * (minColMargin + minNodeSize.Width) + minNodeSize.Width,
+				maxLine * (minLineMargin + minNodeSize.Height) + minNodeSize.Height
+			);
+		}
 
 		protected float columnWidth;
 		protected float lineHeight;
@@ -285,22 +312,43 @@ namespace TGC
 
 		protected void calculateDimensions()
 		{
-			int maxColumn = 0, maxLine = 0;
+			Size actualTreeSize = new Size(
+				Math.Max(ClientSize.Width, minTreeSize.Width),
+				Math.Max(ClientSize.Height, minTreeSize.Height)
+			);
 
-			TreeSearch.Traverse(currentLayout, node => {
-				if (node.X > maxColumn)
-					maxColumn = node.X;
-				if (node.Y > maxLine)
-					maxLine = node.Y;
-				return true;
-			});
-
-			// formula: width = (maxCol + 1) * colWidth + maxCol * colMargin
-			columnWidth = (ClientSize.Width - 10) / ((maxColumn + 1) + (maxColumn / marginColRatio));
-			lineHeight = (ClientSize.Height - 10) / ((maxLine + 1) + (maxLine / marginLineRatio));
+			// formula: width - padding = (maxCol + 1) * colWidth + maxCol * colMargin
+			columnWidth = (actualTreeSize.Width - 10) / ((maxColumn + 1) + (maxColumn / marginColRatio));
+			lineHeight = (actualTreeSize.Height - 30) / ((maxLine + 1) + (maxLine / marginLineRatio));
 
 			columnMargin = columnWidth / marginColRatio;
 			lineMargin = lineHeight / marginLineRatio;
+
+			if (columnMargin < minColMargin) {
+				columnMargin = minColMargin;
+				columnWidth = (actualTreeSize.Width - 10 - maxColumn * columnMargin) / (maxColumn + 1);
+			}
+			if (lineMargin < minLineMargin) {
+				lineMargin = minLineMargin;
+				lineHeight = (actualTreeSize.Height - 10 - maxLine * lineMargin) / (maxLine + 1);
+			}
+		}
+
+		protected Size minimalNodeSize()
+		{
+			Size minTextSize = new Size();
+			TreeSearch.Traverse(currentLayout, node => {
+				Size nodeTextSize = TextRenderer.MeasureText(node.Node.Text, Font, new Size(int.MaxValue, int.MaxValue), TextFormatFlags.WordBreak);
+				minTextSize = new Size(Math.Max(minTextSize.Width, nodeTextSize.Width), Math.Max(minTextSize.Height, nodeTextSize.Height));
+				return true;
+			});
+			return new Size(minTextSize.Width + 5, minTextSize.Height + 5);
+		}
+
+		protected Size maximalNodeSize()
+		{
+			Size minSize = minimalNodeSize();
+			return new Size(minSize.Width * 2, minSize.Height * 2);
 		}
 		#endregion
 		#endregion
@@ -316,6 +364,12 @@ namespace TGC
 		protected override void OnResize(System.EventArgs e)
 		{
 			base.OnResize(e);
+			Refresh();
+		}
+
+		protected override void OnScroll(ScrollEventArgs se)
+		{
+			base.OnScroll(se);
 			Refresh();
 		}
 
