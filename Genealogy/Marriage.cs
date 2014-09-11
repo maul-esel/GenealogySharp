@@ -44,7 +44,7 @@ namespace Genealogy
 			get { return Math.Min(Husband.YearOfDeath, Wife.YearOfDeath); }
 		}
 
-		public Person addChild(int id, int birth, int death, Gender gender, string firstname)
+		public Person addChild(uint id, int birth, int death, Gender gender, string firstname)
 		{
 			birth.assertBetween(Start, End);
 

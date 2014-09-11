@@ -14,10 +14,10 @@ namespace Genealogy
 		#region attributes
 		private readonly XmlDocument document = new XmlDocument();
 		private readonly XPathNavigator navigator;
-		private readonly Dictionary<int, Person> personRegister = new Dictionary<int, Person>();
+		private readonly Dictionary<uint, Person> personRegister = new Dictionary<uint, Person>();
 		private readonly List<PendingMarriage> pendingMarriages = new List<PendingMarriage>();
 
-		delegate void personIDDelegate(int id);
+		delegate void personIDDelegate(uint id);
 		private event personIDDelegate personAdded;
 
 		public Realm[] Realms {
@@ -94,8 +94,8 @@ namespace Genealogy
 		{
 			var ancestorNodes = navigator.Select("/data/persons/person");
 			while (ancestorNodes.MoveNext()) {
-				Person current = new Person (
-					int.Parse(ancestorNodes.Current.GetAttribute("id", "")),
+				Person current = new Person(
+					uint.Parse(ancestorNodes.Current.GetAttribute("id", "")),
 					int.Parse(ancestorNodes.Current.GetAttribute("birth", "")),
 					int.Parse(ancestorNodes.Current.GetAttribute("death", "")),
 					getGender(ancestorNodes.Current.GetAttribute("gender", "")),
@@ -119,7 +119,7 @@ namespace Genealogy
 		{
 			var marriageNodes = navigator.Select("/data/persons//person[@id=" + husband.ID + "]/marriages/marriage");
 			while (marriageNodes.MoveNext()) {
-				int wifeID = int.Parse(marriageNodes.Current.GetAttribute("wife", ""));
+				uint wifeID = uint.Parse(marriageNodes.Current.GetAttribute("wife", ""));
 				if (personRegister.ContainsKey(wifeID))
 					processMarriage(husband, marriageNodes.Current, wifeID);
 				else
@@ -127,7 +127,7 @@ namespace Genealogy
 			}
 		}
 
-		private void processMarriage(Person husband, XPathNavigator marriageNode, int wifeID)
+		private void processMarriage(Person husband, XPathNavigator marriageNode, uint wifeID)
 		{
 			processChildren(
 				husband.marryTo(
@@ -142,7 +142,7 @@ namespace Genealogy
 			var childNodes = node.Select("./children/person");
 			while (childNodes.MoveNext()) {
 				var current = m.addChild(
-					int.Parse(childNodes.Current.GetAttribute("id", "")),
+					uint.Parse(childNodes.Current.GetAttribute("id", "")),
 					int.Parse(childNodes.Current.GetAttribute("birth", "")),
 					int.Parse(childNodes.Current.GetAttribute("death", "")),
 					getGender(childNodes.Current.GetAttribute("gender", "")),
@@ -174,9 +174,9 @@ namespace Genealogy
 			private readonly Storage store;
 			private readonly Person husband;
 			private readonly XPathNavigator node;
-			private readonly int wife;
+			private readonly uint wife;
 
-			internal PendingMarriage(Storage s, Person husband, XPathNavigator node, int wife) {
+			internal PendingMarriage(Storage s, Person husband, XPathNavigator node, uint wife) {
 				this.store = s;
 				this.husband = husband;
 				this.node = node;
@@ -186,7 +186,7 @@ namespace Genealogy
 				s.pendingMarriages.Add(this);
 			}
 
-			public void onPersonAdded(int id)
+			public void onPersonAdded(uint id)
 			{
 				if (id == wife) {
 					execute();
@@ -211,8 +211,8 @@ namespace Genealogy
 			while (titleNodes.MoveNext()) {
 				titles.Add(
 					new Title(
-						int.Parse(titleNodes.Current.GetAttribute("id", "")),
-						personRegister[ int.Parse(titleNodes.Current.GetAttribute("firstRuler", "")) ],
+						uint.Parse(titleNodes.Current.GetAttribute("id", "")),
+						personRegister[ uint.Parse(titleNodes.Current.GetAttribute("firstRuler", "")) ],
 						int.Parse(titleNodes.Current.GetAttribute("established", "")),
 						getSuccession(titleNodes.Current.SelectSingleNode("succession")),
 						getRank(titleNodes.Current.GetAttribute("rank", ""))

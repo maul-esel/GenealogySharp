@@ -16,7 +16,7 @@ namespace Genealogy
 		private readonly List<Marriage> marriageList = new List<Marriage>();
 		private readonly List<Reign> titles = new List<Reign>();
 
-		public int ID {
+		public uint ID {
 			get;
 			private set;
 		}
@@ -43,7 +43,7 @@ namespace Genealogy
 		#endregion
 
 		#region constructors
-		internal Person(int id, int birth, int death, Gender gender, string firstname, /* nullable */ Marriage parentMarriage)
+		internal Person(uint id, int birth, int death, Gender gender, string firstname, /* nullable */ Marriage parentMarriage)
 		{
 			birth.assertBefore(death);
 			if (parentMarriage != null)
@@ -57,7 +57,7 @@ namespace Genealogy
 			this.parentMarriage = parentMarriage;
 		}
 
-		public Person(int id, int birth, int death, Gender gender, string firstname, string birthname)
+		public Person(uint id, int birth, int death, Gender gender, string firstname, string birthname)
 		: this(id, birth, death, gender, firstname, null as Marriage) {
 			this.birthname = birthname;
 		}

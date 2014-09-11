@@ -13,7 +13,7 @@ namespace Genealogy
 			new string[] { "", "M", "MM", "MMM" }
 		};
 
-		public static string ToRomanNumeral(int n)
+		public static string ToRomanNumeral(uint n)
 		{
 			if (n <= 0 || n > 3999)
 				throw new ArgumentOutOfRangeException("n", n, "n must be between 1 and 3999");

@@ -14,7 +14,7 @@ namespace Genealogy
 		private readonly List<Reign> reigns = new List<Reign>();
 		private readonly List<Realm> realms = new List<Realm>();
 
-		public int ID {
+		public uint ID {
 			get;
 			private set;
 		}
@@ -34,7 +34,7 @@ namespace Genealogy
 		}
 		#endregion
 
-		public Title(int id, Person firstRuler, int established, SuccessionStrategy strategy, Rank rank)
+		public Title(uint id, Person firstRuler, int established, SuccessionStrategy strategy, Rank rank)
 		{
 			firstRuler.assertAlive(established);
 
@@ -86,4 +86,3 @@ namespace Genealogy
 		#endregion
 	}
 }
-

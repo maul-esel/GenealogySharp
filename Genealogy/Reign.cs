@@ -46,12 +46,12 @@ namespace Genealogy
 			get { return Ruler.YearOfDeath; }
 		}
 
-		public int SuccessionIndex {
-			get { return Title.Reigns.ToList().IndexOf(this) + 1; }
+		public uint SuccessionIndex {
+			get { return (uint)Title.Reigns.ToList().IndexOf(this) + 1; }
 		}
 
-		public int NameIndex {
-			get { return Title.Reigns.Take(SuccessionIndex).Where(r => r.Ruler.Firstname == Ruler.Firstname).Count(); }
+		public uint NameIndex {
+			get { return (uint)Title.Reigns.Take((int)SuccessionIndex).Where(r => r.Ruler.Firstname == Ruler.Firstname).Count(); }
 		}
 
 		public override string ToString()
@@ -81,4 +81,3 @@ namespace Genealogy
 		}
 	}
 }
-
