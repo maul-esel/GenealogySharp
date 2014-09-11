@@ -20,7 +20,6 @@ namespace Genealogy.Inspector
 			SuspendLayout();
 
 			Text = "Genealogy Inspector";
-			//WindowState = FormWindowState.Maximized;
 
 			Menu = new MainMenu();
 
@@ -80,6 +79,7 @@ namespace Genealogy.Inspector
 				DataStorage = new Storage(filename);
 			} catch (Exception e) {
 				MessageBox.Show(this, "Failed to open file: " + e.Message, "Error", MessageBoxButtons.OK);
+				return;
 			}
 
 			noDataLoaded.Visible = false;
