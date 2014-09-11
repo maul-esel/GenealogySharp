@@ -10,6 +10,8 @@ namespace TGC
 	{
 		public TreeGraphControl()
 		{
+			TreeLayout = new BuchheimTreeLayout();
+
 			SelectedTreeNodeBackground = TreeNodeBackground = new SolidBrush(Color.White);
 			TreeNodeBorderPen = new Pen(Color.Blue, 2);
 			SelectedTreeNodeBorderPen = new Pen(Color.DarkBlue, 3);
@@ -155,12 +157,6 @@ namespace TGC
 		}
 		#endregion
 
-		protected bool isLayoutValid = false;
-
-		protected DisplayGrid grid = new DisplayGrid();
-
-		protected readonly Dictionary<ITreeNode, DisplayGrid.Cell> positions = new Dictionary<ITreeNode, DisplayGrid.Cell>();
-
 		protected virtual void onRootDescendantsChanged(object sender, EventArgs e)
 		{
 			InvalidateLayout();
@@ -173,54 +169,41 @@ namespace TGC
 				SelectedNodeChanged(this, new EventArgs());
 		}
 
+		#region layout
 		public bool layoutSuspended = false;
+		private bool isLayoutValid = false;
+		private VisualTreeNode currentLayout;
 
-		public void SuspendLayoutAndRedraw()
+		public ITreeLayout TreeLayout {
+			get;
+			set;
+		}
+
+		public void SuspendLayoutAndPainting()
 		{
 			layoutSuspended = true;
 		}
 
-		public void ResumeLayoutAndRedraw()
+		public void ResumeLayoutAndPainting()
 		{
 			layoutSuspended = false;
 		}
 
-		#region layout
 		public virtual void DoLayout()
 		{
-			if (rootNode != null)
-				PositionNode(rootNode, grid, 1, 1);
+			if (layoutSuspended)
+				throw new Exception("layout is suspended");
+
+			if (RootNode == null)
+				throw new Exception("root is null");
+
+			TreeLayout.Layout(currentLayout = new VisualTreeNode(RootNode));
 			isLayoutValid = true;
 		}
 
 		public virtual void InvalidateLayout()
 		{
-			if (layoutSuspended)
-				return;
-
 			isLayoutValid = false;
-			grid = new DisplayGrid();
-			positions.Clear();
-		}
-
-		protected virtual void PositionNode(ITreeNode node, DisplayGrid grid, int line, int minCol)
-		{
-			if (!node.Visible)
-				return;
-
-			int column;
-			var visibleChildren = node.ChildNodes.Where(child => child.Visible);
-			if (visibleChildren.Count() > 0) {
-				int minColumn = Math.Max(grid.MaxColumnInLine(line) + 1, minCol);
-				int i = 0;
-				foreach (ITreeNode child in visibleChildren)
-					PositionNode(child, grid, line + 1, minColumn - (visibleChildren.Count() / 2) + i++);
-				var childCols = visibleChildren.Select(child => positions[child].Column);
-				column = Math.Max((childCols.Min() + childCols.Max()) / 2, minColumn);
-			} else
-				column = new[] { grid.MaxColumnInLine(line) + 1, minCol }.Max();
-
-			positions.Add(node, grid.Reserve(column, line, node));
 		}
 		#endregion
 
@@ -231,59 +214,60 @@ namespace TGC
 				return;
 
 			base.OnPaint(e);
-			if (rootNode == null)
+			if (RootNode == null)
 				return;
 
 			if (!isLayoutValid)
 				DoLayout();
 
-			calculateDimensions(grid);
-			foreach (KeyValuePair<ITreeNode, DisplayGrid.Cell> pair in positions)
-				paintTreeNode(e.Graphics, pair.Key, pair.Value);
+			calculateDimensions();
+			paintTreeNode(e.Graphics, currentLayout);
 		}
 
-		protected virtual void paintTreeNode(Graphics g, ITreeNode node, DisplayGrid.Cell cell)
+		protected virtual void paintTreeNode(Graphics g, VisualTreeNode node)
 		{
 			StringFormat format = new StringFormat();
 			format.Alignment = format.LineAlignment = StringAlignment.Center;
 
-			RectangleF rect = getCell(cell);
+			RectangleF rect = getCell(node.X, node.Y);
 			g.FillRectangle(
-				node == SelectedNode ? SelectedTreeNodeBackground : TreeNodeBackground,
+				node.Node == SelectedNode ? SelectedTreeNodeBackground : TreeNodeBackground,
 				rect
 			);
 			g.DrawRectangle(
-				node == SelectedNode ? SelectedTreeNodeBorderPen : TreeNodeBorderPen,
+				node.Node == SelectedNode ? SelectedTreeNodeBorderPen : TreeNodeBorderPen,
 				rect.X, rect.Y, rect.Width, rect.Height
 			);
 			g.DrawString(
-				node.Text, Font,
-				node == SelectedNode ? SelectedTreeNodeTextBrush : TreeNodeTextBrush,
+				node.Node.Text, Font,
+				node.Node == SelectedNode ? SelectedTreeNodeTextBrush : TreeNodeTextBrush,
 				rect, format
 			);
 
-			var visibleChildren = node.ChildNodes.Where(child => child.Visible);
+			var visibleChildren = node.Children.Where(child => child.Node.Visible);
 			if (visibleChildren.Count() > 0) {
 				PointF start = new PointF(rect.X + rect.Width / 2, rect.Bottom);
 				PointF second = new PointF(start.X, rect.Bottom + lineMargin / 2);
 				g.DrawLine(ConnectionLinePen, start, second);
 
-				foreach (ITreeNode child in visibleChildren) {
-					PointF childPosition = getCell(positions[child]).Location;
+				foreach (VisualTreeNode child in visibleChildren) {
+					PointF childPosition = getCell(child.X, child.Y).Location;
 					PointF third = new PointF(childPosition.X + columnWidth / 2, second.Y);
 					PointF last = new PointF(third.X, childPosition.Y);
 
 					g.DrawLine(ConnectionLinePen, second, third);
 					g.DrawLine(ConnectionLinePen, third, last);
+
+					paintTreeNode(g, child);
 				}
 			}
 		}
 
-		protected virtual RectangleF getCell(DisplayGrid.Cell cell)
+		protected virtual RectangleF getCell(int X, int Y)
 		{
 			return new RectangleF(
-				5 + (cell.Column - 1) * (columnWidth + columnMargin),
-				5 + (cell.Line - 1) * (lineHeight + lineMargin),
+				5 + X * (columnWidth + columnMargin),
+				5 + Y * (lineHeight + lineMargin),
 				columnWidth,
 				lineHeight
 			);
@@ -299,11 +283,21 @@ namespace TGC
 		protected float columnMargin;
 		protected float lineMargin;
 
-		protected void calculateDimensions(DisplayGrid grid)
+		protected void calculateDimensions()
 		{
-			// formula: width = (maxCol * colWidth) + (maxCol - 1) * colMargin
-			columnWidth = (ClientSize.Width - 10) / (grid.MaxColumn + ((grid.MaxColumn - 1) * 1 / marginColRatio));
-			lineHeight = (ClientSize.Height - 10) / (grid.MaxLine + ((grid.MaxLine - 1) * 1 / marginLineRatio));
+			int maxColumn = 0, maxLine = 0;
+
+			TreeSearch.Traverse(currentLayout, node => {
+				if (node.X > maxColumn)
+					maxColumn = node.X;
+				if (node.Y > maxLine)
+					maxLine = node.Y;
+				return true;
+			});
+
+			// formula: width = (maxCol + 1) * colWidth + maxCol * colMargin
+			columnWidth = (ClientSize.Width - 10) / ((maxColumn + 1) + (maxColumn / marginColRatio));
+			lineHeight = (ClientSize.Height - 10) / ((maxLine + 1) + (maxLine / marginLineRatio));
 
 			columnMargin = columnWidth / marginColRatio;
 			lineMargin = lineHeight / marginLineRatio;
@@ -313,7 +307,10 @@ namespace TGC
 
 		public ITreeNode HitTest(PointF point)
 		{
-			return positions.Where(pair => getCell(pair.Value).Contains(point)).Select(pair => pair.Key).FirstOrDefault();
+			VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => getCell(node.X, node.Y).Contains(point));
+			if (visualNode != null)
+				return visualNode.Node;
+			return null;
 		}
 
 		protected override void OnResize(System.EventArgs e)
@@ -374,7 +371,10 @@ namespace TGC
 
 		public ITreeNode GetParentNode(ITreeNode child)
 		{
-			return positions.Keys.FirstOrDefault(node => node.ChildNodes.Contains(child));
+			VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => node.Node.ChildNodes.Contains(child));
+			if (visualNode != null)
+				return visualNode.Node;
+			return null;
 		}
 	}
 }

@@ -39,7 +39,11 @@
     <Compile Include="ITreeNode.cs" />
     <Compile Include="TreeNodeBase.cs" />
     <Compile Include="TreeGraphControl.cs" />
-    <Compile Include="DisplayGrid.cs" />
+    <Compile Include="VisualTreeNode.cs" />
+    <Compile Include="ITreeLayout.cs" />
+    <Compile Include="CompactTreeLayout.cs" />
+    <Compile Include="TreeSearch.cs" />
+    <Compile Include="BuchheimTreeLayout.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
