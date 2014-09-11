@@ -51,7 +51,6 @@
     <Compile Include="chronicle\EventBase.cs" />
     <Compile Include="chronicle\MarriageEvent.cs" />
     <Compile Include="succession\SuccessionStrategy.cs" />
-    <Compile Include="FamilyTreeUtil.cs" />
     <Compile Include="succession\GenderPreference.cs" />
     <Compile Include="succession\Lineality.cs" />
     <Compile Include="succession\Primogeniture.cs" />
@@ -66,10 +65,12 @@
     <Compile Include="succession\FallbackSuccessionStrategy.cs" />
     <Compile Include="RomanNumerals.cs" />
     <Compile Include="Realm.cs" />
+    <Compile Include="DijkstraAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="chronicle\" />

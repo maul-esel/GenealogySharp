@@ -25,7 +25,7 @@ namespace Genealogy.Succession
 				return null;
 
 			// for siblings and uncles/aunts, need to know from which side of the family
-			Person[] directConnection = FamilyTreeUtil.FindShortestConnection(firstRuler, previousRuler);
+			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(firstRuler, previousRuler, person => person.Children);
 			if (directConnection == null)
 				throw new Exception();
 			Person relevantParent = directConnection[directConnection.Length - 2]; // NOTE: always at least two elements in array: firstRuler and previousRuler
@@ -63,7 +63,7 @@ namespace Genealogy.Succession
 			if (self == firstRuler)
 				return null;
 
-			Person[] directConnection = FamilyTreeUtil.FindShortestConnection(firstRuler, self);
+			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(firstRuler, self, person => person.Children);
 			if (directConnection == null)
 				throw new Exception();
 
