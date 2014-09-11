@@ -9,7 +9,7 @@ namespace Genealogy.Inspector
 		public ReignListBox()
 			: base()
 		{
-			ItemHeight = 40;
+			ItemHeight = (int)(3 * Font.GetHeight() + 16);
 		}
 
 		protected override void OnDrawItem(DrawItemEventArgs e)
@@ -33,12 +33,12 @@ namespace Genealogy.Inspector
 					                             RomanNumerals.ToRomanNumeral(reign.NameIndex),
 					                             reign.Ruler.Lastname);
 					e.Graphics.DrawString(name, new Font(Font, FontStyle.Bold), Brushes.Black, new RectangleF(e.Bounds.X + 40, e.Bounds.Y + 5, e.Bounds.Width - 45, Font.GetHeight() + 2));
-					string title = string.Format("{0} of {1} ({2} - {3})",
+					string title = string.Format("{0} of {1}",
 					                             reign.Title.Rank,
-					                             formatRealms(reign.Title.Realms),
-					                             reign.Start,
-					                             reign.End);
+					                             formatRealms(reign.Title.Realms));
 					e.Graphics.DrawString(title, new Font(Font, FontStyle.Italic), Brushes.Black, new RectangleF(e.Bounds.X + 40, e.Bounds.Y + 8 + Font.GetHeight(), e.Bounds.Width - 45, Font.GetHeight() + 2));
+					string duration = reign.Start + " - " + reign.End;
+					e.Graphics.DrawString(duration, Font, Brushes.Black, new RectangleF(e.Bounds.X + 40, e.Bounds.Y + 11 + Font.GetHeight() * 2, e.Bounds.Width - 45, Font.GetHeight() + 2));
 
 					e.DrawFocusRectangle();
 				}
