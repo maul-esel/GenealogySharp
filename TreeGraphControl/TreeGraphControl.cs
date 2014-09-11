@@ -10,7 +10,7 @@ namespace TGC
 	{
 		public TreeGraphControl()
 		{
-			TreeLayout = new CompactTreeLayout();
+			TreeLayout = new BuchheimTreeLayout();
 
 			SelectedTreeNodeBackground = TreeNodeBackground = new SolidBrush(Color.White);
 			TreeNodeBorderPen = new Pen(Color.Blue, 2);
