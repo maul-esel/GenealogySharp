@@ -218,5 +218,63 @@ namespace Genealogy
 				return realms.First().Name;
 			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
 		}
+
+		#region relationship degree
+		public static int RelationshipDegree(Person a, Person b)
+		{
+			Dictionary<Person, Person[]> ancestorsA = new Dictionary<Person, Person[]>();
+			Dictionary<Person, Person[]> ancestorsB = new Dictionary<Person, Person[]>();
+			Dictionary<Person, Person[]> currentAncestorsA = new Dictionary<Person, Person[]>() { { a, new[] { a } } };
+			Dictionary<Person, Person[]> currentAncestorsB = new Dictionary<Person, Person[]>() { { b, new[] { b } } };
+
+			Person common = null;
+
+			while (common == null && (currentAncestorsA.Count + currentAncestorsB.Count > 0)) {
+				addRange(ancestorsA, currentAncestorsA);
+				addRange(ancestorsB, currentAncestorsB);
+
+				common = currentAncestorsA.Keys.FirstOrDefault(anc => ancestorsB.ContainsKey(anc))
+					?? currentAncestorsB.Keys.FirstOrDefault(anc => ancestorsA.ContainsKey(anc));
+
+				currentAncestorsA = toDictionary(from pair in currentAncestorsA
+				                     from newPair in parentPaths(pair.Key, pair.Value)
+				                     select newPair);
+				currentAncestorsB = toDictionary(from pair in currentAncestorsB
+				                     from newPair in parentPaths(pair.Key, pair.Value)
+				                     select newPair);
+			}
+
+			if (common == null)
+				return -1;
+
+			return ancestorsA[common].Length + ancestorsB[common].Length - 2;
+		}
+
+		private static void addRange<T, S>(Dictionary<T, S> dict, IEnumerable<KeyValuePair<T, S>> data)
+		{
+			foreach (KeyValuePair<T, S> pair in data)
+				dict[pair.Key] = pair.Value;
+		}
+
+		private static IEnumerable<KeyValuePair<Person, Person[]>> parentPaths(Person person, Person[] path)
+		{
+			if (person.Father == null)
+				return new KeyValuePair<Person, Person[]>[] { };
+			return new[] {
+				new KeyValuePair<Person, Person[]>(person.Father, path.Concat(new[] { person.Father }).ToArray()),
+				new KeyValuePair<Person, Person[]>(person.Mother, path.Concat(new[] { person.Mother }).ToArray())
+			};
+		}
+
+		private static Dictionary<T, S[]> toDictionary<T, S>(IEnumerable<KeyValuePair<T, S[]>> data)
+		{
+			Dictionary<T, S[]> dict = new Dictionary<T, S[]>();
+			foreach (KeyValuePair<T, S[]> pair in data) {
+				if (!dict.ContainsKey(pair.Key) || dict[pair.Key].Length > pair.Value.Length)
+					dict[pair.Key] = pair.Value;
+			}
+			return dict;
+		}
+		#endregion
 	}
 }
