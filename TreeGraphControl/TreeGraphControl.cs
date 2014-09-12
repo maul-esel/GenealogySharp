@@ -13,11 +13,14 @@ namespace TGC
 			AutoScroll = true;
 			TreeLayout = new BuchheimTreeLayout();
 
-			SelectedTreeNodeBackground = TreeNodeBackground = new SolidBrush(Color.White);
-			TreeNodeBorderPen = new Pen(Color.Blue, 2);
-			SelectedTreeNodeBorderPen = new Pen(Color.DarkBlue, 3);
-			SelectedTreeNodeTextBrush = TreeNodeTextBrush = new SolidBrush(Color.Blue);
-			ConnectionLinePen = new Pen(Color.Red, 2);
+			BackColor = Color.White;
+
+			SelectedTreeNodeBackground = TreeNodeBackground = Brushes.Ivory; //.White;
+			SelectedTreeNodeTextBrush = TreeNodeTextBrush = Brushes.Black;
+
+			ConnectionLinePen = new Pen(Color.Firebrick, 2);
+			TreeNodeBorderPen = new Pen(Color.Firebrick, 2);
+			SelectedTreeNodeBorderPen = new Pen(Color.DarkRed, 3);
 		}
 
 		public TreeGraphControl(ITreeNode root)
