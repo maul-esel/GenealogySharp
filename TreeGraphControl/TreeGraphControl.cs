@@ -387,9 +387,11 @@ namespace TGC
 
 		public ITreeNode HitTest(PointF point)
 		{
-			VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => getCell(node.X, node.Y).Contains(point));
-			if (visualNode != null)
-				return visualNode.Node;
+			if (currentLayout != null) {
+				VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => getCell(node.X, node.Y).Contains(point));
+				if (visualNode != null)
+					return visualNode.Node;
+			}
 			return null;
 		}
 
