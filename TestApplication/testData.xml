@@ -108,7 +108,16 @@
 															</marriages>
 														</person>
 														<person id="201312" birth="872" death="964" gender="female" firstname="Isabella"/><!-- married to 5111 -->
-														<person id="201313" birth="875" death="965" gender="male" firstname="Felipe"/>
+														<person id="201313" birth="875" death="965" gender="male" firstname="Felipe">
+															<marriages>
+																<marriage wife="50111" year="900">
+																	<children>
+																		<person id="2013131" birth="901" death="988" gender="male" firstname="Alfonso"/>
+																		<person id="2013132" birth="907" death="970" gender="male" firstname="Luis"/>
+																	</children>
+																</marriage>
+															</marriages>
+														</person>
 														<person id="201314" birth="875" death="954" gender="female" firstname="Joanna"/>
 													</children>
 												</marriage>
@@ -129,7 +138,15 @@
 				<marriage wife="32" year="711">
 					<children>
 						<person id="301" birth="712" death="769" gender="female" firstname="Edele"/>
-						<person id="302" birth="714" death="776" gender="male" firstname="Leif"/>
+						<person id="302" birth="714" death="776" gender="male" firstname="Leif">
+							<marriages>
+								<marriage wife="90" year="731">
+									<children>
+										<person id="3021" birth="733" death="811" gender="female" firstname="Ingeborg"/>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
 					</children>
 				</marriage>
 			</marriages>
@@ -141,7 +158,17 @@
 				<marriage wife="301" year="742">
 					<children>
 						<person id="331" birth="747" death="829" gender="female" firstname="Margaret"/><!-- married to 402 -->
-						<person id="332" birth="749" death="856" gender="male" firstname="Valdemar"/>
+						<person id="332" birth="749" death="856" gender="male" firstname="Valdemar">
+							<marriages>
+								<marriage wife="401" year="776">
+									<children>
+										<person id="3321" birth="781" death="854" gender="male" firstname="Leif"/>
+										<person id="3322" birth="785" death="879" gender="female" firstname="Maria"/>
+										<person id="3323" birth="789" death="884" gender="male" firstname="Otto"/>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
 					</children>
 				</marriage>
 			</marriages>
@@ -151,7 +178,7 @@
 			<marriages>
 				<marriage wife="31" year="741">
 					<children>
-						<person id="401" birth="742" death="835" gender="female" firstname="Maria"/>
+						<person id="401" birth="742" death="835" gender="female" firstname="Maria"/><!-- married to 332 -->
 						<person id="402" birth="748" death="823" gender="male" firstname="Otto">
 							<marriages>
 								<marriage wife="331" year="767">
@@ -170,6 +197,22 @@
 		</person>
 		<person id="41" birth="731" death="834" gender="male" firstname="Ludwig" birthname="Müller">
 			<marriages>
+				<marriage wife="3021" year="757">
+					<children>
+						<person id="411" birth="760" death="835" gender="male" firstname="Wilhelm"/>
+						<person id="412" birth="768" death="872" gender="female" firstname="Lea"/>
+						<person id="413" birth="771" death="869" gender="male" firstname="Franz">
+							<marriages>
+								<marriage wife="3322" year="802">
+									<children>
+										<person id="4131" birth="804" death="893" gender="female" firstname="Klara"/>
+										<person id="4132" birth="809" death="886" gender="male" firstname="Wilhelm"/>
+									</children>
+								</marriage>
+							</marriages>
+						</person>
+					</children>
+				</marriage>
 			</marriages>
 		</person>
 		<person id="43" birth="811" death="870" gender="male" firstname="Horst" birthname="Horst">
@@ -242,7 +285,7 @@
 											<marriages>
 												<marriage wife="20132" year="870">
 													<children>
-														<person id="50111" birth="874" death="967" gender="female" firstname="Joanna"/>
+														<person id="50111" birth="874" death="967" gender="female" firstname="Joanna"/><!-- married to 201313 -->
 														<person id="50112" birth="879" death="972" gender="male" firstname="August"/>
 													</children>
 												</marriage>
@@ -303,6 +346,8 @@
 				</marriage>
 			</marriages>
 		</person>
+
+		<person id="90" birth="723" death="804" gender="female" firstname="Walpurga" birthname="Haraldsson"/>
 
 	</persons>
 	<titles>
