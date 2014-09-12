@@ -27,6 +27,8 @@ namespace Genealogy.Inspector
 			Menu.MenuItems.Add(menuFile);
 
 			menuFile.MenuItems.Add(new MenuItem("Open", onFileOpen));
+			menuFile.MenuItems.Add(new MenuItem("Relationship degree window", (s, e) => new RelationshipWindow(DataStorage).Show(this)));
+			menuFile.MenuItems[1].Enabled = false;
 
 			noDataLoaded.Text = "Currently no data available. Use 'File -> Open' to load data.";
 			noDataLoaded.Dock = DockStyle.Fill;
@@ -82,6 +84,7 @@ namespace Genealogy.Inspector
 				return;
 			}
 
+			Menu.MenuItems[0].MenuItems[1].Enabled = true;
 			noDataLoaded.Visible = false;
 			titleList.Visible = true;
 

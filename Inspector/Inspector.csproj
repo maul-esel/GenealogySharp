@@ -42,6 +42,7 @@
     <Compile Include="TreeWindow.cs" />
     <Compile Include="ReignListBox.cs" />
     <Compile Include="Crown.cs" />
+    <Compile Include="RelationshipWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
