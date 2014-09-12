@@ -81,5 +81,14 @@ namespace Genealogy.Inspector
 			foreach (PersonNode child in node.ChildNodes)
 				collectNodes(child, list);
 		}
+
+		protected override void paintTreeNode(Graphics g, VisualTreeNode node)
+		{
+			if ((node.Node as PersonNode).Person.Titles.Length == 0)
+				SelectedTreeNodeBorderPen.DashStyle = TreeNodeBorderPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+			else
+				SelectedTreeNodeBorderPen.DashStyle = TreeNodeBorderPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			base.paintTreeNode(g, node);
+		}
 	}
 }
