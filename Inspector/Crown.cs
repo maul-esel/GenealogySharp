@@ -4,7 +4,7 @@ namespace Genealogy.Inspector
 {
 	public static class Crown
 	{
-		private static readonly Bitmap grid = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.crowns.jpg"));
+		private static readonly Bitmap grid = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.crowns.jpg"));
 
 		private static Rectangle Crown1 = new Rectangle(70, 35, 80, 80);
 		private static Rectangle Crown2 = new Rectangle(200, 35, 100, 100);
