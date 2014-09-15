@@ -284,7 +284,7 @@ namespace Genealogy
 
 		private Rank getRank(string name) {
 			Rank result;
-			if (!Enum.TryParse(name, out result))
+			if (!Enum.TryParse(name, true, out result))
 				throw new Exception();
 			return result;
 		}
