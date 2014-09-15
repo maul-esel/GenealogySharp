@@ -1,5 +1,3 @@
-using System;
-
 namespace Genealogy
 {
 	public enum Rank
@@ -24,6 +22,7 @@ namespace Genealogy
 
 		Duke,
 		Emir,
+		Patrician,
 
 		Bey,
 		Markgrave,
@@ -32,6 +31,8 @@ namespace Genealogy
 		Earl,
 		Viscount,
 		Freiherr,
-		Baron
+		Baron,
+
+		Knight
 	}
 }

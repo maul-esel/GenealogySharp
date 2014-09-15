@@ -44,6 +44,7 @@ namespace Genealogy.Inspector
 					return Crown10;
 				case Rank.Duke:
 				case Rank.Emir:
+				case Rank.Patrician:
 					return Crown12;
 				case Rank.Markgrave:
 				case Rank.Landgrave:
@@ -53,6 +54,7 @@ namespace Genealogy.Inspector
 				case Rank.Freiherr:
 				case Rank.Baron:
 				case Rank.Bey:
+				case Rank.Knight:
 					return Crown8;
 				default:
 					return Crown1;
