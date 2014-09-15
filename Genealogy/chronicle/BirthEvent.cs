@@ -5,7 +5,15 @@ namespace Genealogy.Chronicle
 	public class BirthEvent : EventBase
 	{
 		public BirthEvent(Person p)
-		: base(p.YearOfBirth, getMessage(p)) { }
+		: base(p.YearOfBirth, getMessage(p))
+		{
+			Person = p;
+		}
+
+		public Person Person {
+			get;
+			private set;
+		}
 
 		private static string getMessage(Person p) {
 			if (p.Father == null)

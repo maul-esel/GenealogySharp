@@ -5,7 +5,15 @@ namespace Genealogy.Chronicle
 	public class DeathEvent : EventBase
 	{
 		public DeathEvent(Person p)
-		: base(p.YearOfDeath, getMessage(p)) { }
+		: base(p.YearOfDeath, getMessage(p))
+		{
+			Person = p;
+		}
+
+		public Person Person {
+			get;
+			private set;
+		}
 
 		private static string getMessage(Person p) {
 			return string.Format (
@@ -17,4 +25,3 @@ namespace Genealogy.Chronicle
 		}
 	}
 }
-

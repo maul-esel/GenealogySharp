@@ -5,7 +5,15 @@ namespace Genealogy.Chronicle
 	public class MarriageEvent : EventBase
 	{
 		public MarriageEvent(Marriage m)
-		: base(m.Start, getMessage(m)) { }
+		: base(m.Start, getMessage(m))
+		{
+			Marriage = m;
+		}
+
+		public Marriage Marriage {
+			get;
+			private set;
+		}
 
 		private static string getMessage(Marriage m)
 		{

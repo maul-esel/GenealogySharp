@@ -5,7 +5,19 @@ namespace Genealogy.Chronicle
 	public class SuccessionEvent : EventBase
 	{
 		public SuccessionEvent(Reign r)
-		: base(r.Start, getMessage(r)) { }
+		: base(r.Start, getMessage(r))
+		{
+			Successor = r;
+		}
+
+		public Reign Successor {
+			get;
+			private set;
+		}
+
+		public Reign Predecessor {
+			get { return Successor.Title.Reigns[Successor.SuccessionIndex - 2]; }
+		}
 
 		private static string getMessage(Reign r)
 		{
@@ -14,4 +26,3 @@ namespace Genealogy.Chronicle
 		}
 	}
 }
-
