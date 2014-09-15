@@ -5,6 +5,8 @@ namespace Genealogy.Inspector
 	public static class Crown
 	{
 		private static readonly Bitmap grid = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.crowns.jpg"));
+		private static readonly Bitmap pschent = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.pharaoh-crown.png"));
+		private static readonly Bitmap laurel = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.caesar.png"));
 
 		private static Rectangle Crown1 = new Rectangle(70, 35, 80, 80);
 		private static Rectangle Crown2 = new Rectangle(200, 35, 100, 100);
@@ -17,6 +19,10 @@ namespace Genealogy.Inspector
 
 		public static Bitmap GetCrown(Rank rank)
 		{
+			if (rank == Rank.Caesar)
+				return laurel;
+			else if (rank == Rank.Pharaoh)
+				return pschent;
 			grid.MakeTransparent(Color.White);
 			return grid.Clone(getRect(rank), grid.PixelFormat);
 		}
