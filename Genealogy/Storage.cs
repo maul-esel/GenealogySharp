@@ -120,26 +120,27 @@ namespace Genealogy
 			var marriageNodes = navigator.Select("/data/persons//person[@id=" + husband.ID + "]/marriages/marriage");
 			while (marriageNodes.MoveNext()) {
 				uint wifeID = uint.Parse(marriageNodes.Current.GetAttribute("wife", ""));
+				int year = int.Parse(marriageNodes.Current.GetAttribute("year", ""));
+				XPathNodeIterator childNodes = marriageNodes.Current.Select("./children/person");
 				if (personRegister.ContainsKey(wifeID))
-					processMarriage(husband, marriageNodes.Current, wifeID);
+					processMarriage(husband, year, childNodes, wifeID);
 				else
-					new PendingMarriage(this, husband, marriageNodes.Current, wifeID);
+					new PendingMarriage(this, husband, year, childNodes, wifeID);
 			}
 		}
 
-		private void processMarriage(Person husband, XPathNavigator marriageNode, uint wifeID)
+		private void processMarriage(Person husband, int year, XPathNodeIterator childNodes, uint wifeID)
 		{
 			processChildren(
 				husband.marryTo(
 					personRegister[wifeID],
-					int.Parse(marriageNode.GetAttribute("year", ""))
+					year
 				),
-				marriageNode
+				childNodes
 			);
 		}
 
-		private void processChildren(Marriage m, XPathNavigator node) {
-			var childNodes = node.Select("./children/person");
+		private void processChildren(Marriage m, XPathNodeIterator childNodes) {
 			while (childNodes.MoveNext()) {
 				var current = m.addChild(
 					uint.Parse(childNodes.Current.GetAttribute("id", "")),
@@ -173,13 +174,15 @@ namespace Genealogy
 		private struct PendingMarriage {
 			private readonly Storage store;
 			private readonly Person husband;
-			private readonly XPathNavigator node;
+			private readonly int year;
+			private readonly XPathNodeIterator childNodes;
 			private readonly uint wife;
 
-			internal PendingMarriage(Storage s, Person husband, XPathNavigator node, uint wife) {
+			internal PendingMarriage(Storage s, Person husband, int year, XPathNodeIterator childNodes, uint wife) {
 				this.store = s;
 				this.husband = husband;
-				this.node = node;
+				this.year = year;
+				this.childNodes = childNodes;
 				this.wife = wife;
 
 				s.personAdded += onPersonAdded;
@@ -197,7 +200,7 @@ namespace Genealogy
 
 			private void execute()
 			{
-				store.processMarriage(husband, node, wife);
+				store.processMarriage(husband, year, childNodes, wife);
 			}
 		}
 		#endregion
