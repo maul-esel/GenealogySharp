@@ -132,11 +132,29 @@ namespace Genealogy.Inspector
 			details.SetColumnSpan(openWindow, 2);
 			openWindow.Dock = DockStyle.Bottom;
 
+			Button saveTree = new Button();
+			saveTree.Text = "Save Family Tree to File";
+			saveTree.Click += onSaveTree;
+			details.Controls.Add(saveTree, 0, 10);
+			details.SetColumnSpan(saveTree, 2);
+			saveTree.Dock = DockStyle.Bottom;
+
 			loadDetails(person);
 			tree.SelectedNodeChanged += (s, e) => loadDetails(tree.SelectedPerson);
 
 			ResumeLayout();
 			PerformLayout();
+		}
+
+		private void onSaveTree(object sender, System.EventArgs e)
+		{
+			FileDialog dialog = new SaveFileDialog();
+			if (dialog.ShowDialog(this) == DialogResult.OK) {
+				using (Bitmap bmp = new Bitmap(tree.DisplayRectangle.Width, tree.DisplayRectangle.Height)) {
+					tree.SaveToImage(bmp);
+					bmp.Save(dialog.FileName);
+				}
+			}
 		}
 
 		private void openParent(Person parent)
