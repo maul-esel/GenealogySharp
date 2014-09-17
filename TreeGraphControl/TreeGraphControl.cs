@@ -264,8 +264,19 @@ namespace TGC
 			if (!isLayoutValid)
 				DoLayout();
 
-			calculateDimensions();
+			calculateDimensions(ClientSize);
 			paintTreeNode(e.Graphics, currentLayout);
+		}
+
+		public void SaveToImage(Image im)
+		{
+			if (!isLayoutValid)
+				DoLayout();
+
+			calculateDimensions(im.Size);
+			Graphics g = Graphics.FromImage(im);
+			g.FillRectangle(new SolidBrush(BackColor), new RectangleF(0, 0, im.Size.Width, im.Size.Height));
+			paintTreeNode(g, currentLayout);
 		}
 
 		protected virtual void paintTreeNode(Graphics g, VisualTreeNode node)
@@ -342,11 +353,11 @@ namespace TGC
 		protected float columnMargin;
 		protected float lineMargin;
 
-		protected void calculateDimensions()
+		protected void calculateDimensions(Size clientSize)
 		{
 			Size actualTreeSize = new Size(
-				Math.Max(ClientSize.Width, minTreeSize.Width),
-				Math.Max(ClientSize.Height, minTreeSize.Height)
+				Math.Max(clientSize.Width, minTreeSize.Width),
+				Math.Max(clientSize.Height, minTreeSize.Height)
 			);
 
 			// formula: width - padding = (maxCol + 1) * colWidth + maxCol * colMargin
