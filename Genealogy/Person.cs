@@ -199,7 +199,7 @@ namespace Genealogy
 					RomanNumerals.ToRomanNumeral(titles[0].NameIndex),
 					getLastname(year),
 					titles[0].Title.Rank,
-					joinRealmNames(titles[0].Title.Realms),
+					Realm.JoinRealmNames(titles[0].Title.Realms),
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth)
 				);
 			else
@@ -210,13 +210,6 @@ namespace Genealogy
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth),
 					string.Join("\n\t", titles.Select(r => r.ToString(year)))
 				);
-		}
-
-		private static string joinRealmNames(IEnumerable<Realm> realms)
-		{
-			if (realms.Count() == 1)
-				return realms.First().Name;
-			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
 		}
 
 		#region relationship degree

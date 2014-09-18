@@ -19,13 +19,5 @@ namespace Genealogy.Inspector
 			label.Text = text;
 			return label;
 		}
-
-		protected static string joinRealmNames(Realm[] realms)
-		{
-			if (realms.Count() == 1)
-				return realms.First().Name;
-			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
-		}
 	}
 }
-

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Genealogy
 {
@@ -44,6 +45,13 @@ namespace Genealogy
 		{
 			if (!fiefdoms.Contains(fief))
 				fiefdoms.Add(fief);
+		}
+
+		public static string JoinRealmNames(IEnumerable<Realm> realms)
+		{
+			if (realms.Count() == 1)
+				return realms.First().Name;
+			return string.Join(", ", realms.Take(realms.Count() - 1).Select(r => r.Name)) + " and " + realms.Last().Name;
 		}
 	}
 }
