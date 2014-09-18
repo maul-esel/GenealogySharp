@@ -50,7 +50,7 @@ namespace Genealogy.TestApplication
 			foreach (var t in s.Titles)
 				foreach (var r in t.Reigns)
 					Console.WriteLine(r);
-			var chronicle = new Genealogy.Chronicle.Chronicle(s);
+			var chronicle = new Chronicle(s);
 			Console.WriteLine("\n\nCHRONICLE:\n------------------\n");
 			Console.WriteLine(chronicle.ToString());
 
