@@ -41,13 +41,6 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="Reign.cs" />
     <Compile Include="Storage.cs" />
-    <Compile Include="chronicle\Event.cs" />
-    <Compile Include="chronicle\IEventProvider.cs" />
-    <Compile Include="chronicle\BirthEvent.cs" />
-    <Compile Include="chronicle\DeathEvent.cs" />
-    <Compile Include="chronicle\EstablishingEvent.cs" />
-    <Compile Include="chronicle\SuccessionEvent.cs" />
-    <Compile Include="chronicle\MarriageEvent.cs" />
     <Compile Include="succession\SuccessionStrategy.cs" />
     <Compile Include="succession\GenderPreference.cs" />
     <Compile Include="succession\Lineality.cs" />
@@ -64,6 +57,13 @@
     <Compile Include="RomanNumerals.cs" />
     <Compile Include="Realm.cs" />
     <Compile Include="DijkstraAlgorithm.cs" />
+    <Compile Include="events\Event.cs" />
+    <Compile Include="events\IEventProvider.cs" />
+    <Compile Include="events\BirthEvent.cs" />
+    <Compile Include="events\DeathEvent.cs" />
+    <Compile Include="events\EstablishingEvent.cs" />
+    <Compile Include="events\SuccessionEvent.cs" />
+    <Compile Include="events\MarriageEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />
@@ -71,7 +71,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="chronicle\" />
     <Folder Include="succession\" />
+    <Folder Include="events\" />
   </ItemGroup>
 </Project>
