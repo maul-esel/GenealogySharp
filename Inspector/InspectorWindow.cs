@@ -53,7 +53,7 @@ namespace Genealogy.Inspector
 		private void onFileOpen(object sender, EventArgs e)
 		{
 			FileDialog dialog = new OpenFileDialog();
-			if (dialog.ShowDialog () == DialogResult.OK) {
+			if (dialog.ShowDialog() == DialogResult.OK) {
 				closeStorage();
 				openStorage(dialog.FileName);
 			}

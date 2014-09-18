@@ -237,7 +237,7 @@ namespace Genealogy
 			while (strategyNodes.MoveNext())
 				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
 
-			return new FallbackSuccessionStrategy (strategies);
+			return new FallbackSuccessionStrategy(strategies);
 		}
 
 		private SuccessionStrategy getStrategyImpl(XPathNavigator node)
@@ -294,4 +294,3 @@ namespace Genealogy
 		#endregion
 	}
 }
-

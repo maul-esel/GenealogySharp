@@ -203,10 +203,10 @@ namespace Genealogy
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth)
 				);
 			else
-				return string.Format (
+				return string.Format(
 					"{0} {1}, {2}\n\t{3}",
 					Firstname,
-					getLastname (year),
+					getLastname(year),
 					(year >= YearOfDeath) ? (YearOfBirth + " - " + YearOfDeath) : ("* " + YearOfBirth),
 					string.Join("\n\t", titles.Select(r => r.ToString(year)))
 				);
