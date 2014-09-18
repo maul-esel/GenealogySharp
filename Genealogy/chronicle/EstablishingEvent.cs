@@ -2,10 +2,10 @@ using System;
 
 namespace Genealogy.Chronicle
 {
-	public class EstablishingEvent : EventBase
+	public class EstablishingEvent : Event
 	{
 		public EstablishingEvent(Title t)
-		: base(t.Established, getMessage(t))
+		: base(t.Established)
 		{
 			Title = t;
 		}
@@ -13,10 +13,6 @@ namespace Genealogy.Chronicle
 		public Title Title {
 			get;
 			private set;
-		}
-		private static string getMessage(Title t)
-		{
-			return "New established regime: " + t.Reigns[0].ToString(t.Established);
 		}
 	}
 }

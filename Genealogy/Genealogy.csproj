@@ -41,14 +41,12 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="Reign.cs" />
     <Compile Include="Storage.cs" />
-    <Compile Include="chronicle\Chronicle.cs" />
     <Compile Include="chronicle\Event.cs" />
     <Compile Include="chronicle\IEventProvider.cs" />
     <Compile Include="chronicle\BirthEvent.cs" />
     <Compile Include="chronicle\DeathEvent.cs" />
     <Compile Include="chronicle\EstablishingEvent.cs" />
     <Compile Include="chronicle\SuccessionEvent.cs" />
-    <Compile Include="chronicle\EventBase.cs" />
     <Compile Include="chronicle\MarriageEvent.cs" />
     <Compile Include="succession\SuccessionStrategy.cs" />
     <Compile Include="succession\GenderPreference.cs" />

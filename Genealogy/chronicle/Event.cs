@@ -4,8 +4,14 @@ namespace Genealogy.Chronicle
 {
 	public abstract class Event
 	{
-		public abstract int Year {
+		public int Year {
 			get;
+			private set;
+		}
+
+		protected Event(int year)
+		{
+			Year = year;
 		}
 	}
 }
