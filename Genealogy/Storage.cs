@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
 
-using Genealogy.Chronicle;
+using Genealogy.Events;
 using Genealogy.Succession;
 
 namespace Genealogy

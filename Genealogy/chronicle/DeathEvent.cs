@@ -1,6 +1,6 @@
 using System;
 
-namespace Genealogy.Chronicle
+namespace Genealogy.Events
 {
 	public class DeathEvent : Event
 	{

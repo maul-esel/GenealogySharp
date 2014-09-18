@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Windows.Forms;
 
-using Genealogy.Chronicle;
+using Genealogy.Events;
 
 namespace Genealogy.Inspector
 {

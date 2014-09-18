@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Genealogy.Chronicle
+namespace Genealogy.Events
 {
 	public interface IEventProvider
 	{
