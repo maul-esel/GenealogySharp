@@ -43,6 +43,8 @@
     <Compile Include="ReignListBox.cs" />
     <Compile Include="Crown.cs" />
     <Compile Include="RelationshipWindow.cs" />
+    <Compile Include="ChronicleWindow.cs" />
+    <Compile Include="EventListBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -61,7 +63,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="resources\asterisk.png" />
+    <EmbeddedResource Include="resources\cross.png" />
     <EmbeddedResource Include="resources\crowns.jpg" />
+    <EmbeddedResource Include="resources\rings.png" />
+    <EmbeddedResource Include="resources\succession.png" />
     <EmbeddedResource Include="resources\caesar.png" />
     <EmbeddedResource Include="resources\pharaoh-crown.png" />
   </ItemGroup>
