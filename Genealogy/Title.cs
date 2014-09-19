@@ -76,11 +76,11 @@ namespace Genealogy
 
 		private void calculateReigns()
 		{
-			Person next;
-			for (Person last = reigns.Last().Ruler; last != null; last = next) {
-				next = strategy.successorTo(last, reigns[0].Ruler);
-				if (next != null)
-					reigns.Add(new Reign(this, next, last.YearOfDeath));
+			for (Person next = strategy.successorTo(reigns.ToArray());
+			     next != null;
+			     next = strategy.successorTo(reigns.ToArray())
+			) {
+				reigns.Add(new Reign(this, next, reigns.Last().End));
 			}
 		}
 		#endregion

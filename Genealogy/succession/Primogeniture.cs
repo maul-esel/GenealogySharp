@@ -15,15 +15,21 @@ namespace Genealogy.Succession
 			this.lineage = lineage;
 		}
 
-		public Person successorTo(Person previousRuler, Person firstRuler)
+		public Person successorTo(Reign[] previousReigns)
 		{
-			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(firstRuler, previousRuler, person => person.Children);
+			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(
+				previousReigns[0].Ruler,
+				previousReigns[previousReigns.Length - 1].Ruler,
+				person => person.Children
+			);
 			if (directConnection == null)
 				throw new Exception();
 
+			int yearOfSuccession = previousReigns[previousReigns.Length - 1].End;
 			List<Person> traversed = new List<Person>();
+
 			foreach (Person ancestor in directConnection.Reverse()) {
-				Person successor = searchDescendants(ancestor, previousRuler.YearOfDeath, traversed);
+				Person successor = searchDescendants(ancestor, yearOfSuccession, traversed);
 				if (successor != null)
 					return successor;
 			}

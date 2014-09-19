@@ -11,10 +11,10 @@ namespace Genealogy.Succession
 			this.strategies = strategies;
 		}
 
-		public Person successorTo(Person previousRuler, Person firstRuler)
+		public Person successorTo(Reign[] previousReigns)
 		{
 			foreach (SuccessionStrategy strategy in strategies) {
-				Person successor = strategy.successorTo(previousRuler, firstRuler);
+				Person successor = strategy.successorTo(previousReigns);
 				if (successor != null)
 					return successor;
 			}
@@ -22,4 +22,3 @@ namespace Genealogy.Succession
 		}
 	}
 }
-

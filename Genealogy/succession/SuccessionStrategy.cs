@@ -4,7 +4,6 @@ namespace Genealogy.Succession
 {
 	public interface SuccessionStrategy
 	{
-		Person successorTo(Person ruler, Person firstRuler);
+		Person successorTo(Reign[] previousReigns);
 	}
 }
-
