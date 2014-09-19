@@ -45,6 +45,7 @@
     <Compile Include="RelationshipWindow.cs" />
     <Compile Include="ChronicleWindow.cs" />
     <Compile Include="EventListBox.cs" />
+    <Compile Include="MarriageSuggestionWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
