@@ -4,9 +4,8 @@ namespace Genealogy.Succession
 {
 	public enum Lineality
 	{
-		agnatic,
-		cognatic,
-		uterine
+		Agnatic,
+		Cognatic,
+		Uterine
 	}
 }
-

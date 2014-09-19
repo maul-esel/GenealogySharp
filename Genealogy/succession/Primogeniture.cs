@@ -61,9 +61,9 @@ namespace Genealogy.Succession
 		private bool shouldConsiderDescendants(Person p)
 		{
 			switch (lineality) {
-				case Lineality.agnatic:
+				case Lineality.Agnatic:
 					return p.Gender == Gender.Male;
-				case Lineality.uterine:
+				case Lineality.Uterine:
 					return p.Gender == Gender.Female;
 				default:
 					return true;
