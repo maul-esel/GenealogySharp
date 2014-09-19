@@ -42,14 +42,8 @@
     <Compile Include="Reign.cs" />
     <Compile Include="Storage.cs" />
     <Compile Include="succession\SuccessionStrategy.cs" />
-    <Compile Include="succession\GenderPreference.cs" />
     <Compile Include="succession\Lineality.cs" />
     <Compile Include="succession\Primogeniture.cs" />
-    <Compile Include="succession\AbsolutePreference.cs" />
-    <Compile Include="succession\MalePreference.cs" />
-    <Compile Include="succession\MaleOnlyPreference.cs" />
-    <Compile Include="succession\FemalePreference.cs" />
-    <Compile Include="succession\FemaleOnlyPreference.cs" />
     <Compile Include="succession\FallbackSuccessionStrategy.cs" />
     <Compile Include="RomanNumerals.cs" />
     <Compile Include="Realm.cs" />
@@ -61,6 +55,8 @@
     <Compile Include="events\EstablishingEvent.cs" />
     <Compile Include="events\SuccessionEvent.cs" />
     <Compile Include="events\MarriageEvent.cs" />
+    <Compile Include="succession\IPreferenceFilter.cs" />
+    <Compile Include="succession\GenderPreferenceFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

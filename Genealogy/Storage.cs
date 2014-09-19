@@ -234,31 +234,17 @@ namespace Genealogy
 
 		private SuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
-			GenderPreference pref = getGenderPreferenceImpl(node.GetAttribute("preference", ""));
+			IPreferenceFilter pref = new GenderPreferenceFilter(
+				getEnumValue<GenderPreferenceFilter.Kind>(
+					node.GetAttribute("preferenceFilter", "")
+				)
+			);
 			Lineality lin = getEnumValue<Lineality>(node.GetAttribute("lineality", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
 				case "primogeniture":
 					return new Primogeniture(pref, lin);
 				default :
-					throw new Exception();
-			}
-		}
-
-		private GenderPreference getGenderPreferenceImpl(string name)
-		{
-			switch (name.ToLower()) {
-				case "maleonly":
-					return MaleOnlyPreference.Instance;
-				case "male":
-					return MalePreference.Instance;
-				case "absolute":
-					return AbsolutePreference.Instance;
-				case "female":
-					return FemalePreference.Instance;
-				case "femaleOnly":
-					return FemaleOnlyPreference.Instance;
-				default:
 					throw new Exception();
 			}
 		}

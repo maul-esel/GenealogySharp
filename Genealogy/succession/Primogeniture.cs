@@ -4,12 +4,12 @@ namespace Genealogy.Succession
 {
 	public class Primogeniture : SuccessionStrategy
 	{
-		private readonly GenderPreference genderPreference;
+		private readonly IPreferenceFilter preferenceFilter;
 		private readonly Lineality lineality;
 
-		public Primogeniture(GenderPreference genderPreference, Lineality lineality)
+		public Primogeniture(IPreferenceFilter preferenceFilter, Lineality lineality)
 		{
-			this.genderPreference = genderPreference;
+			this.preferenceFilter = preferenceFilter;
 			this.lineality = lineality;
 		}
 
