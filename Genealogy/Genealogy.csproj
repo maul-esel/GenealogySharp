@@ -57,6 +57,7 @@
     <Compile Include="succession\IPreferenceFilter.cs" />
     <Compile Include="succession\GenderPreferenceFilter.cs" />
     <Compile Include="succession\Lineage.cs" />
+    <Compile Include="succession\ProximityOfBlood.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

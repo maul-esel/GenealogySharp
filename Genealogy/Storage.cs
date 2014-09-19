@@ -244,6 +244,8 @@ namespace Genealogy
 			switch (node.GetAttribute("name", "").ToLower()) {
 				case "primogeniture":
 					return new Primogeniture(pref, lin);
+				case "blood-proximity":
+					return new ProximityOfBlood(pref, lin);
 				default :
 					throw new Exception();
 			}
