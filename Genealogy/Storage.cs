@@ -98,7 +98,7 @@ namespace Genealogy
 					uint.Parse(ancestorNodes.Current.GetAttribute("id", "")),
 					int.Parse(ancestorNodes.Current.GetAttribute("birth", "")),
 					int.Parse(ancestorNodes.Current.GetAttribute("death", "")),
-					getGender(ancestorNodes.Current.GetAttribute("gender", "")),
+					getEnumValue<Gender>(ancestorNodes.Current.GetAttribute("gender", "")),
 					ancestorNodes.Current.GetAttribute("firstname", ""),
 					ancestorNodes.Current.GetAttribute("birthname", "")
 				);
@@ -146,7 +146,7 @@ namespace Genealogy
 					uint.Parse(childNodes.Current.GetAttribute("id", "")),
 					int.Parse(childNodes.Current.GetAttribute("birth", "")),
 					int.Parse(childNodes.Current.GetAttribute("death", "")),
-					getGender(childNodes.Current.GetAttribute("gender", "")),
+					getEnumValue<Gender>(childNodes.Current.GetAttribute("gender", "")),
 					childNodes.Current.GetAttribute("firstname", "")
 				);
 				addPerson(current);
@@ -161,14 +161,6 @@ namespace Genealogy
 			personRegister.Add(p.ID, p);
 			if (personAdded != null)
 				personAdded(p.ID);
-		}
-
-		private Gender getGender(string value)
-		{
-			Gender result;
-			if (!Enum.TryParse(value, true, out result))
-				throw new Exception();
-			return result;
 		}
 
 		private struct PendingMarriage {
@@ -218,7 +210,7 @@ namespace Genealogy
 						personRegister[ uint.Parse(titleNodes.Current.GetAttribute("firstRuler", "")) ],
 						int.Parse(titleNodes.Current.GetAttribute("established", "")),
 						getSuccession(titleNodes.Current.SelectSingleNode("succession")),
-						getRank(titleNodes.Current.GetAttribute("rank", ""))
+						getEnumValue<Rank>(titleNodes.Current.GetAttribute("rank", ""))
 					)
 				);
 			}
@@ -243,7 +235,7 @@ namespace Genealogy
 		private SuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
 			GenderPreference pref = getGenderPreferenceImpl(node.GetAttribute("preference", ""));
-			Lineality lin = getLineality(node.GetAttribute("lineality", ""));
+			Lineality lin = getEnumValue<Lineality>(node.GetAttribute("lineality", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
 				case "primogeniture":
@@ -270,21 +262,13 @@ namespace Genealogy
 					throw new Exception();
 			}
 		}
-
-		private Lineality getLineality(string name)
-		{
-			Lineality result;
-			if (!Enum.TryParse(name, true, out result))
-				throw new Exception();
-			return result;
-		}
-
-		private Rank getRank(string name) {
-			Rank result;
-			if (!Enum.TryParse(name, true, out result))
-				throw new Exception();
-			return result;
-		}
 		#endregion
+
+		private TEnum getEnumValue<TEnum>(string value) where TEnum : struct {
+			TEnum result;
+			if (!Enum.TryParse(value, true, out result))
+			throw new Exception();
+			return result;
+		}
 	}
 }
