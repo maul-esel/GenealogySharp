@@ -2,6 +2,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+using Genealogy.Succession;
+
 namespace Genealogy.Inspector
 {
 	public class TreeWindow : WindowBase

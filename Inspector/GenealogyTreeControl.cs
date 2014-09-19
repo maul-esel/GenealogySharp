@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using TGC;
+using Genealogy.Succession;
 
 namespace Genealogy.Inspector
 {

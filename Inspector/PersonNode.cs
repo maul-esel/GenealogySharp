@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using TGC;
 
+using Genealogy.Succession;
+
 namespace Genealogy.Inspector
 {
 	public class PersonNode : TreeNodeBase
