@@ -43,13 +43,25 @@ namespace Genealogy.Succession
 		}
 
 		private Person successorViaOldestChild(Person self, int yearOfSuccession) {
-			if (!lineality.considerChildren(self))
+			if (!shouldConsiderChildren(self))
 				return null;
 
 			var firstChild = genderPreference.firstChild(self);
 			if (firstChild != null)
 				return findSuccessor(self, firstChild, yearOfSuccession);
 			return null;
+		}
+
+		private bool shouldConsiderChildren(Person p)
+		{
+			switch (lineality) {
+				case Lineality.agnatic:
+					return p.Gender == Gender.Male;
+				case Lineality.uterine:
+					return p.Gender == Gender.Female;
+				default:
+					return true;
+			}
 		}
 
 		private Person successorViaNextSibling(Person self, Person parent, int yearOfSuccession) {

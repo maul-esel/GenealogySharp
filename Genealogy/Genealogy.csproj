@@ -45,9 +45,6 @@
     <Compile Include="succession\GenderPreference.cs" />
     <Compile Include="succession\Lineality.cs" />
     <Compile Include="succession\Primogeniture.cs" />
-    <Compile Include="succession\CognaticLineality.cs" />
-    <Compile Include="succession\UterineLineality.cs" />
-    <Compile Include="succession\AgnaticLineality.cs" />
     <Compile Include="succession\AbsolutePreference.cs" />
     <Compile Include="succession\MalePreference.cs" />
     <Compile Include="succession\MaleOnlyPreference.cs" />

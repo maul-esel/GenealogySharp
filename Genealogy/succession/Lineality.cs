@@ -2,9 +2,11 @@ using System;
 
 namespace Genealogy.Succession
 {
-	public interface Lineality
+	public enum Lineality
 	{
-		bool considerChildren(Person parent);
+		agnatic,
+		cognatic,
+		uterine
 	}
 }
 

@@ -243,7 +243,7 @@ namespace Genealogy
 		private SuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
 			GenderPreference pref = getGenderPreferenceImpl(node.GetAttribute("preference", ""));
-			Lineality lin = getLinealityImpl(node.GetAttribute("lineality", ""));
+			Lineality lin = getLineality(node.GetAttribute("lineality", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
 				case "primogeniture":
@@ -271,18 +271,12 @@ namespace Genealogy
 			}
 		}
 
-		private Lineality getLinealityImpl(string name)
+		private Lineality getLineality(string name)
 		{
-			switch (name.ToLower()) {
-				case "agnatic":
-					return AgnaticLineality.Instance;
-				case "cognatic":
-					return CognaticLineality.Instance;
-				case "uterine":
-					return UterineLineality.Instance;
-				default:
-					throw new Exception();
-			}
+			Lineality result;
+			if (!Enum.TryParse(name, true, out result))
+				throw new Exception();
+			return result;
 		}
 
 		private Rank getRank(string name) {
