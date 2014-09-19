@@ -5,19 +5,20 @@ using System.Linq;
 using System.Windows.Forms;
 
 using TGC;
+using Genealogy.Succession;
 
 namespace Genealogy.Inspector
 {
 	public class GenealogyTreeControl : TreeGraphControl
 	{
-		private Lineality lineality = Lineality.Cognatic;
-		public Lineality Lineality {
-			get { return lineality; }
+		private Lineage lineage = Lineage.Cognatic;
+		public Lineage Lineage {
+			get { return lineage; }
 			set {
- 				lineality = value;
+				lineage = value;
 
 				SuspendLayoutAndPainting();
-				OnLinealityChanged();
+				OnLineageChanged();
 				ResumeLayoutAndPainting();
 
 				removeDuplicates();
@@ -49,12 +50,12 @@ namespace Genealogy.Inspector
 			tooltip.InitialDelay = 0;
 		}
 
-		public event EventHandler LinealityChanged;
+		public event EventHandler LineageChanged;
 
-		private void OnLinealityChanged()
+		private void OnLineageChanged()
 		{
-			if (LinealityChanged != null)
-				LinealityChanged(this, new EventArgs());
+			if (LineageChanged != null)
+				LineageChanged(this, new EventArgs());
 		}
 
 		private void removeDuplicates()
@@ -75,7 +76,7 @@ namespace Genealogy.Inspector
 					&& nodes.Exists(n => n.Visible && n.Person == nodeGroup.Key.Mother)
 				select nodeGroup;
 			foreach (var duplicate in duplicatesToHide) {
-				var collapsibleParents = nodes.Where(node => node.Person == (Lineality == Lineality.Uterine ? duplicate.Key.Father : duplicate.Key.Mother));
+				var collapsibleParents = nodes.Where(node => node.Person == (Lineage == Lineage.Uterine ? duplicate.Key.Father : duplicate.Key.Mother));
 				foreach (var parent in collapsibleParents)
 					parent.ChildNodes.Cast<PersonNode>().First(child => child.Person == duplicate.Key).Hide();
 			}

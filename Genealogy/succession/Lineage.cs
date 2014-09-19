@@ -1,12 +1,11 @@
 using System;
 
-namespace Genealogy.Inspector
+namespace Genealogy.Succession
 {
-	public enum Lineality
+	public enum Lineage
 	{
 		Agnatic,
 		Cognatic,
 		Uterine
 	}
 }
-

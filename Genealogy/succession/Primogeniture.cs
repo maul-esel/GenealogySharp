@@ -1,83 +1,79 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Genealogy.Succession
 {
 	public class Primogeniture : SuccessionStrategy
 	{
-		private readonly GenderPreference genderPreference;
-		private readonly Lineality lineality;
+		private readonly IPreferenceFilter preferenceFilter;
+		private readonly Lineage lineage;
 
-		public Primogeniture(GenderPreference genderPreference, Lineality lineality)
+		public Primogeniture(IPreferenceFilter preferenceFilter, Lineage lineage)
 		{
-			this.genderPreference = genderPreference;
-			this.lineality = lineality;
+			this.preferenceFilter = preferenceFilter;
+			this.lineage = lineage;
 		}
 
-		public Person successorTo(Person previousRuler, Person firstRuler)
+		public Person successorTo(Reign[] previousReigns)
 		{
-			// 1. call on oldest child
-			Person successor = successorViaOldestChild(previousRuler, previousRuler.YearOfDeath);
-			if (successor != null)
-				return successor;
-
-			// first ruler has no known siblings, uncles, aunts
-			if (previousRuler == firstRuler)
-				return null;
-
-			// for siblings and uncles/aunts, need to know from which side of the family
-			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(firstRuler, previousRuler, person => person.Children);
-			if (directConnection == null)
-				throw new Exception();
-			Person relevantParent = directConnection[directConnection.Length - 2]; // NOTE: always at least two elements in array: firstRuler and previousRuler
-
-			return successorViaNextSibling(previousRuler, relevantParent, previousRuler.YearOfDeath) // 2. call on younger siblings
-				?? successorViaUncleOrAunt(previousRuler, firstRuler, previousRuler.YearOfDeath); // 3. uncles / aunts
-		}
-
-		private Person findSuccessor(Person relevantParent, Person root, int yearOfSuccession) {
-			if (root.isAlive(yearOfSuccession))
-				return root;
-
-			return successorViaOldestChild(root, yearOfSuccession)
-				?? successorViaNextSibling(root, relevantParent, yearOfSuccession);
-		}
-
-		private Person successorViaOldestChild(Person self, int yearOfSuccession) {
-			if (!lineality.considerChildren(self))
-				return null;
-
-			var firstChild = genderPreference.firstChild(self);
-			if (firstChild != null)
-				return findSuccessor(self, firstChild, yearOfSuccession);
-			return null;
-		}
-
-		private Person successorViaNextSibling(Person self, Person parent, int yearOfSuccession) {
-			Person nextSibling = genderPreference.nextSibling(self, parent);
-			if (nextSibling != null)
-				return findSuccessor(parent, nextSibling, yearOfSuccession);
-			return null;
-		}
-
-		private Person successorViaUncleOrAunt(Person self, Person firstRuler, int yearOfSuccession) {
-			if (self == firstRuler)
-				return null;
-
-			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(firstRuler, self, person => person.Children);
+			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(
+				previousReigns[0].Ruler,
+				previousReigns[previousReigns.Length - 1].Ruler,
+				person => person.Children
+			);
 			if (directConnection == null)
 				throw new Exception();
 
-			if (directConnection.Length >= 3) {
-				Person parent = directConnection[directConnection.Length - 2];
-				Person grandparent = directConnection[directConnection.Length - 3];
+			int yearOfSuccession = previousReigns[previousReigns.Length - 1].End;
+			List<Person> traversed = new List<Person>();
 
-				Person nextUncleOrAunt = genderPreference.nextUncleOrAunt(parent, grandparent);
-				if (nextUncleOrAunt != null)
-					return findSuccessor(grandparent, nextUncleOrAunt, yearOfSuccession)
-						?? successorViaUncleOrAunt(nextUncleOrAunt, firstRuler, yearOfSuccession);
+			foreach (Person ancestor in directConnection.Reverse()) {
+				Person successor = searchDescendants(ancestor, yearOfSuccession, traversed);
+				if (successor != null)
+					return successor;
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Searches for the successor within the descendants of <paramref name="self"/>.
+		/// </summary>
+		/// <returns>the preferable successor</returns>
+		/// <param name="self">the person whose descendants are searched</param>
+		/// <param name="year">the year of succession</param>
+		/// <param name="traversed">a list of already traversed persons, to avoid traversing them multiple times</param>
+		private Person searchDescendants(Person self, int year, List<Person> traversed) {
+			if (!traversed.Contains(self) && shouldConsiderDescendants(self)) {
+				traversed.Add(self);
+
+				var children = self.Children
+					.OrderByDescending(c => c, preferenceFilter)
+					.ThenBy(c => c.YearOfBirth);
+
+				foreach (Person child in children) {
+					if (preferenceFilter.ShouldConsider(child) && child.isAlive(year))
+						return child;
+
+					Person successor = searchDescendants(child, year, traversed);
+					if (successor != null)
+						return successor;
+				}
+			}
+			return null;
+		}
+
+		private bool shouldConsiderDescendants(Person p)
+		{
+			switch (lineage) {
+				case Lineage.Agnatic:
+					return p.Gender == Gender.Male;
+				case Lineage.Uterine:
+					return p.Gender == Gender.Female;
+				default:
+					return true;
+			}
 		}
 	}
 }
