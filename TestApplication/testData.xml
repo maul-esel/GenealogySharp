@@ -353,88 +353,88 @@
 	<titles>
 		<title id="10" firstRuler="10" established="815" rank="King">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="agnatic"/>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="11" firstRuler="11" established="816" rank="Count">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="uterine"/>
-				<strategy name="primogeniture" preferenceFilter="femalePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="uterine"/>
+				<strategy name="primogeniture" preferenceFilter="femalePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="12" firstRuler="12" established="807" rank="Duke">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="agnatic"/>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 
 		<title id="20" firstRuler="20" established="799" rank="King">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="21" firstRuler="21" established="807" rank="Prince">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="femalePreference" lineality="agnatic"/>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="femalePreference" lineage="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="22" firstRuler="22" established="799" rank="GrandDuke">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="cognatic"/>
 			</succession>
 		</title>
 
 		<title id="30" firstRuler="30" established="735" rank="GodEmperor">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="agnatic"/>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="31" firstRuler="31" established="736" rank="Markgrave">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="32" firstRuler="32" established="757" rank="King">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="femalePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="femalePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="33" firstRuler="33" established="759" rank="Khan">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="agnatic"/>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 
 		<title id="40" firstRuler="40" established="800" rank="Emperor">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="maleOnly" lineality="agnatic"/>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="maleOnly" lineage="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="41" firstRuler="41" established="801" rank="King">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="malePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="malePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="43" firstRuler="43" established="850" rank="King">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="maleOnly" lineality="agnatic"/>
+				<strategy name="primogeniture" preferenceFilter="maleOnly" lineage="agnatic"/>
 			</succession>
 		</title>
 
 		<title id="50" firstRuler="50" established="819" rank="Tsar">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="femalePreference" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="femalePreference" lineage="cognatic"/>
 			</succession>
 		</title>
 		<title id="51" firstRuler="51" established="837" rank="Landgrave">
 			<succession>
-				<strategy name="primogeniture" preferenceFilter="none" lineality="cognatic"/>
+				<strategy name="primogeniture" preferenceFilter="none" lineage="cognatic"/>
 			</succession>
 		</title>
 	</titles>

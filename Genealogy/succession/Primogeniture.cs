@@ -7,12 +7,12 @@ namespace Genealogy.Succession
 	public class Primogeniture : SuccessionStrategy
 	{
 		private readonly IPreferenceFilter preferenceFilter;
-		private readonly Lineality lineality;
+		private readonly Lineage lineage;
 
-		public Primogeniture(IPreferenceFilter preferenceFilter, Lineality lineality)
+		public Primogeniture(IPreferenceFilter preferenceFilter, Lineage lineage)
 		{
 			this.preferenceFilter = preferenceFilter;
-			this.lineality = lineality;
+			this.lineage = lineage;
 		}
 
 		public Person successorTo(Person previousRuler, Person firstRuler)
@@ -60,10 +60,10 @@ namespace Genealogy.Succession
 
 		private bool shouldConsiderDescendants(Person p)
 		{
-			switch (lineality) {
-				case Lineality.Agnatic:
+			switch (lineage) {
+				case Lineage.Agnatic:
 					return p.Gender == Gender.Male;
-				case Lineality.Uterine:
+				case Lineage.Uterine:
 					return p.Gender == Gender.Female;
 				default:
 					return true;

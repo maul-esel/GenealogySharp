@@ -54,15 +54,15 @@ namespace Genealogy.Inspector
 			top.AutoSize = true;
 			top.Dock = DockStyle.Top;
 
-			top.Controls.Add(createBoldLabel("Lineality:"));
+			top.Controls.Add(createBoldLabel("Lineage:"));
 
-			ComboBox lineality = new ComboBox();
-			lineality.DropDownStyle = ComboBoxStyle.DropDownList;
-			lineality.Items.AddRange(new object[] { Lineality.Agnatic, Lineality.Cognatic, Lineality.Uterine });
-			lineality.SelectedItem = Lineality.Cognatic;
-			lineality.SelectedValueChanged += (s, e) => tree.Lineality = (Lineality)lineality.SelectedItem;
-			top.Controls.Add(lineality);
-			lineality.Dock = DockStyle.Fill;
+			ComboBox lineage = new ComboBox();
+			lineage.DropDownStyle = ComboBoxStyle.DropDownList;
+			lineage.Items.AddRange(new object[] { Lineage.Agnatic, Lineage.Cognatic, Lineage.Uterine });
+			lineage.SelectedItem = Lineage.Cognatic;
+			lineage.SelectedValueChanged += (s, e) => tree.Lineage = (Lineage)lineage.SelectedItem;
+			top.Controls.Add(lineage);
+			lineage.Dock = DockStyle.Fill;
 
 			TableLayoutPanel details = new TableLayoutPanel();
 			details.Margin = new Padding(5);
@@ -107,9 +107,9 @@ namespace Genealogy.Inspector
 				if (childrenList.SelectedItems.Count > 0) {
 					Person child = childrenList.SelectedItems[0].Tag as Person;
 
-					if (tree.Lineality == Lineality.Cognatic
-					    || (tree.SelectedPerson.Gender == Gender.Male && tree.Lineality == Lineality.Agnatic)
-					    || (tree.SelectedPerson.Gender == Gender.Female && tree.Lineality == Lineality.Uterine)) {
+					if (tree.Lineage == Lineage.Cognatic
+					    || (tree.SelectedPerson.Gender == Gender.Male && tree.Lineage == Lineage.Agnatic)
+					    || (tree.SelectedPerson.Gender == Gender.Female && tree.Lineage == Lineage.Uterine)) {
 						TGC.ITreeNode childNode = tree.SelectedNode.ChildNodes.FirstOrDefault(node => (node as PersonNode).Person == child);
 						if (childNode != null)
 							tree.SelectedNode = childNode;

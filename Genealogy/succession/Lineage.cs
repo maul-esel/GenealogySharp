@@ -2,7 +2,7 @@ using System;
 
 namespace Genealogy.Succession
 {
-	public enum Lineality
+	public enum Lineage
 	{
 		Agnatic,
 		Cognatic,

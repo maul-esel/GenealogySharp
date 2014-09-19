@@ -42,7 +42,6 @@
     <Compile Include="Reign.cs" />
     <Compile Include="Storage.cs" />
     <Compile Include="succession\SuccessionStrategy.cs" />
-    <Compile Include="succession\Lineality.cs" />
     <Compile Include="succession\Primogeniture.cs" />
     <Compile Include="succession\FallbackSuccessionStrategy.cs" />
     <Compile Include="RomanNumerals.cs" />
@@ -57,6 +56,7 @@
     <Compile Include="events\MarriageEvent.cs" />
     <Compile Include="succession\IPreferenceFilter.cs" />
     <Compile Include="succession\GenderPreferenceFilter.cs" />
+    <Compile Include="succession\Lineage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

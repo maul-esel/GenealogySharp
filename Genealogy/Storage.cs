@@ -239,7 +239,7 @@ namespace Genealogy
 					node.GetAttribute("preferenceFilter", "")
 				)
 			);
-			Lineality lin = getEnumValue<Lineality>(node.GetAttribute("lineality", ""));
+			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
 				case "primogeniture":

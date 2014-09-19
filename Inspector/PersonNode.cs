@@ -20,7 +20,7 @@ namespace Genealogy.Inspector
 		{
 			Person = person;
 
-			control.LinealityChanged += adjustVisibility;
+			control.LineageChanged += adjustVisibility;
 
 			this.control = control;
 		}
@@ -29,9 +29,9 @@ namespace Genealogy.Inspector
 		{
 			foreach (PersonNode child in ChildNodes) {
 				if (control.RootNode == this
-				    || (control.Lineality == Lineality.Cognatic)
-				    || (control.Lineality == Lineality.Agnatic && Person.Gender == Gender.Male)
-				    || (control.Lineality == Lineality.Uterine && Person.Gender == Gender.Female))
+				    || (control.Lineage == Lineage.Cognatic)
+				    || (control.Lineage == Lineage.Agnatic && Person.Gender == Gender.Male)
+				    || (control.Lineage == Lineage.Uterine && Person.Gender == Gender.Female))
 					child.Show();
 				else
 					child.Hide();
@@ -50,7 +50,7 @@ namespace Genealogy.Inspector
 
 		public void Destroy()
 		{
-			control.LinealityChanged -= adjustVisibility;
+			control.LineageChanged -= adjustVisibility;
 			foreach (PersonNode child in ChildNodes)
 				child.Destroy();
 		}
