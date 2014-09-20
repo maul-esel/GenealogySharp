@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Genealogy
+namespace Genealogy.Succession
 {
 	public interface IPreferenceFilter : IComparer<Person>
 	{

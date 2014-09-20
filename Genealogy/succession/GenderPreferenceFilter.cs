@@ -1,4 +1,4 @@
-namespace Genealogy
+namespace Genealogy.Succession
 {
 	public class GenderPreferenceFilter : IPreferenceFilter
 	{
