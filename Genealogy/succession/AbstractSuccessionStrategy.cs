@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Genealogy.Succession
 {
@@ -7,18 +8,29 @@ namespace Genealogy.Succession
 	{
 		public abstract Person successorTo(Reign[] previousReigns);
 
-		protected readonly IPreferenceFilter preferenceFilter;
+		protected readonly IPreferenceFilter[] preferenceFilters;
 		protected readonly Lineage lineage;
 
-		protected AbstractSuccessionStrategy(IPreferenceFilter preferenceFilter, Lineage lineage)
+		protected AbstractSuccessionStrategy(IPreferenceFilter[] preferenceFilters, Lineage lineage)
 		{
-			this.preferenceFilter = preferenceFilter;
+			this.preferenceFilters = preferenceFilters;
 			this.lineage = lineage;
 		}
 
 		protected bool isValidSuccessor(Person p, int yearOfSuccession)
 		{
-			return preferenceFilter.ShouldConsider(p) && p.isAlive(yearOfSuccession);
+			return preferenceFilters.All(filter => filter.ShouldConsider(p)) && p.isAlive(yearOfSuccession);
+		}
+
+		protected virtual IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
+		{
+			if (preferenceFilters.Length == 0)
+				return persons.OrderBy(p => 0);
+
+			IOrderedEnumerable<Person> orderedPersons = persons.OrderByDescending(p => p, preferenceFilters[0]);
+			foreach (IPreferenceFilter preference in preferenceFilters.Skip(1))
+				orderedPersons = orderedPersons.ThenByDescending(p => p, preference);
+			return orderedPersons;
 		}
 
 		protected bool shouldConsiderDescendants(Person p)

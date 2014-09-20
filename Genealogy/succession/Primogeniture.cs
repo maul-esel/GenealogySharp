@@ -6,8 +6,8 @@ namespace Genealogy.Succession
 {
 	public class Primogeniture : AbstractSuccessionStrategy
 	{
-		public Primogeniture(IPreferenceFilter preferenceFilter, Lineage lineage)
-			: base(preferenceFilter, lineage)
+		public Primogeniture(IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(preferenceFilters, lineage)
 		{
 		}
 
@@ -38,11 +38,7 @@ namespace Genealogy.Succession
 			if (!traversed.Contains(self) && shouldConsiderDescendants(self)) {
 				traversed.Add(self);
 
-				var children = self.Children
-					.OrderByDescending(c => c, preferenceFilter)
-					.ThenBy(c => c.YearOfBirth);
-
-				foreach (Person child in children) {
+				foreach (Person child in sort(self.Children)) {
 					if (isValidSuccessor(child, year))
 						return child;
 
@@ -52,6 +48,11 @@ namespace Genealogy.Succession
 				}
 			}
 			return null;
+		}
+
+		protected override IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
+		{
+			return base.sort(persons).ThenBy(p => p.YearOfBirth);
 		}
 	}
 }

@@ -9,8 +9,8 @@ namespace Genealogy.Succession
 		private readonly Sorting sorting;
 		private readonly Dictionary<Person, int> ancestorSortNumber = new Dictionary<Person, int>();
 
-		public Seniority(IPreferenceFilter preferenceFilter, Lineage lineage, Sorting sorting)
-			: base(preferenceFilter, lineage)
+		public Seniority(IPreferenceFilter[] preferenceFilters, Lineage lineage, Sorting sorting)
+			: base(preferenceFilters, lineage)
 		{
 			this.sorting = sorting;
 		}
@@ -66,18 +66,14 @@ namespace Genealogy.Succession
 			);
 		}
 
-		private IEnumerable<Person> sort(IEnumerable<Person> persons)
+		protected override IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
 		{
 			switch (sorting) {
 				case Sorting.AncestorBased:
-					return persons
-						.OrderByDescending(p => p, preferenceFilter)
-						.ThenBy(p => ancestorSortNumber[p]);
+					return base.sort(persons).ThenBy(p => ancestorSortNumber[p]);
 				case Sorting.AgeBased:
 				default:
-					return persons
-						.OrderByDescending(p => p, preferenceFilter)
-						.ThenBy(p => p.YearOfBirth);
+					return base.sort(persons).ThenBy(p => p.YearOfBirth);
 			}
 		}
 	}

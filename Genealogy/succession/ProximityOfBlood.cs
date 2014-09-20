@@ -12,8 +12,8 @@ namespace Genealogy.Succession
 	/// </summary>
 	public class ProximityOfBlood : AbstractSuccessionStrategy
 	{
-		public ProximityOfBlood(IPreferenceFilter preferenceFilter, Lineage lineage)
-			: base(preferenceFilter, lineage)
+		public ProximityOfBlood(IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(preferenceFilters, lineage)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace Genealogy.Succession
 
 		private Person searchDescendants(Person self, int yearOfSuccession)
 		{
-			for (var descendants = sort(self.Children); descendants.Any(); descendants = nextLevelDescendants(descendants)) {
+			for (IEnumerable<Person> descendants = sort(self.Children); descendants.Any(); descendants = nextLevelDescendants(descendants)) {
 				Person result = descendants.FirstOrDefault(d => isValidSuccessor(d, yearOfSuccession));
 				if (result != null)
 					return result;
@@ -60,11 +60,9 @@ namespace Genealogy.Succession
 			return sort(descendants.Where(d => shouldConsiderDescendants(d)).SelectMany(d => d.Children));
 		}
 
-		private IEnumerable<Person> sort(IEnumerable<Person> persons)
+		protected override IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
 		{
-			return persons
-				.OrderByDescending(p => p, preferenceFilter)
-				.ThenBy(p => p.YearOfBirth);
+			return base.sort(persons).ThenBy(p => p.YearOfBirth);
 		}
 	}
 }

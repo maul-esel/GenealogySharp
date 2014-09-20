@@ -234,11 +234,11 @@ namespace Genealogy
 
 		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
-			IPreferenceFilter pref = new GenderPreferenceFilter(
+			IPreferenceFilter[] pref = new[] { new GenderPreferenceFilter(
 				getEnumValue<GenderPreferenceFilter.Kind>(
 					node.GetAttribute("preferenceFilter", "")
 				)
-			);
+			) };
 			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
