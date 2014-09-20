@@ -41,7 +41,7 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="Reign.cs" />
     <Compile Include="Storage.cs" />
-    <Compile Include="succession\SuccessionStrategy.cs" />
+    <Compile Include="succession\ISuccessionStrategy.cs" />
     <Compile Include="succession\Primogeniture.cs" />
     <Compile Include="succession\FallbackSuccessionStrategy.cs" />
     <Compile Include="RomanNumerals.cs" />

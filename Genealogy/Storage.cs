@@ -217,7 +217,7 @@ namespace Genealogy
 			this.Titles = titles.ToArray();
 		}
 
-		private SuccessionStrategy getSuccession(XPathNavigator node)
+		private ISuccessionStrategy getSuccession(XPathNavigator node)
 		{
 			var strategyNodes = node.SelectChildren("strategy", "");
 			if (strategyNodes.Count == 1) {
@@ -225,14 +225,14 @@ namespace Genealogy
 				return getStrategyImpl(strategyNodes.Current);
 			}
 
-			SuccessionStrategy[] strategies = new SuccessionStrategy[strategyNodes.Count];
+			ISuccessionStrategy[] strategies = new ISuccessionStrategy[strategyNodes.Count];
 			while (strategyNodes.MoveNext())
 				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
 
 			return new FallbackSuccessionStrategy(strategies);
 		}
 
-		private SuccessionStrategy getStrategyImpl(XPathNavigator node)
+		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
 			IPreferenceFilter pref = new GenderPreferenceFilter(
 				getEnumValue<GenderPreferenceFilter.Kind>(

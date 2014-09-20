@@ -10,7 +10,7 @@ namespace Genealogy
 	public class Title : IEventProvider
 	{
 		#region attributes
-		private readonly SuccessionStrategy strategy;
+		private readonly ISuccessionStrategy strategy;
 		private readonly List<Reign> reigns = new List<Reign>();
 		private readonly List<Realm> realms = new List<Realm>();
 
@@ -34,7 +34,7 @@ namespace Genealogy
 		}
 		#endregion
 
-		public Title(uint id, Person firstRuler, int established, SuccessionStrategy strategy, Rank rank)
+		public Title(uint id, Person firstRuler, int established, ISuccessionStrategy strategy, Rank rank)
 		{
 			firstRuler.assertAlive(established);
 

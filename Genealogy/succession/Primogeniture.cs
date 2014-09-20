@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Genealogy.Succession
 {
-	public class Primogeniture : SuccessionStrategy
+	public class Primogeniture : ISuccessionStrategy
 	{
 		private readonly IPreferenceFilter preferenceFilter;
 		private readonly Lineage lineage;

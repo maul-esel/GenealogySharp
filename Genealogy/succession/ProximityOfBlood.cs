@@ -10,7 +10,7 @@ namespace Genealogy.Succession
 	///
 	/// Can be configured to prefer / filter based on genders and lineage.
 	/// </summary>
-	public class ProximityOfBlood : SuccessionStrategy
+	public class ProximityOfBlood : ISuccessionStrategy
 	{
 		private readonly IPreferenceFilter preferenceFilter;
 		private readonly Lineage lineage;
