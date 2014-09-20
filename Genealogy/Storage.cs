@@ -234,11 +234,7 @@ namespace Genealogy
 
 		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
-			IPreferenceFilter[] pref = new[] { new GenderPreferenceFilter(
-				getEnumValue<GenderPreferenceFilter.Kind>(
-					node.GetAttribute("preferenceFilter", "")
-				)
-			) };
+			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
 			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
@@ -252,6 +248,23 @@ namespace Genealogy
 				default :
 					throw new Exception();
 			}
+		}
+
+		private IPreferenceFilter[] getPreferenceFilters(XPathNodeIterator nodes)
+		{
+			IPreferenceFilter[] filters = new IPreferenceFilter[nodes.Count];
+			for (int i = 0; nodes.MoveNext(); ++i) {
+				switch (nodes.Current.Name) {
+					case "genderPreference":
+						filters[i] = new GenderPreferenceFilter(
+							getEnumValue<GenderPreferenceFilter.Kind>(nodes.Current.GetAttribute("kind", ""))
+						);
+						break;
+					default :
+						throw new Exception();
+				}
+			}
+			return filters;
 		}
 		#endregion
 
