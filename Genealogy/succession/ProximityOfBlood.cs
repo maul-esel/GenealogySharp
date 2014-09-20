@@ -10,28 +10,17 @@ namespace Genealogy.Succession
 	///
 	/// Can be configured to prefer / filter based on genders and lineage.
 	/// </summary>
-	public class ProximityOfBlood : ISuccessionStrategy
+	public class ProximityOfBlood : AbstractSuccessionStrategy
 	{
-		private readonly IPreferenceFilter preferenceFilter;
-		private readonly Lineage lineage;
-
 		public ProximityOfBlood(IPreferenceFilter preferenceFilter, Lineage lineage)
+			: base(preferenceFilter, lineage)
 		{
-			this.preferenceFilter = preferenceFilter;
-			this.lineage = lineage;
 		}
 
-		public Person successorTo(Reign[] previousReigns)
+		public override Person successorTo(Reign[] previousReigns)
 		{
 			Person previousRuler = previousReigns[previousReigns.Length - 1].Ruler;
-
-			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(
-				previousReigns[0].Ruler,
-				previousRuler,
-				person => person.Children
-			);
-			if (directConnection == null)
-				throw new Exception();
+			Person[] directConnection = findAncestorPath(previousReigns[0].Ruler, previousRuler);
 
 			List<Person> traversed = new List<Person>();
 			return searchRelatives(previousRuler, directConnection.Reverse().Skip(1), previousRuler.YearOfDeath, traversed);
@@ -66,14 +55,9 @@ namespace Genealogy.Succession
 			return null;
 		}
 
-		private bool isValidSuccessor(Person p, int yearOfSuccession)
-		{
-			return preferenceFilter.ShouldConsider(p) && p.isAlive(yearOfSuccession);
-		}
-
 		private IEnumerable<Person> nextLevelDescendants(IEnumerable<Person> descendants)
 		{
-			return sort(descendants.Where(d => shouldConsiderChildren(d)).SelectMany(d => d.Children));
+			return sort(descendants.Where(d => shouldConsiderDescendants(d)).SelectMany(d => d.Children));
 		}
 
 		private IEnumerable<Person> sort(IEnumerable<Person> persons)
@@ -81,18 +65,6 @@ namespace Genealogy.Succession
 			return persons
 				.OrderByDescending(p => p, preferenceFilter)
 				.ThenBy(p => p.YearOfBirth);
-		}
-
-		private bool shouldConsiderChildren(Person p)
-		{
-			switch (lineage) {
-				case Lineage.Agnatic:
-					return p.Gender == Gender.Male;
-				case Lineage.Uterine:
-					return p.Gender == Gender.Female;
-				default:
-					return true;
-			}
 		}
 	}
 }
