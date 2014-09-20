@@ -58,6 +58,8 @@
     <Compile Include="succession\GenderPreferenceFilter.cs" />
     <Compile Include="succession\Lineage.cs" />
     <Compile Include="succession\ProximityOfBlood.cs" />
+    <Compile Include="succession\Seniority.cs" />
+    <Compile Include="succession\Seniority.Sorting.cs" />
     <Compile Include="succession\AbstractSuccessionStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
