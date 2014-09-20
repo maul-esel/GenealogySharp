@@ -246,6 +246,9 @@ namespace Genealogy
 					return new Primogeniture(pref, lin);
 				case "blood-proximity":
 					return new ProximityOfBlood(pref, lin);
+				case "seniority":
+					Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
+					return new Seniority(pref, lin, sorting);
 				default :
 					throw new Exception();
 			}
