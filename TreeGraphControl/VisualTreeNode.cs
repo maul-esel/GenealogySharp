@@ -10,22 +10,22 @@ namespace TGC
 			set;
 		}
 
-		private int x;
-		public int X {
+		private float x;
+		public float X {
 			get { return x; }
 			set {
-				if (value < 0)
-					throw new ArgumentOutOfRangeException();
+				if (value < 0f)
+					throw new ArgumentOutOfRangeException("value", value, "VisualNode.X >= 0");
 				x = value;
 			}
 		}
 
-		private int y;
-		public int Y {
+		private float y;
+		public float Y {
 			get { return y; }
 			set {
-				if (value < 0)
-					throw new ArgumentOutOfRangeException();
+				if (value < 0f)
+					throw new ArgumentOutOfRangeException("value", value, "VisualNode.X >= 0");
 				y = value;
 			}
 		}

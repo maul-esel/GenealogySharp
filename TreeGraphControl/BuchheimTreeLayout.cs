@@ -14,7 +14,7 @@ namespace TGC
 			secondWalk(buchheimTree, 0, 0);
 		}
 
-		private const int distance = 1;
+		private const float distance = 1;
 
 		private void firstWalk(Node v)
 		{
@@ -22,7 +22,7 @@ namespace TGC
 				if (v.leftSibling != null)
 					v.X = v.leftSibling.X + distance;
 				else
-					v.X = 0;
+					v.X = 0f;
 			} else {
 				Node defaultAncestor = v.children[0];
 				foreach (Node w in v.children) {
@@ -30,7 +30,7 @@ namespace TGC
 					defaultAncestor = apportion(w, defaultAncestor);
 				}
 				executeShifts(v);
-				int midpoint = (v.children[0].X + v.children.Last().X) / 2;
+				float midpoint = (v.children[0].X + v.children.Last().X) / 2f;
 				if (v.leftSibling != null) {
 					v.X = v.leftSibling.X + distance;
 					v.mod = v.X - midpoint;
@@ -39,7 +39,7 @@ namespace TGC
 			}
 		}
 
-		private void secondWalk(Node v, int m, int depth)
+		private void secondWalk(Node v, float m, int depth)
 		{
 			v.X += m;
 			v.Y = depth;
@@ -55,7 +55,7 @@ namespace TGC
 					vor = v,
 					vil = v.leftSibling,
 					vol = vir.leftMostSibling;
-				int sir = vir.mod,
+				float sir = vir.mod,
 					sor = vor.mod,
 					sil = vil.mod,
 					sol = vol.mod;
@@ -68,7 +68,7 @@ namespace TGC
 
 					vor.ancestor = v;
 
-					int shift = (vil.X + sil) - (vir.X + sir) + distance;
+					float shift = (vil.X + sil) - (vir.X + sir) + distance;
 					if (shift > 0) {
 						moveSubtree(ancestor(vil, v, defaultAncestor), v, shift);
 						sir += shift;
@@ -94,7 +94,7 @@ namespace TGC
 			return defaultAncestor;
 		}
 
-		private void moveSubtree(Node wl, Node wr, int shift)
+		private void moveSubtree(Node wl, Node wr, float shift)
 		{
 			int subtrees = wr.number - wl.number;
 			wr.change -= shift / subtrees;
@@ -106,7 +106,7 @@ namespace TGC
 
 		private void executeShifts(Node v)
 		{
-			int shift = 0, change = 0;
+			float shift = 0, change = 0;
 			foreach (Node w in v.children.Reverse()) {
 				w.X += shift;
 				w.mod += shift;
@@ -124,19 +124,20 @@ namespace TGC
 
 		protected class Node
 		{
-			public int mod, offset, change, shift, number, level;
+			public float mod, offset, change, shift;
+			public int number, level;
 			public Node thread, ancestor;
 
 			public readonly VisualTreeNode node;
 			public readonly Node parent;
 			public readonly Node[] children;
 
-			public int X {
+			public float X {
 				get { return node.X; }
 				set { node.X = value; }
 			}
 
-			public int Y {
+			public float Y {
 				get { return node.Y; }
 				set { node.Y = value; }
 			}

@@ -206,7 +206,7 @@ namespace TGC
 		public bool layoutSuspended = false;
 		private bool isLayoutValid = false;
 		private VisualTreeNode currentLayout;
-		private int maxColumn, maxLine;
+		private float maxColumn, maxLine;
 
 		public ITreeLayout TreeLayout {
 			get;
@@ -319,7 +319,7 @@ namespace TGC
 			}
 		}
 
-		protected virtual RectangleF getCell(int X, int Y)
+		protected virtual RectangleF getCell(float X, float Y)
 		{
 			RectangleF rect = new RectangleF(
 				5 + X * (columnWidth + columnMargin),
@@ -342,8 +342,8 @@ namespace TGC
 		{
 			Size minNodeSize = minimalNodeSize();
 			AutoScrollMinSize = minTreeSize = new Size(
-				maxColumn * (minColMargin + minNodeSize.Width) + minNodeSize.Width,
-				maxLine * (minLineMargin + minNodeSize.Height) + minNodeSize.Height
+				(int)(maxColumn * (minColMargin + minNodeSize.Width) + minNodeSize.Width),
+				(int)(maxLine * (minLineMargin + minNodeSize.Height) + minNodeSize.Height)
 			);
 		}
 
