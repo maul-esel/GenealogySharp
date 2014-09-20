@@ -5,7 +5,6 @@ namespace Genealogy
 		public enum Kind {
 			maleOnly,
 			malePreference,
-			none,
 			femalePreference,
 			femaleOnly
 		}
