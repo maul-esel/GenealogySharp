@@ -6,6 +6,18 @@ namespace Genealogy.Succession
 	{
 		private readonly ISuccessionStrategy[] strategies;
 
+		private Title title;
+		public Title Title {
+			get { return title; }
+			set {
+				if (title != null)
+					throw new InvalidOperationException();
+				foreach (ISuccessionStrategy strategy in strategies)
+					strategy.Title = value;
+				title = value;
+			}
+		}
+
 		public FallbackSuccessionStrategy(ISuccessionStrategy[] strategies)
 		{
 			this.strategies = strategies;

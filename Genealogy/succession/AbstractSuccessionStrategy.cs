@@ -8,6 +8,16 @@ namespace Genealogy.Succession
 	{
 		public abstract Person successorTo(Reign[] previousReigns);
 
+		private Title title;
+		public Title Title {
+			get { return title; }
+			set {
+				if (title != null)
+					throw new InvalidOperationException();
+				title = value;
+			}
+		}
+
 		protected readonly IPreferenceFilter[] preferenceFilters;
 		protected readonly Lineage lineage;
 

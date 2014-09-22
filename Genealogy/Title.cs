@@ -40,7 +40,10 @@ namespace Genealogy
 
 			this.ID = id;
 			this.Established = established;
+
+			strategy.Title = this;
 			this.strategy = strategy;
+
 			this.Rank = rank;
 
 			reigns.Add(new Reign(this, firstRuler, established));
