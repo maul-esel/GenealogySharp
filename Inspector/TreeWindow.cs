@@ -74,6 +74,8 @@ namespace Genealogy.Inspector
 
 			details.Controls.Add(nameLabel, 0, 0);
 			details.SetColumnSpan(nameLabel, 2);
+			nameLabel.Dock = DockStyle.Top;
+
 			details.Controls.Add(createBoldLabel("Gender:"), 0, 1);
 			details.Controls.Add(createBoldLabel("Born:"), 0, 2);
 			details.Controls.Add(createBoldLabel("Died:"), 0, 3);
