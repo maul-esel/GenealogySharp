@@ -305,7 +305,9 @@
 										<person id="5033" birth="872" death="929" gender="male" firstname="Leopold">
 											<marriages>
 												<marriage wife="5112" year="895">
-													<children id="50331" birth="899" death="984" gender="male" firstname="Leopold"/>
+													<children>
+														<person id="50331" birth="899" death="984" gender="male" firstname="Leopold"/>
+													</children>
 												</marriage>
 											</marriages>
 										</person>
