@@ -4,26 +4,16 @@ using System.Linq;
 
 namespace Genealogy.Succession
 {
-	public class Primogeniture : SuccessionStrategy
+	public class Primogeniture : AbstractSuccessionStrategy
 	{
-		private readonly IPreferenceFilter preferenceFilter;
-		private readonly Lineage lineage;
-
-		public Primogeniture(IPreferenceFilter preferenceFilter, Lineage lineage)
+		public Primogeniture(IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(preferenceFilters, lineage)
 		{
-			this.preferenceFilter = preferenceFilter;
-			this.lineage = lineage;
 		}
 
-		public Person successorTo(Reign[] previousReigns)
+		public override Person successorTo(Reign[] previousReigns)
 		{
-			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(
-				previousReigns[0].Ruler,
-				previousReigns[previousReigns.Length - 1].Ruler,
-				person => person.Children
-			);
-			if (directConnection == null)
-				throw new Exception();
+			Person[] directConnection = findAncestorPath(previousReigns[0].Ruler, previousReigns[previousReigns.Length - 1].Ruler);
 
 			int yearOfSuccession = previousReigns[previousReigns.Length - 1].End;
 			List<Person> traversed = new List<Person>();
@@ -48,12 +38,8 @@ namespace Genealogy.Succession
 			if (!traversed.Contains(self) && shouldConsiderDescendants(self)) {
 				traversed.Add(self);
 
-				var children = self.Children
-					.OrderByDescending(c => c, preferenceFilter)
-					.ThenBy(c => c.YearOfBirth);
-
-				foreach (Person child in children) {
-					if (preferenceFilter.ShouldConsider(child) && child.isAlive(year))
+				foreach (Person child in sort(self.Children)) {
+					if (isValidSuccessor(child, year))
 						return child;
 
 					Person successor = searchDescendants(child, year, traversed);
@@ -64,16 +50,9 @@ namespace Genealogy.Succession
 			return null;
 		}
 
-		private bool shouldConsiderDescendants(Person p)
+		protected override IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
 		{
-			switch (lineage) {
-				case Lineage.Agnatic:
-					return p.Gender == Gender.Male;
-				case Lineage.Uterine:
-					return p.Gender == Gender.Female;
-				default:
-					return true;
-			}
+			return base.sort(persons).ThenBy(p => p.YearOfBirth);
 		}
 	}
 }

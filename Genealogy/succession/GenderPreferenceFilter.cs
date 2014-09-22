@@ -1,11 +1,10 @@
-namespace Genealogy
+namespace Genealogy.Succession
 {
 	public class GenderPreferenceFilter : IPreferenceFilter
 	{
 		public enum Kind {
 			maleOnly,
 			malePreference,
-			none,
 			femalePreference,
 			femaleOnly
 		}
@@ -17,7 +16,7 @@ namespace Genealogy
 			this.kind = kind;
 		}
 
-		public bool ShouldConsider(Person p)
+		public bool ShouldConsider(Person p, Title title)
 		{
 			switch (kind) {
 				case Kind.maleOnly:
@@ -29,7 +28,7 @@ namespace Genealogy
 			}
 		}
 
-		public int Compare(Person x, Person y)
+		public int Compare(Person x, Person y, Title title)
 		{
 			if (x == null)
 				return -1;

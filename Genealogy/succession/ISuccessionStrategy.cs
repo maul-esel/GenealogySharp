@@ -2,8 +2,12 @@ using System;
 
 namespace Genealogy.Succession
 {
-	public interface SuccessionStrategy
+	public interface ISuccessionStrategy
 	{
 		Person successorTo(Reign[] previousReigns);
+		Title Title {
+			get;
+			set;
+		}
 	}
 }

@@ -217,7 +217,7 @@ namespace Genealogy
 			this.Titles = titles.ToArray();
 		}
 
-		private SuccessionStrategy getSuccession(XPathNavigator node)
+		private ISuccessionStrategy getSuccession(XPathNavigator node)
 		{
 			var strategyNodes = node.SelectChildren("strategy", "");
 			if (strategyNodes.Count == 1) {
@@ -225,20 +225,16 @@ namespace Genealogy
 				return getStrategyImpl(strategyNodes.Current);
 			}
 
-			SuccessionStrategy[] strategies = new SuccessionStrategy[strategyNodes.Count];
+			ISuccessionStrategy[] strategies = new ISuccessionStrategy[strategyNodes.Count];
 			while (strategyNodes.MoveNext())
 				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
 
 			return new FallbackSuccessionStrategy(strategies);
 		}
 
-		private SuccessionStrategy getStrategyImpl(XPathNavigator node)
+		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
-			IPreferenceFilter pref = new GenderPreferenceFilter(
-				getEnumValue<GenderPreferenceFilter.Kind>(
-					node.GetAttribute("preferenceFilter", "")
-				)
-			);
+			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
 			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
 			switch (node.GetAttribute("name", "").ToLower()) {
@@ -246,9 +242,34 @@ namespace Genealogy
 					return new Primogeniture(pref, lin);
 				case "blood-proximity":
 					return new ProximityOfBlood(pref, lin);
+				case "seniority":
+					Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
+					return new Seniority(pref, lin, sorting);
 				default :
 					throw new Exception();
 			}
+		}
+
+		private IPreferenceFilter[] getPreferenceFilters(XPathNodeIterator nodes)
+		{
+			IPreferenceFilter[] filters = new IPreferenceFilter[nodes.Count];
+			for (int i = 0; nodes.MoveNext(); ++i) {
+				switch (nodes.Current.Name) {
+					case "genderPreference":
+						filters[i] = new GenderPreferenceFilter(
+							getEnumValue<GenderPreferenceFilter.Kind>(nodes.Current.GetAttribute("kind", ""))
+						);
+						break;
+					case "porphyrogeniturePreference":
+						filters[i] = new PorpyhorgeniturePreferenceFilter(
+							getEnumValue<PorpyhorgeniturePreferenceFilter.FilterKind>(nodes.Current.GetAttribute("filter")),
+							getEnumValue<PorpyhorgeniturePreferenceFilter.SortingKind>(nodes.Current.GetAttribute("sort"))
+						);
+					default :
+						throw new Exception();
+				}
+			}
+			return filters;
 		}
 		#endregion
 

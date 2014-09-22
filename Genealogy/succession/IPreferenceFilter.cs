@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-
-namespace Genealogy
+namespace Genealogy.Succession
 {
-	public interface IPreferenceFilter : IComparer<Person>
+	public interface IPreferenceFilter
 	{
-		bool ShouldConsider(Person p);
+		int Compare(Person x, Person y, Title title);
+		bool ShouldConsider(Person p, Title title);
 	}
 }

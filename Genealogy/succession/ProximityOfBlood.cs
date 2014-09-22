@@ -10,28 +10,17 @@ namespace Genealogy.Succession
 	///
 	/// Can be configured to prefer / filter based on genders and lineage.
 	/// </summary>
-	public class ProximityOfBlood : SuccessionStrategy
+	public class ProximityOfBlood : AbstractSuccessionStrategy
 	{
-		private readonly IPreferenceFilter preferenceFilter;
-		private readonly Lineage lineage;
-
-		public ProximityOfBlood(IPreferenceFilter preferenceFilter, Lineage lineage)
+		public ProximityOfBlood(IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(preferenceFilters, lineage)
 		{
-			this.preferenceFilter = preferenceFilter;
-			this.lineage = lineage;
 		}
 
-		public Person successorTo(Reign[] previousReigns)
+		public override Person successorTo(Reign[] previousReigns)
 		{
 			Person previousRuler = previousReigns[previousReigns.Length - 1].Ruler;
-
-			Person[] directConnection = DijkstraAlgorithm<Person>.FindShortestLink(
-				previousReigns[0].Ruler,
-				previousRuler,
-				person => person.Children
-			);
-			if (directConnection == null)
-				throw new Exception();
+			Person[] directConnection = findAncestorPath(previousReigns[0].Ruler, previousRuler);
 
 			List<Person> traversed = new List<Person>();
 			return searchRelatives(previousRuler, directConnection.Reverse().Skip(1), previousRuler.YearOfDeath, traversed);
@@ -58,7 +47,7 @@ namespace Genealogy.Succession
 
 		private Person searchDescendants(Person self, int yearOfSuccession)
 		{
-			for (var descendants = sort(self.Children); descendants.Any(); descendants = nextLevelDescendants(descendants)) {
+			for (IEnumerable<Person> descendants = sort(self.Children); descendants.Any(); descendants = nextLevelDescendants(descendants)) {
 				Person result = descendants.FirstOrDefault(d => isValidSuccessor(d, yearOfSuccession));
 				if (result != null)
 					return result;
@@ -66,33 +55,14 @@ namespace Genealogy.Succession
 			return null;
 		}
 
-		private bool isValidSuccessor(Person p, int yearOfSuccession)
-		{
-			return preferenceFilter.ShouldConsider(p) && p.isAlive(yearOfSuccession);
-		}
-
 		private IEnumerable<Person> nextLevelDescendants(IEnumerable<Person> descendants)
 		{
-			return sort(descendants.Where(d => shouldConsiderChildren(d)).SelectMany(d => d.Children));
+			return sort(descendants.Where(d => shouldConsiderDescendants(d)).SelectMany(d => d.Children));
 		}
 
-		private IEnumerable<Person> sort(IEnumerable<Person> persons)
+		protected override IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
 		{
-			return persons
-				.OrderByDescending(p => p, preferenceFilter)
-				.ThenBy(p => p.YearOfBirth);
-		}
-
-		private bool shouldConsiderChildren(Person p)
-		{
-			switch (lineage) {
-				case Lineage.Agnatic:
-					return p.Gender == Gender.Male;
-				case Lineage.Uterine:
-					return p.Gender == Gender.Female;
-				default:
-					return true;
-			}
+			return base.sort(persons).ThenBy(p => p.YearOfBirth);
 		}
 	}
 }
