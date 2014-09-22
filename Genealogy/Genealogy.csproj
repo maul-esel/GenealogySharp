@@ -73,4 +73,7 @@
     <Folder Include="succession\" />
     <Folder Include="events\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StorageFileSchema.xsd" />
+  </ItemGroup>
 </Project>

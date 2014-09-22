@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="data">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="titles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="title" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="succession">
+											<xs:complexType>
+												<xs:choice minOccurs="1" maxOccurs="unbounded">
+													<xs:element name="primogeniture" type="strategyType"/>
+													<xs:element name="proximityOfBlood" type="strategyType"/>
+													<xs:element name="seniority">
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="strategyType">
+																	<xs:attribute use="required" name="sorting">
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="ageBased"/>
+																				<xs:enumeration value="ancestorBased"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:attribute>
+																</xs:extension>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+									</xs:all>
+
+									<xs:attribute use="required" name="id" type="xs:unsignedInt"/>
+									<xs:attribute use="required" name="firstRuler" type="xs:unsignedInt"/>
+									<xs:attribute use="required" name="established" type="xs:int"/>
+									<xs:attribute use="required" name="rank" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="realms">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="realm" minOccurs="1" maxOccurs="unbounded" type="realmType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="persons">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="person" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="personType">
+											<xs:attribute use="required" name="birthname" type="xs:string"/>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+
+		<xs:key name="realmName">
+			<xs:selector xpath=".//realm"/>
+			<xs:field xpath="@name"/>
+		</xs:key>
+
+		<xs:key name="titleID">
+			<xs:selector xpath="titles/title"/>
+			<xs:field xpath="@id"/>
+		</xs:key>
+
+		<xs:key name="personID">
+			<xs:selector xpath=".//person"/>
+			<xs:field xpath="@id"/>
+		</xs:key>
+
+		<xs:keyref name="wifeReference" refer="personID">
+			<xs:selector xpath=".//marriage"/>
+			<xs:field xpath="@wife"/>
+		</xs:keyref>
+
+		<xs:keyref name="rulerReference" refer="titleID">
+			<xs:selector xpath=".//realm"/>
+			<xs:field xpath="@ruler"/>
+		</xs:keyref>
+
+		<xs:keyref name="firstRulerReference" refer="personID">
+			<xs:selector xpath="titles/title"/>
+			<xs:field xpath="@firstRuler"/>
+		</xs:keyref>
+	</xs:element>
+
+	<xs:complexType name="realmType">
+		<xs:sequence>
+			<xs:element name="realm" minOccurs="0" maxOccurs="unbounded" type="realmType"/>
+		</xs:sequence>
+
+		<xs:attribute use="required" name="name" type="xs:string"/>
+		<xs:attribute use="required" name="ruler" type="xs:unsignedInt"/>
+	</xs:complexType>
+
+	<xs:complexType name="personType">
+		<xs:all>
+			<xs:element name="marriages" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="marriage" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:all>
+									<xs:element name="children" minOccurs="0" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="person" type="personType" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:all>
+
+								<xs:attribute use="required" name="wife" type="xs:unsignedInt"/>
+								<xs:attribute use="required" name="year" type="xs:int"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+
+		<xs:attribute use="required" name="id" type="xs:unsignedInt"/>
+		<xs:attribute use="required" name="birth" type="xs:int"/>
+		<xs:attribute use="required" name="death" type="xs:int"/>
+		<xs:attribute use="required" name="gender">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="male"/>
+					<xs:enumeration value="female"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute use="required" name="firstname" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="strategyType">
+		<xs:sequence>
+			<xs:element name="preferenceFilters" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="genderPreference">
+							<xs:complexType>
+								<xs:attribute use="required" name="kind">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="maleOnly"/>
+											<xs:enumeration value="malePreference"/>
+											<xs:enumeration value="femalePreference"/>
+											<xs:enumeration value="femaleOnly"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="porphyrogeniturePreference">
+							<xs:complexType>
+								<xs:attribute use="required" name="filter">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="all"/>
+											<xs:enumeration value="bornToRuler"/>
+											<xs:enumeration value="bornWhileRuling"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute use="required" name="sorting">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="none"/>
+											<xs:enumeration value="bornToRuler"/>
+											<xs:enumeration value="bornWhileRuling"/>
+											<xs:enumeration value="bornWhileRuling_bornToRuler"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+
+		<xs:attribute use="required" name="lineage">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="agnatic"/>
+					<xs:enumeration value="cognatic"/>
+					<xs:enumeration value="uterine"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

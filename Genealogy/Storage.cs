@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.XPath;
 
 using Genealogy.Events;
@@ -11,6 +14,11 @@ namespace Genealogy
 {
 	public class Storage : IEventProvider
 	{
+		private static readonly XmlSchema xsd = XmlSchema.Read(
+			Assembly.GetExecutingAssembly().GetManifestResourceStream("Genealogy.StorageFileSchema.xsd"),
+			null
+		);
+
 		#region attributes
 		private readonly XmlDocument document = new XmlDocument();
 		private readonly XPathNavigator navigator;
@@ -44,6 +52,12 @@ namespace Genealogy
 		public Storage(string filename)
 		{
 			document.Load(filename);
+			document.Schemas.Add(xsd);
+
+			document.Validate((sender, e) => {
+				throw new Exception("Storage input is invalid: " + e.Message, e.Exception);
+			});
+
 			navigator = document.CreateNavigator();
 
 			loadPersons();
