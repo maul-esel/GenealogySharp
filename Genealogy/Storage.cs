@@ -260,6 +260,11 @@ namespace Genealogy
 							getEnumValue<GenderPreferenceFilter.Kind>(nodes.Current.GetAttribute("kind", ""))
 						);
 						break;
+					case "porphyrogeniturePreference":
+						filters[i] = new PorpyhorgeniturePreferenceFilter(
+							getEnumValue<PorpyhorgeniturePreferenceFilter.FilterKind>(nodes.Current.GetAttribute("filter")),
+							getEnumValue<PorpyhorgeniturePreferenceFilter.SortingKind>(nodes.Current.GetAttribute("sort"))
+						);
 					default :
 						throw new Exception();
 				}
