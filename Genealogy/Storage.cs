@@ -219,7 +219,7 @@ namespace Genealogy
 
 		private ISuccessionStrategy getSuccession(XPathNavigator node)
 		{
-			var strategyNodes = node.SelectChildren("strategy", "");
+			var strategyNodes = node.SelectChildren(XPathNodeType.Element);
 			if (strategyNodes.Count == 1) {
 				strategyNodes.MoveNext();
 				return getStrategyImpl(strategyNodes.Current);
@@ -237,7 +237,7 @@ namespace Genealogy
 			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
 			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
-			switch (node.GetAttribute("name", "").ToLower()) {
+			switch (node.Name.ToLower()) {
 				case "primogeniture":
 					return new Primogeniture(pref, lin);
 				case "blood-proximity":
