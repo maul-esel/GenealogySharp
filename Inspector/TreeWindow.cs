@@ -10,6 +10,7 @@ namespace Genealogy.Inspector
 	{
 		private readonly GenealogyTreeControl tree = new GenealogyTreeControl();
 		private readonly Label nameLabel = new Label();
+		private readonly Label genderLabel = new Label();
 		private readonly Label bornLabel = new Label();
 		private readonly Label diedLabel = new Label();
 		private readonly Label fatherLink = new LinkLabel();
@@ -73,23 +74,25 @@ namespace Genealogy.Inspector
 
 			details.Controls.Add(nameLabel, 0, 0);
 			details.SetColumnSpan(nameLabel, 2);
-			details.Controls.Add(createBoldLabel("Born:"), 0, 1);
-			details.Controls.Add(createBoldLabel("Died:"), 0, 2);
-			details.Controls.Add(createBoldLabel("Father:"), 0, 3);
-			details.Controls.Add(createBoldLabel("Mother:"), 0, 4);
-			details.Controls.Add(bornLabel, 1, 1);
-			details.Controls.Add(diedLabel, 1, 2);
-			details.Controls.Add(fatherLink, 1, 3);
-			details.Controls.Add(motherLink, 1, 4);
+			details.Controls.Add(createBoldLabel("Gender:"), 0, 1);
+			details.Controls.Add(createBoldLabel("Born:"), 0, 2);
+			details.Controls.Add(createBoldLabel("Died:"), 0, 3);
+			details.Controls.Add(createBoldLabel("Father:"), 0, 4);
+			details.Controls.Add(createBoldLabel("Mother:"), 0, 5);
+			details.Controls.Add(genderLabel, 1, 1);
+			details.Controls.Add(bornLabel, 1, 2);
+			details.Controls.Add(diedLabel, 1, 3);
+			details.Controls.Add(fatherLink, 1, 4);
+			details.Controls.Add(motherLink, 1, 5);
 
 			fatherLink.Click += (s, e) => openParent(tree.SelectedPerson.Father);
 			motherLink.Click += (s, e) => openParent(tree.SelectedPerson.Mother);
 
 			Label titleLabel = createBoldLabel("Titles");
-			details.Controls.Add(titleLabel, 0, 5);
+			details.Controls.Add(titleLabel, 0, 6);
 			details.SetColumnSpan(titleLabel, 2);
 
-			details.Controls.Add(titleList, 0, 6);
+			details.Controls.Add(titleList, 0, 7);
 			details.SetColumnSpan(titleList, 2);
 			titleList.Dock = DockStyle.Fill;
 			titleList.DoubleClick += (s, e) => {
@@ -100,7 +103,7 @@ namespace Genealogy.Inspector
 			childrenList.View = View.Details;
 			childrenList.Columns.Add("Children");
 			childrenList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-			details.Controls.Add(childrenList, 0, 7);
+			details.Controls.Add(childrenList, 0, 8);
 			details.SetColumnSpan(childrenList, 2);
 			childrenList.Dock = DockStyle.Fill;
 			childrenList.DoubleClick += (s, e) => {
@@ -123,21 +126,21 @@ namespace Genealogy.Inspector
 			Button makeRoot = new Button();
 			makeRoot.Text = "View Family Tree";
 			makeRoot.Click += (s, e) => TreeRoot = tree.SelectedPerson;
-			details.Controls.Add(makeRoot, 0, 8);
+			details.Controls.Add(makeRoot, 0, 9);
 			details.SetColumnSpan(makeRoot, 2);
 			makeRoot.Dock = DockStyle.Bottom;
 
 			Button openWindow = new Button();
 			openWindow.Text = "Open Tree in New Window";
 			openWindow.Click += (s, e) => new TreeWindow(tree.SelectedPerson).Show(Owner);
-			details.Controls.Add(openWindow, 0, 9);
+			details.Controls.Add(openWindow, 0, 10);
 			details.SetColumnSpan(openWindow, 2);
 			openWindow.Dock = DockStyle.Bottom;
 
 			Button saveTree = new Button();
 			saveTree.Text = "Save Family Tree to File";
 			saveTree.Click += onSaveTree;
-			details.Controls.Add(saveTree, 0, 10);
+			details.Controls.Add(saveTree, 0, 11);
 			details.SetColumnSpan(saveTree, 2);
 			saveTree.Dock = DockStyle.Bottom;
 
@@ -179,6 +182,7 @@ namespace Genealogy.Inspector
 				return;
 
 			nameLabel.Text = formatName(subject);
+			genderLabel.Text = subject.Gender.ToString();
 			bornLabel.Text = subject.YearOfBirth.ToString();
 			diedLabel.Text = subject.YearOfDeath.ToString();
 			fatherLink.Text = formatName(subject.Father);
