@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Genealogy.Succession
 {
-	public abstract class AbstractSuccessionStrategy : ISuccessionStrategy
+	public abstract partial class AbstractSuccessionStrategy : ISuccessionStrategy
 	{
 		public abstract Person successorTo(Reign[] previousReigns);
 
@@ -15,8 +15,11 @@ namespace Genealogy.Succession
 				if (title != null)
 					throw new InvalidOperationException();
 				title = value;
+				comparers = preferenceFilters.Select(pref => new PreferenceFilterComparer(pref, value));
 			}
 		}
+
+		private IEnumerable<IComparer<Person>> comparers;
 
 		protected readonly IPreferenceFilter[] preferenceFilters;
 		protected readonly Lineage lineage;
@@ -29,7 +32,7 @@ namespace Genealogy.Succession
 
 		protected bool isValidSuccessor(Person p, int yearOfSuccession)
 		{
-			return preferenceFilters.All(filter => filter.ShouldConsider(p)) && p.isAlive(yearOfSuccession);
+			return preferenceFilters.All(filter => filter.ShouldConsider(p, Title)) && p.isAlive(yearOfSuccession);
 		}
 
 		protected virtual IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)
@@ -37,8 +40,8 @@ namespace Genealogy.Succession
 			if (preferenceFilters.Length == 0)
 				return persons.OrderBy(p => 0);
 
-			IOrderedEnumerable<Person> orderedPersons = persons.OrderByDescending(p => p, preferenceFilters[0]);
-			foreach (IPreferenceFilter preference in preferenceFilters.Skip(1))
+			IOrderedEnumerable<Person> orderedPersons = persons.OrderByDescending(p => p, comparers.First());
+			foreach (IComparer<Person> preference in comparers.Skip(1))
 				orderedPersons = orderedPersons.ThenByDescending(p => p, preference);
 			return orderedPersons;
 		}

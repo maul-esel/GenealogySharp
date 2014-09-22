@@ -16,7 +16,7 @@ namespace Genealogy.Succession
 			this.kind = kind;
 		}
 
-		public bool ShouldConsider(Person p)
+		public bool ShouldConsider(Person p, Title title)
 		{
 			switch (kind) {
 				case Kind.maleOnly:
@@ -28,7 +28,7 @@ namespace Genealogy.Succession
 			}
 		}
 
-		public int Compare(Person x, Person y)
+		public int Compare(Person x, Person y, Title title)
 		{
 			if (x == null)
 				return -1;
