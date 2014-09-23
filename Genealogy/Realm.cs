@@ -41,7 +41,7 @@ namespace Genealogy
 			ruler.AddRealm(this);
 		}
 
-		internal void AddFiefdom(Realm fief)
+		private void AddFiefdom(Realm fief)
 		{
 			if (!fiefdoms.Contains(fief))
 				fiefdoms.Add(fief);
