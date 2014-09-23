@@ -66,7 +66,9 @@ namespace Genealogy.Succession
 				person => person.Children
 			);
 			if (directConnection == null)
-				throw new Exception();
+				throw new Exception(string.Format("Could not find ancestor path from '{0} {1} ({2} - {3})' down to '{4} {5} ({6} - {7})'",
+				                    ancestor.Firstname, ancestor.Birthname, ancestor.YearOfBirth, ancestor.YearOfDeath,
+				                    descendant.Firstname, descendant.Birthname, descendant.YearOfBirth, descendant.YearOfDeath));
 			return directConnection;
 		}
 	}

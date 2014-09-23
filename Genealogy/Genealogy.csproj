@@ -63,6 +63,7 @@
     <Compile Include="succession\AbstractSuccessionStrategy.cs" />
     <Compile Include="succession\AbstractSuccessionStrategy.PreferenceFilterComparer.cs" />
     <Compile Include="succession\PorpyhorgeniturePreferenceFilter.cs" />
+    <Compile Include="StorageException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

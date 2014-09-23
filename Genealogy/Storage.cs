@@ -51,18 +51,24 @@ namespace Genealogy
 
 		public Storage(string filename)
 		{
-			document.Load(filename);
-			document.Schemas.Add(xsd);
+			try {
+				document.Load(filename);
 
-			document.Validate((sender, e) => {
-				throw new Exception("Storage input is invalid: " + e.Message, e.Exception);
-			});
+				document.Schemas.Add(xsd);
+				document.Validate(null);
 
-			navigator = document.CreateNavigator();
+				navigator = document.CreateNavigator();
 
-			loadPersons();
-			loadTitles();
-			loadRealms();
+				loadPersons();
+				loadTitles();
+				loadRealms();
+			} catch (StorageException) {
+				throw;
+			} catch (XmlSchemaValidationException e) {
+				throw new StorageException("XML document is invalid: " + e.Message, e);
+			} catch (Exception e) {
+				throw new StorageException("Problem loading file: " + e.Message, e);
+			}
 		}
 
 		public IEnumerable<Event> Events {
@@ -123,7 +129,7 @@ namespace Genealogy
 			}
 
 			if (pendingMarriages.Count > 0)
-				throw new Exception();
+				throw new StorageException("Could not create all marriages");
 
 			Persons = personRegister.Values.ToArray();
 			RootAncestors = Persons.Where(p => p.Father == null).ToArray();
@@ -172,6 +178,8 @@ namespace Genealogy
 
 		private void addPerson(Person p)
 		{
+			if (personRegister.ContainsKey(p.ID))
+				throw new StorageException("Duplicate person ID '" + p.ID + "'");
 			personRegister.Add(p.ID, p);
 			if (personAdded != null)
 				personAdded(p.ID);
@@ -260,7 +268,7 @@ namespace Genealogy
 					Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
 					return new Seniority(pref, lin, sorting);
 				default :
-					throw new Exception();
+					throw new StorageException("Unknown succession strategy '" + node.Name + "'");
 			}
 		}
 
@@ -281,7 +289,7 @@ namespace Genealogy
 						);
 						break;
 					default :
-						throw new Exception();
+						throw new StorageException("Unknown preference filter '" + nodes.Current.Name + "'");
 				}
 			}
 			return filters;
@@ -291,7 +299,7 @@ namespace Genealogy
 		private TEnum getEnumValue<TEnum>(string value) where TEnum : struct {
 			TEnum result;
 			if (!Enum.TryParse(value, true, out result))
-			throw new Exception();
+				throw new StorageException("Invalid value '" + value + "' for " + typeof(TEnum).Name);
 			return result;
 		}
 	}
