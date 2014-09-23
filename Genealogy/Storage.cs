@@ -81,7 +81,7 @@ namespace Genealogy
 			while (nodes.MoveNext()) {
 				Realm realm = new Realm(
 					nodes.Current.GetAttribute("name", ""),
-					Titles.First(t => t.ID.ToString() == nodes.Current.GetAttribute("ruler", ""))
+					Titles.First(t => t.ID == uint.Parse(nodes.Current.GetAttribute("ruler", "")))
 				);
 				realms.Add(realm);
 				loadRealms(realms, nodes.Current.Select("./realm"), realm);
