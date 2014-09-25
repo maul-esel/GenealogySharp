@@ -175,14 +175,9 @@ namespace TGC
 
 			public Node leftSibling {
 				get {
-					Node sibling = null;
-					if (parent != null)
-						foreach (Node child in parent.children)
-							if (child == this)
-								return sibling;
-							else
-								sibling = child;
-					return sibling;
+					if (parent != null && number > 1)
+						return parent.children[number - 2];
+					return null;
 				}
 			}
 
