@@ -206,7 +206,7 @@ namespace TGC
 		public bool layoutSuspended = false;
 		private bool isLayoutValid = false;
 		private VisualTreeNode currentLayout;
-		private float maxColumn, maxLine;
+		private float maxColumn, maxLine, minColumn, minLine;
 
 		public ITreeLayout TreeLayout {
 			get;
@@ -232,22 +232,29 @@ namespace TGC
 				throw new Exception("root is null");
 
 			TreeLayout.Layout(currentLayout = new VisualTreeNode(RootNode));
-			TreeSearch.Traverse(currentLayout, node => {
-				if (node.X > maxColumn)
-					maxColumn = node.X;
-				if (node.Y > maxLine)
-					maxLine = node.Y;
-				return true;
-			});
+			RetrieveLayoutDimensions(currentLayout);
 			calculateMinTreeSize();
 
 			isLayoutValid = true;
 		}
 
+		public virtual void RetrieveLayoutDimensions(VisualTreeNode root)
+		{
+			minColumn = maxColumn = root.X;
+			minLine = maxLine = root.Y;
+
+			TreeSearch.Traverse(root, node => {
+				minColumn = Math.Min(minColumn, node.X);
+				maxColumn = Math.Max(maxColumn, node.X);
+				minLine = Math.Min(minLine, node.Y);
+				maxLine = Math.Max(maxLine, node.Y);
+				return true;
+			});
+		}
+
 		public virtual void InvalidateLayout()
 		{
 			isLayoutValid = false;
-			maxColumn = maxLine = 0;
 		}
 		#endregion
 
@@ -322,8 +329,8 @@ namespace TGC
 		protected virtual RectangleF getCell(float X, float Y)
 		{
 			RectangleF rect = new RectangleF(
-				5 + X * (columnWidth + columnMargin),
-				5 + Y * (lineHeight + lineMargin),
+				5 + (X - minColumn) * (columnWidth + columnMargin),
+				5 + (Y - minLine) * (lineHeight + lineMargin),
 				columnWidth,
 				lineHeight
 			);
@@ -341,9 +348,12 @@ namespace TGC
 		protected void calculateMinTreeSize()
 		{
 			Size minNodeSize = minimalNodeSize();
+			float columns = maxColumn - minColumn,
+				lines = maxLine - minLine;
+
 			AutoScrollMinSize = minTreeSize = new Size(
-				(int)(maxColumn * (minColMargin + minNodeSize.Width) + minNodeSize.Width),
-				(int)(maxLine * (minLineMargin + minNodeSize.Height) + minNodeSize.Height)
+				(int)(columns * (minColMargin + minNodeSize.Width) + minNodeSize.Width),
+				(int)(lines * (minLineMargin + minNodeSize.Height) + minNodeSize.Height)
 			);
 		}
 
@@ -360,9 +370,12 @@ namespace TGC
 				Math.Max(clientSize.Height, minTreeSize.Height)
 			);
 
-			// formula: width - padding = (maxCol + 1) * colWidth + maxCol * colMargin
-			columnWidth = (actualTreeSize.Width - 10) / ((maxColumn + 1) + (maxColumn / marginColRatio));
-			lineHeight = (actualTreeSize.Height - 30) / ((maxLine + 1) + (maxLine / marginLineRatio));
+			float columns = maxColumn - minColumn,
+				lines = maxLine - minLine;
+
+			// formula: width - padding = (maxCol + 1) * colWidth + columns * colMargin
+			columnWidth = (actualTreeSize.Width - 10) / ((columns + 1) + (columns / marginColRatio));
+			lineHeight = (actualTreeSize.Height - 30) / ((lines + 1) + (lines / marginLineRatio));
 
 			columnMargin = columnWidth / marginColRatio;
 			lineMargin = lineHeight / marginLineRatio;
