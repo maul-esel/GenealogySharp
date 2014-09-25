@@ -11,7 +11,7 @@ namespace TGC
 			Node buchheimTree = new Node(root, null, 1, 0);
 
 			firstWalk(buchheimTree);
-			secondWalk(buchheimTree, 0, 0);
+			secondWalk(buchheimTree, -buchheimTree.X, 0);
 		}
 
 		private const float distance = 1;
