@@ -11,11 +11,11 @@ namespace Genealogy.Succession
 		{
 		}
 
-		public override Person successorTo(Reign[] previousReigns)
+		public override Person getSuccessor()
 		{
-			Person[] directConnection = findAncestorPath(previousReigns[0].Ruler, previousReigns[previousReigns.Length - 1].Ruler);
+			Person[] directConnection = findAncestorPath(Title.CalculatedReigns[0].Ruler, Title.CalculatedReigns[Title.CalculatedReigns.Length - 1].Ruler);
 
-			int yearOfSuccession = previousReigns[previousReigns.Length - 1].End;
+			int yearOfSuccession = Title.CalculatedReigns[Title.CalculatedReigns.Length - 1].End;
 			List<Person> traversed = new List<Person>();
 
 			foreach (Person ancestor in directConnection.Reverse()) {

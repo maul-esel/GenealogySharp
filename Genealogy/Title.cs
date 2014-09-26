@@ -101,9 +101,8 @@ namespace Genealogy
 
 		private Person findSuccessor()
 		{
-			Reign[] previousReigns = reigns.ToArray();
 			foreach (ISuccessionStrategy strategy in strategies) {
-				Person successor = strategy.successorTo(previousReigns);
+				Person successor = strategy.getSuccessor();
 				if (successor != null)
 					return successor;
 			}

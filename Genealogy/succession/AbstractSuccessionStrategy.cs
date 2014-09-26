@@ -6,7 +6,7 @@ namespace Genealogy.Succession
 {
 	public abstract partial class AbstractSuccessionStrategy : ISuccessionStrategy
 	{
-		public abstract Person successorTo(Reign[] previousReigns);
+		public abstract Person getSuccessor();
 
 		private readonly Title title;
 		public Title Title {
