@@ -13,8 +13,6 @@ namespace Genealogy.Succession
 			get { return title; }
 		}
 
-		private IEnumerable<IComparer<Person>> comparers;
-
 		protected readonly IPreferenceFilter[] preferenceFilters;
 		protected readonly Lineage lineage;
 
@@ -24,7 +22,6 @@ namespace Genealogy.Succession
 			this.preferenceFilters = preferenceFilters;
 			this.lineage = lineage;
 
-			comparers = preferenceFilters.Select(pref => new PreferenceFilterComparer(pref, title));
 			title.AddSuccessionStrategy(this);
 		}
 
@@ -38,8 +35,8 @@ namespace Genealogy.Succession
 			if (preferenceFilters.Length == 0)
 				return persons.OrderBy(p => 0);
 
-			IOrderedEnumerable<Person> orderedPersons = persons.OrderByDescending(p => p, comparers.First());
-			foreach (IComparer<Person> preference in comparers.Skip(1))
+			IOrderedEnumerable<Person> orderedPersons = persons.OrderByDescending(p => p, preferenceFilters.First());
+			foreach (IComparer<Person> preference in preferenceFilters.Skip(1))
 				orderedPersons = orderedPersons.ThenByDescending(p => p, preference);
 			return orderedPersons;
 		}

@@ -60,7 +60,6 @@
     <Compile Include="succession\Seniority.cs" />
     <Compile Include="succession\Seniority.Sorting.cs" />
     <Compile Include="succession\AbstractSuccessionStrategy.cs" />
-    <Compile Include="succession\AbstractSuccessionStrategy.PreferenceFilterComparer.cs" />
     <Compile Include="succession\PorpyhorgeniturePreferenceFilter.cs" />
     <Compile Include="StorageException.cs" />
     <Compile Include="succession\Appointment.cs" />
