@@ -30,6 +30,21 @@
 															</xs:complexContent>
 														</xs:complexType>
 													</xs:element>
+													<xs:element name="appointment">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="successor" minOccurs="0" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:attribute name="id-ref" use="required" type="xs:unsignedInt"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+														<xs:unique name="uniqueSuccessors">
+															<xs:selector xpath="successor"/>
+															<xs:field xpath="@id-ref"/>
+														</xs:unique>
+													</xs:element>
 												</xs:choice>
 											</xs:complexType>
 										</xs:element>
@@ -97,6 +112,11 @@
 		<xs:keyref name="firstRulerReference" refer="personID">
 			<xs:selector xpath="titles/title"/>
 			<xs:field xpath="@firstRuler"/>
+		</xs:keyref>
+
+		<xs:keyref name="successorReference" refer="personID">
+			<xs:selector xpath="titles/title/succession/appointment/successor"/>
+			<xs:field xpath="@id-ref"/>
 		</xs:keyref>
 	</xs:element>
 

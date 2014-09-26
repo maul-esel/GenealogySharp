@@ -64,6 +64,7 @@
     <Compile Include="succession\AbstractSuccessionStrategy.PreferenceFilterComparer.cs" />
     <Compile Include="succession\PorpyhorgeniturePreferenceFilter.cs" />
     <Compile Include="StorageException.cs" />
+    <Compile Include="succession\Appointment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Core" />

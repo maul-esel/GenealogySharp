@@ -256,6 +256,9 @@ namespace Genealogy
 
 		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
 		{
+			if (node.Name.ToLower() == "appointment")
+				return getAppointment(node);
+
 			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
 			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
@@ -293,6 +296,17 @@ namespace Genealogy
 				}
 			}
 			return filters;
+		}
+
+		private Appointment getAppointment(XPathNavigator node)
+		{
+			var successorNodes = node.SelectChildren("successor", "");
+
+			Person[] successors = new Person[successorNodes.Count];
+			while (successorNodes.MoveNext())
+				successors[successorNodes.CurrentPosition - 1] = personRegister[ uint.Parse(successorNodes.Current.GetAttribute("id-ref", "")) ];
+
+			return new Appointment(successors);
 		}
 		#endregion
 
