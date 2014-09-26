@@ -10,7 +10,7 @@ namespace Genealogy
 	public class Title : IEventProvider
 	{
 		#region attributes
-		private readonly ISuccessionStrategy strategy;
+		private readonly ISuccessionStrategy[] strategies;
 		private readonly List<Reign> reigns = new List<Reign>();
 		private readonly List<Realm> realms = new List<Realm>();
 
@@ -34,15 +34,16 @@ namespace Genealogy
 		}
 		#endregion
 
-		public Title(uint id, Person firstRuler, int established, ISuccessionStrategy strategy, Rank rank)
+		public Title(uint id, Person firstRuler, int established, ISuccessionStrategy[] strategies, Rank rank)
 		{
 			firstRuler.assertAlive(established);
 
 			this.ID = id;
 			this.Established = established;
 
-			strategy.Title = this;
-			this.strategy = strategy;
+			foreach (var strategy in strategies)
+				strategy.Title = this;
+			this.strategies = strategies;
 
 			this.Rank = rank;
 
@@ -79,12 +80,23 @@ namespace Genealogy
 
 		private void calculateReigns()
 		{
-			for (Person next = strategy.successorTo(reigns.ToArray());
+			for (Person next = findSuccessor();
 			     next != null;
-			     next = strategy.successorTo(reigns.ToArray())
+			     next = findSuccessor()
 			) {
 				reigns.Add(new Reign(this, next, reigns.Last().End));
 			}
+		}
+
+		private Person findSuccessor()
+		{
+			Reign[] previousReigns = reigns.ToArray();
+			foreach (ISuccessionStrategy strategy in strategies) {
+				Person successor = strategy.successorTo(previousReigns);
+				if (successor != null)
+					return successor;
+			}
+			return null;
 		}
 		#endregion
 	}

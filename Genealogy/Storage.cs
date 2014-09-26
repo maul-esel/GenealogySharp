@@ -239,19 +239,15 @@ namespace Genealogy
 			this.Titles = titles.ToArray();
 		}
 
-		private ISuccessionStrategy getSuccession(XPathNavigator node)
+		private ISuccessionStrategy[] getSuccession(XPathNavigator node)
 		{
 			var strategyNodes = node.SelectChildren(XPathNodeType.Element);
-			if (strategyNodes.Count == 1) {
-				strategyNodes.MoveNext();
-				return getStrategyImpl(strategyNodes.Current);
-			}
 
 			ISuccessionStrategy[] strategies = new ISuccessionStrategy[strategyNodes.Count];
 			while (strategyNodes.MoveNext())
 				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
 
-			return new FallbackSuccessionStrategy(strategies);
+			return strategies;
 		}
 
 		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
