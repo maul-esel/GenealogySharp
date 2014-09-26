@@ -226,15 +226,15 @@ namespace Genealogy
 
 			var titleNodes = navigator.Select("/data/titles/title");
 			while (titleNodes.MoveNext()) {
-				titles.Add(
-					new Title(
-						uint.Parse(titleNodes.Current.GetAttribute("id", "")),
-						personRegister[ uint.Parse(titleNodes.Current.GetAttribute("firstRuler", "")) ],
-						int.Parse(titleNodes.Current.GetAttribute("established", "")),
-						getSuccession(titleNodes.Current.SelectSingleNode("succession")),
-						getEnumValue<Rank>(titleNodes.Current.GetAttribute("rank", ""))
-					)
+				Title title = new Title(
+					uint.Parse(titleNodes.Current.GetAttribute("id", "")),
+					personRegister[uint.Parse(titleNodes.Current.GetAttribute("firstRuler", ""))],
+					int.Parse(titleNodes.Current.GetAttribute("established", "")),
+					getEnumValue<Rank>(titleNodes.Current.GetAttribute("rank", ""))
 				);
+				titles.Add(title);
+				foreach (ISuccessionStrategy strategy in getSuccession(titleNodes.Current.SelectSingleNode("succession")))
+					title.AddSuccessionStrategy(strategy);
 			}
 			this.Titles = titles.ToArray();
 		}

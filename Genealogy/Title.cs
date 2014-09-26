@@ -10,7 +10,7 @@ namespace Genealogy
 	public class Title : IEventProvider
 	{
 		#region attributes
-		private readonly ISuccessionStrategy[] strategies;
+		private readonly List<ISuccessionStrategy> strategies = new List<ISuccessionStrategy>();
 		private readonly List<Reign> reigns = new List<Reign>();
 		private readonly List<Realm> realms = new List<Realm>();
 
@@ -34,17 +34,12 @@ namespace Genealogy
 		}
 		#endregion
 
-		public Title(uint id, Person firstRuler, int established, ISuccessionStrategy[] strategies, Rank rank)
+		public Title(uint id, Person firstRuler, int established, Rank rank)
 		{
 			firstRuler.assertAlive(established);
 
 			this.ID = id;
 			this.Established = established;
-
-			foreach (var strategy in strategies)
-				strategy.Title = this;
-			this.strategies = strategies;
-
 			this.Rank = rank;
 
 			reigns.Add(new Reign(this, firstRuler, established));
@@ -55,6 +50,12 @@ namespace Genealogy
 		{
 			if (!realms.Contains(r))
 				realms.Add(r);
+		}
+
+		internal void AddSuccessionStrategy(ISuccessionStrategy strategy)
+		{
+			strategy.Title = this;
+			strategies.Add(strategy);
 		}
 
 		public IEnumerable<Event> Events {
