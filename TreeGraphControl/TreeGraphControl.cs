@@ -307,23 +307,25 @@ namespace TGC
 			);
 
 			var visibleChildren = node.Children.Where(child => child.Node.Visible);
-			if (visibleChildren.Count() > 0) {
-				PointF start = new PointF(rect.X + rect.Width / 2, rect.Bottom);
-				PointF second = new PointF(start.X, rect.Bottom + lineMargin / 2);
-				g.DrawLine(ConnectionLinePen, start, second);
-
-				foreach (VisualTreeNode child in visibleChildren) {
-					PointF childPosition = getCell(child).Location;
-
-					PointF third = new PointF(childPosition.X + columnWidth / 2, second.Y);
-					PointF last = new PointF(third.X, childPosition.Y);
-
-					g.DrawLine(ConnectionLinePen, second, third);
-					g.DrawLine(ConnectionLinePen, third, last);
-
-					paintTreeNode(g, child);
-				}
+			foreach (VisualTreeNode child in visibleChildren) {
+				drawEdge(g, node, child);
+				paintTreeNode(g, child);
 			}
+		}
+
+		protected virtual void drawEdge(Graphics g, VisualTreeNode from, VisualTreeNode to)
+		{
+			RectangleF parentRect = getCell(from);
+			RectangleF childRect = getCell(to);
+			g.DrawLines(
+				ConnectionLinePen,
+			    new PointF[] {
+					new PointF(parentRect.X + parentRect.Width / 2, parentRect.Bottom),
+					new PointF(parentRect.X + parentRect.Width / 2, parentRect.Bottom + lineMargin / 2),
+					new PointF(childRect.X + childRect.Width / 2, parentRect.Bottom + lineMargin / 2),
+					new PointF(childRect.X + childRect.Width / 2, childRect.Top)
+				}
+			);
 		}
 
 		protected virtual RectangleF getCell(VisualTreeNode node)
