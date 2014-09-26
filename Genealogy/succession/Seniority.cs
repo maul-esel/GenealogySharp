@@ -9,8 +9,8 @@ namespace Genealogy.Succession
 		private readonly Sorting sorting;
 		private readonly Dictionary<Person, int> ancestorSortNumber = new Dictionary<Person, int>();
 
-		public Seniority(IPreferenceFilter[] preferenceFilters, Lineage lineage, Sorting sorting)
-			: base(preferenceFilters, lineage)
+		public Seniority(Title title, IPreferenceFilter[] preferenceFilters, Lineage lineage, Sorting sorting)
+			: base(title, preferenceFilters, lineage)
 		{
 			this.sorting = sorting;
 		}

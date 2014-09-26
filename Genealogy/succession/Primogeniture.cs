@@ -6,8 +6,8 @@ namespace Genealogy.Succession
 {
 	public class Primogeniture : AbstractSuccessionStrategy
 	{
-		public Primogeniture(IPreferenceFilter[] preferenceFilters, Lineage lineage)
-			: base(preferenceFilters, lineage)
+		public Primogeniture(Title title, IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(title, preferenceFilters, lineage)
 		{
 		}
 

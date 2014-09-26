@@ -54,7 +54,6 @@ namespace Genealogy
 
 		internal void AddSuccessionStrategy(ISuccessionStrategy strategy)
 		{
-			strategy.Title = this;
 			strategies.Add(strategy);
 		}
 

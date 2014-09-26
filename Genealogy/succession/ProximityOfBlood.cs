@@ -12,8 +12,8 @@ namespace Genealogy.Succession
 	/// </summary>
 	public class ProximityOfBlood : AbstractSuccessionStrategy
 	{
-		public ProximityOfBlood(IPreferenceFilter[] preferenceFilters, Lineage lineage)
-			: base(preferenceFilters, lineage)
+		public ProximityOfBlood(Title title, IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(title, preferenceFilters, lineage)
 		{
 		}
 

@@ -232,40 +232,39 @@ namespace Genealogy
 					int.Parse(titleNodes.Current.GetAttribute("established", "")),
 					getEnumValue<Rank>(titleNodes.Current.GetAttribute("rank", ""))
 				);
+				getSuccession(titleNodes.Current.SelectSingleNode("succession"), title);
 				titles.Add(title);
-				foreach (ISuccessionStrategy strategy in getSuccession(titleNodes.Current.SelectSingleNode("succession")))
-					title.AddSuccessionStrategy(strategy);
 			}
 			this.Titles = titles.ToArray();
 		}
 
-		private ISuccessionStrategy[] getSuccession(XPathNavigator node)
+		private ISuccessionStrategy[] getSuccession(XPathNavigator node, Title title)
 		{
 			var strategyNodes = node.SelectChildren(XPathNodeType.Element);
 
 			ISuccessionStrategy[] strategies = new ISuccessionStrategy[strategyNodes.Count];
 			while (strategyNodes.MoveNext())
-				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
+				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current, title);
 
 			return strategies;
 		}
 
-		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
+		private ISuccessionStrategy getStrategyImpl(XPathNavigator node, Title title)
 		{
 			if (node.Name.ToLower() == "appointment")
-				return getAppointment(node);
+				return getAppointment(node, title);
 
 			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
 			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
 
 			switch (node.Name.ToLower()) {
 				case "primogeniture":
-					return new Primogeniture(pref, lin);
+					return new Primogeniture(title, pref, lin);
 				case "blood-proximity":
-					return new ProximityOfBlood(pref, lin);
+					return new ProximityOfBlood(title, pref, lin);
 				case "seniority":
 					Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
-					return new Seniority(pref, lin, sorting);
+					return new Seniority(title, pref, lin, sorting);
 				default :
 					throw new StorageException("Unknown succession strategy '" + node.Name + "'");
 			}
@@ -294,7 +293,7 @@ namespace Genealogy
 			return filters;
 		}
 
-		private Appointment getAppointment(XPathNavigator node)
+		private Appointment getAppointment(XPathNavigator node, Title title)
 		{
 			var successorNodes = node.SelectChildren("successor", "");
 
@@ -302,7 +301,7 @@ namespace Genealogy
 			while (successorNodes.MoveNext())
 				successors[successorNodes.CurrentPosition - 1] = personRegister[ uint.Parse(successorNodes.Current.GetAttribute("id-ref", "")) ];
 
-			return new Appointment(successors);
+			return new Appointment(title, successors);
 		}
 		#endregion
 

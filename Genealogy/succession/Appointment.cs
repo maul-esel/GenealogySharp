@@ -4,21 +4,19 @@ namespace Genealogy.Succession
 {
 	public class Appointment : ISuccessionStrategy
 	{
-		private Title title;
+		private readonly Title title;
 		public Title Title {
 			get { return title; }
-			set {
-				if (title != null)
-					throw new InvalidOperationException();
-				title = value;
-			}
 		}
 
 		private readonly Person[] successors;
 
-		public Appointment(Person[] successors)
+		public Appointment(Title title, Person[] successors)
 		{
+			this.title = title;
 			this.successors = successors;
+
+			title.AddSuccessionStrategy(this);
 		}
 
 		public Person successorTo(Reign[] previousReigns)

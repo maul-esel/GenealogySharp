@@ -8,15 +8,9 @@ namespace Genealogy.Succession
 	{
 		public abstract Person successorTo(Reign[] previousReigns);
 
-		private Title title;
+		private readonly Title title;
 		public Title Title {
 			get { return title; }
-			set {
-				if (title != null)
-					throw new InvalidOperationException();
-				title = value;
-				comparers = preferenceFilters.Select(pref => new PreferenceFilterComparer(pref, value));
-			}
 		}
 
 		private IEnumerable<IComparer<Person>> comparers;
@@ -24,10 +18,14 @@ namespace Genealogy.Succession
 		protected readonly IPreferenceFilter[] preferenceFilters;
 		protected readonly Lineage lineage;
 
-		protected AbstractSuccessionStrategy(IPreferenceFilter[] preferenceFilters, Lineage lineage)
+		protected AbstractSuccessionStrategy(Title title, IPreferenceFilter[] preferenceFilters, Lineage lineage)
 		{
+			this.title = title;
 			this.preferenceFilters = preferenceFilters;
 			this.lineage = lineage;
+
+			comparers = preferenceFilters.Select(pref => new PreferenceFilterComparer(pref, title));
+			title.AddSuccessionStrategy(this);
 		}
 
 		protected bool isValidSuccessor(Person p, int yearOfSuccession)
