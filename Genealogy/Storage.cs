@@ -246,7 +246,7 @@ namespace Genealogy
 				if (strategyNodes.Current.Name.ToLower() == "appointment")
 					getAppointment(strategyNodes.Current, title);
 				else {
-					IPreferenceFilter[] pref = getPreferenceFilters(strategyNodes.Current.Select("./preferenceFilters/*"));
+					IPreferenceFilter[] pref = getPreferenceFilters(strategyNodes.Current.Select("./preferenceFilters/*"), title);
 					Lineage lin = getEnumValue<Lineage>(strategyNodes.Current.GetAttribute("lineage", ""));
 
 					switch (strategyNodes.Current.Name.ToLower()) {
@@ -267,7 +267,7 @@ namespace Genealogy
 			}
 		}
 
-		private IPreferenceFilter[] getPreferenceFilters(XPathNodeIterator nodes)
+		private IPreferenceFilter[] getPreferenceFilters(XPathNodeIterator nodes, Title title)
 		{
 			IPreferenceFilter[] filters = new IPreferenceFilter[nodes.Count];
 			for (int i = 0; nodes.MoveNext(); ++i) {
@@ -279,6 +279,7 @@ namespace Genealogy
 						break;
 					case "porphyrogeniturePreference":
 						filters[i] = new PorpyhorgeniturePreferenceFilter(
+							title,
 							getEnumValue<PorpyhorgeniturePreferenceFilter.FilterKind>(nodes.Current.GetAttribute("filter", "")),
 							getEnumValue<PorpyhorgeniturePreferenceFilter.SortingKind>(nodes.Current.GetAttribute("sort", ""))
 						);

@@ -30,7 +30,7 @@ namespace Genealogy.Succession
 
 		protected bool isValidSuccessor(Person p, int yearOfSuccession)
 		{
-			return preferenceFilters.All(filter => filter.ShouldConsider(p, Title)) && p.isAlive(yearOfSuccession);
+			return preferenceFilters.All(filter => filter.ShouldConsider(p)) && p.isAlive(yearOfSuccession);
 		}
 
 		protected virtual IOrderedEnumerable<Person> sort(IEnumerable<Person> persons)

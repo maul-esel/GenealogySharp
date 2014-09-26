@@ -17,7 +17,7 @@ namespace Genealogy.Succession
 
 			public int Compare(Person x, Person y)
 			{
-				return preference.Compare(x, y, title);
+				return preference.Compare(x, y);
 			}
 		}
 	}

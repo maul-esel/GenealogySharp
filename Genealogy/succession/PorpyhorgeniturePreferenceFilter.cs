@@ -17,36 +17,38 @@ namespace Genealogy.Succession
 			bornWhileRuling_bornToRuler
 		}
 
+		private readonly Title title;
 		private readonly FilterKind filter;
 		private readonly SortingKind sorting;
 
-		public PorpyhorgeniturePreferenceFilter(FilterKind filter, SortingKind sorting)
+		public PorpyhorgeniturePreferenceFilter(Title title, FilterKind filter, SortingKind sorting)
 		{
+			this.title = title;
 			this.filter = filter;
 			this.sorting = sorting;
 		}
 
-		public int Compare(Person x, Person y, Title title)
+		public int Compare(Person x, Person y)
 		{
 			switch (sorting) {
 				case SortingKind.bornToRuler:
-					if (bornToRuler(x, title) == bornToRuler(y, title))
+					if (bornToRuler(x) == bornToRuler(y))
 						return 0;
-					else if (bornToRuler(x, title))
+					else if (bornToRuler(x))
 						return 1;
 					return -1;
 				case SortingKind.bornWhileRuling:
-					if (bornWhileRuling(x, title) == bornWhileRuling(y, title))
+					if (bornWhileRuling(x) == bornWhileRuling(y))
 						return 0;
-					else if (bornWhileRuling(x, title))
+					else if (bornWhileRuling(x))
 						return 1;
 					return -1;
 				case SortingKind.bornWhileRuling_bornToRuler:
-					if (bornWhileRuling(x, title) && bornWhileRuling(y, title))
+					if (bornWhileRuling(x) && bornWhileRuling(y))
 						return 0;
-					else if (bornWhileRuling(x, title))
+					else if (bornWhileRuling(x))
 						return 1;
-					else if (bornWhileRuling(y, title))
+					else if (bornWhileRuling(y))
 						return -1;
 					goto case SortingKind.bornToRuler;
 				case SortingKind.none:
@@ -55,25 +57,25 @@ namespace Genealogy.Succession
 			}
 		}
 
-		public bool ShouldConsider(Person p, Title title)
+		public bool ShouldConsider(Person p)
 		{
 			switch (filter) {
 				case FilterKind.bornWhileRuling:
-					return bornWhileRuling(p, title);
+					return bornWhileRuling(p);
 				case FilterKind.bornToRuler:
-					return bornToRuler(p, title);
+					return bornToRuler(p);
 				case FilterKind.all:
 				default:
 					return true;
 			}
 		}
 
-		private bool bornToRuler(Person p, Title title)
+		private bool bornToRuler(Person p)
 		{
 			return title.CalculatedReigns.Any(r => r.Ruler == p.Father || r.Ruler == p.Mother);
 		}
 
-		private bool bornWhileRuling(Person p, Title title)
+		private bool bornWhileRuling(Person p)
 		{
 			return title.CalculatedReigns.Any(r => (r.Ruler == p.Father || r.Ruler == p.Mother) && (r.Start <= p.YearOfBirth && p.YearOfBirth <= r.End));
 		}
