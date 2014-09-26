@@ -43,7 +43,6 @@ namespace Genealogy
 			this.Rank = rank;
 
 			reigns.Add(new Reign(this, firstRuler, established));
-			calculateReigns();
 		}
 
 		internal void AddRealm(Realm r)
@@ -68,6 +67,8 @@ namespace Genealogy
 		}
 
 		#region reigns
+		private bool hasCalculatedReigns = false;
+
 		public Reign getReign(int year)
 		{
 			return Reigns.FirstOrDefault(reign => reign.Start <= year && reign.End > year);
@@ -75,7 +76,11 @@ namespace Genealogy
 
 		public Reign[] Reigns
 		{
-			get { return reigns.ToArray(); }
+			get {
+				if (!hasCalculatedReigns)
+					calculateReigns();
+				return reigns.ToArray();
+			}
 		}
 
 		private void calculateReigns()
@@ -86,6 +91,7 @@ namespace Genealogy
 			) {
 				reigns.Add(new Reign(this, next, reigns.Last().End));
 			}
+			hasCalculatedReigns = true;
 		}
 
 		private Person findSuccessor()
