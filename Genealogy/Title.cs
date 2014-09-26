@@ -79,8 +79,13 @@ namespace Genealogy
 			get {
 				if (!hasCalculatedReigns)
 					calculateReigns();
-				return reigns.ToArray();
+				return CalculatedReigns;
 			}
+		}
+
+		public Reign[] CalculatedReigns
+		{
+			get { return reigns.ToArray(); }
 		}
 
 		private void calculateReigns()

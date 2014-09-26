@@ -70,12 +70,12 @@ namespace Genealogy.Succession
 
 		private bool bornToRuler(Person p, Title title)
 		{
-			return title.Reigns.Any(r => r.Ruler == p.Father || r.Ruler == p.Mother);
+			return title.CalculatedReigns.Any(r => r.Ruler == p.Father || r.Ruler == p.Mother);
 		}
 
 		private bool bornWhileRuling(Person p, Title title)
 		{
-			return title.Reigns.Any(r => (r.Ruler == p.Father || r.Ruler == p.Mother) && (r.Start <= p.YearOfBirth && p.YearOfBirth <= r.End));
+			return title.CalculatedReigns.Any(r => (r.Ruler == p.Father || r.Ruler == p.Mother) && (r.Start <= p.YearOfBirth && p.YearOfBirth <= r.End));
 		}
 	}
 }
