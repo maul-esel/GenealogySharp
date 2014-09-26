@@ -238,35 +238,32 @@ namespace Genealogy
 			this.Titles = titles.ToArray();
 		}
 
-		private ISuccessionStrategy[] getSuccession(XPathNavigator node, Title title)
+		private void getSuccession(XPathNavigator node, Title title)
 		{
 			var strategyNodes = node.SelectChildren(XPathNodeType.Element);
 
-			ISuccessionStrategy[] strategies = new ISuccessionStrategy[strategyNodes.Count];
-			while (strategyNodes.MoveNext())
-				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current, title);
+			while (strategyNodes.MoveNext()) {
+				if (strategyNodes.Current.Name.ToLower() == "appointment")
+					getAppointment(strategyNodes.Current, title);
+				else {
+					IPreferenceFilter[] pref = getPreferenceFilters(strategyNodes.Current.Select("./preferenceFilters/*"));
+					Lineage lin = getEnumValue<Lineage>(strategyNodes.Current.GetAttribute("lineage", ""));
 
-			return strategies;
-		}
-
-		private ISuccessionStrategy getStrategyImpl(XPathNavigator node, Title title)
-		{
-			if (node.Name.ToLower() == "appointment")
-				return getAppointment(node, title);
-
-			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
-			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
-
-			switch (node.Name.ToLower()) {
-				case "primogeniture":
-					return new Primogeniture(title, pref, lin);
-				case "blood-proximity":
-					return new ProximityOfBlood(title, pref, lin);
-				case "seniority":
-					Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
-					return new Seniority(title, pref, lin, sorting);
-				default :
-					throw new StorageException("Unknown succession strategy '" + node.Name + "'");
+					switch (strategyNodes.Current.Name.ToLower()) {
+						case "primogeniture":
+							new Primogeniture(title, pref, lin);
+							break;
+						case "blood-proximity":
+							new ProximityOfBlood(title, pref, lin);
+							break;
+						case "seniority":
+							Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
+							new Seniority(title, pref, lin, sorting);
+							break;
+						default :
+							throw new StorageException("Unknown succession strategy '" + node.Name + "'");
+					}
+				}
 			}
 		}
 
