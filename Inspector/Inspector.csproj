@@ -70,6 +70,8 @@
     <EmbeddedResource Include="resources\succession.png" />
     <EmbeddedResource Include="resources\caesar.png" />
     <EmbeddedResource Include="resources\pharaoh-crown.png" />
+    <EmbeddedResource Include="resources\turban.png" />
+    <EmbeddedResource Include="resources\helmet.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="resources\" />

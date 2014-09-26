@@ -7,6 +7,8 @@ namespace Genealogy.Inspector
 		private static readonly Bitmap grid = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.crowns.jpg"));
 		private static readonly Bitmap pschent = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.pharaoh-crown.png"));
 		private static readonly Bitmap laurel = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.caesar.png"));
+		private static readonly Bitmap turban = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.turban.png"));
+		private static readonly Bitmap helmet = new Bitmap(System.Reflection.Assembly.GetCallingAssembly().GetManifestResourceStream("Genealogy.Inspector.resources.helmet.png"));
 
 		private static Rectangle Crown1 = new Rectangle(70, 35, 80, 80);
 		private static Rectangle Crown2 = new Rectangle(200, 35, 100, 100);
@@ -19,12 +21,21 @@ namespace Genealogy.Inspector
 
 		public static Bitmap GetCrown(Rank rank)
 		{
-			if (rank == Rank.Caesar)
-				return laurel;
-			else if (rank == Rank.Pharaoh)
-				return pschent;
-			grid.MakeTransparent(Color.White);
-			return grid.Clone(getRect(rank), grid.PixelFormat);
+			switch (rank) {
+				case Rank.Caesar:
+					return laurel;
+				case Rank.Pharaoh:
+					return pschent;
+				case Rank.Shah:
+				case Rank.Sultan:
+				case Rank.Emir:
+					return turban;
+				case Rank.Knight:
+					return helmet;
+				default:
+					grid.MakeTransparent(Color.White);
+					return grid.Clone(getRect(rank), grid.PixelFormat);
+			}
 		}
 
 		private static Rectangle getRect(Rank rank)
@@ -32,16 +43,12 @@ namespace Genealogy.Inspector
 			switch (rank) {
 				case Rank.GodEmperor:
 					return Crown2;
-				case Rank.Pharaoh:
 				case Rank.Emperor:
-				case Rank.Caesar:
 				case Rank.Tsar:
 				case Rank.HighKing:
 					return Crown17;
 				case Rank.King:
 				case Rank.Khan:
-				case Rank.Shah:
-				case Rank.Sultan:
 					return Crown7;
 				case Rank.Prince:
 					return Crown3;
@@ -49,7 +56,6 @@ namespace Genealogy.Inspector
 				case Rank.GrandDuke:
 					return Crown10;
 				case Rank.Duke:
-				case Rank.Emir:
 				case Rank.Patrician:
 					return Crown12;
 				case Rank.Markgrave:
@@ -60,7 +66,6 @@ namespace Genealogy.Inspector
 				case Rank.Freiherr:
 				case Rank.Baron:
 				case Rank.Bey:
-				case Rank.Knight:
 					return Crown8;
 				default:
 					return Crown1;
@@ -68,4 +73,3 @@ namespace Genealogy.Inspector
 		}
 	}
 }
-
