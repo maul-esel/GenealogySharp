@@ -4,10 +4,7 @@ namespace Genealogy.Succession
 {
 	public interface ISuccessionStrategy
 	{
-		Person successorTo(Reign[] previousReigns);
-		Title Title {
-			get;
-			set;
-		}
+		Person getSuccessor();
+		Title Title { get; }
 	}
 }

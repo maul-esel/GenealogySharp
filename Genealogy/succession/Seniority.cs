@@ -9,26 +9,26 @@ namespace Genealogy.Succession
 		private readonly Sorting sorting;
 		private readonly Dictionary<Person, int> ancestorSortNumber = new Dictionary<Person, int>();
 
-		public Seniority(IPreferenceFilter[] preferenceFilters, Lineage lineage, Sorting sorting)
-			: base(preferenceFilters, lineage)
+		public Seniority(Title title, IPreferenceFilter[] preferenceFilters, Lineage lineage, Sorting sorting)
+			: base(title, preferenceFilters, lineage)
 		{
 			this.sorting = sorting;
 		}
 
-		public override Person successorTo(Reign[] previousReigns)
+		public override Person getSuccessor()
 		{
 			ancestorSortNumber.Clear();
 
-			int yearOfSuccession = previousReigns[previousReigns.Length - 1].End;
-			Person previousRuler = previousReigns[previousReigns.Length - 1].Ruler;
-			Person firstRuler = previousReigns[0].Ruler;
+			int yearOfSuccession = Title.CalculatedReigns[Title.CalculatedReigns.Length - 1].End;
+			Person previousRuler = Title.CalculatedReigns[Title.CalculatedReigns.Length - 1].Ruler;
+			Person firstRuler = Title.CalculatedReigns[0].Ruler;
 
 			ancestorSortNumber[firstRuler] = 0;
 
 			Person[] directConnection = findAncestorPath(firstRuler, previousRuler);
 
 			// get generation of previous ruler
-			IEnumerable<Person> generation = new[] { previousReigns[0].Ruler };
+			IEnumerable<Person> generation = new[] { Title.CalculatedReigns[0].Ruler };
 			for (int i = 1; i < directConnection.Length; ++i)
 				generation = nextGeneration(generation);
 

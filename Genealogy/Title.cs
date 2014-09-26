@@ -10,7 +10,7 @@ namespace Genealogy
 	public class Title : IEventProvider
 	{
 		#region attributes
-		private readonly ISuccessionStrategy strategy;
+		private readonly List<ISuccessionStrategy> strategies = new List<ISuccessionStrategy>();
 		private readonly List<Reign> reigns = new List<Reign>();
 		private readonly List<Realm> realms = new List<Realm>();
 
@@ -34,26 +34,26 @@ namespace Genealogy
 		}
 		#endregion
 
-		public Title(uint id, Person firstRuler, int established, ISuccessionStrategy strategy, Rank rank)
+		public Title(uint id, Person firstRuler, int established, Rank rank)
 		{
 			firstRuler.assertAlive(established);
 
 			this.ID = id;
 			this.Established = established;
-
-			strategy.Title = this;
-			this.strategy = strategy;
-
 			this.Rank = rank;
 
 			reigns.Add(new Reign(this, firstRuler, established));
-			calculateReigns();
 		}
 
 		internal void AddRealm(Realm r)
 		{
 			if (!realms.Contains(r))
 				realms.Add(r);
+		}
+
+		internal void AddSuccessionStrategy(ISuccessionStrategy strategy)
+		{
+			strategies.Add(strategy);
 		}
 
 		public IEnumerable<Event> Events {
@@ -67,6 +67,8 @@ namespace Genealogy
 		}
 
 		#region reigns
+		private bool hasCalculatedReigns = false;
+
 		public Reign getReign(int year)
 		{
 			return Reigns.FirstOrDefault(reign => reign.Start <= year && reign.End > year);
@@ -74,17 +76,37 @@ namespace Genealogy
 
 		public Reign[] Reigns
 		{
+			get {
+				if (!hasCalculatedReigns)
+					calculateReigns();
+				return CalculatedReigns;
+			}
+		}
+
+		public Reign[] CalculatedReigns
+		{
 			get { return reigns.ToArray(); }
 		}
 
 		private void calculateReigns()
 		{
-			for (Person next = strategy.successorTo(reigns.ToArray());
+			for (Person next = findSuccessor();
 			     next != null;
-			     next = strategy.successorTo(reigns.ToArray())
+			     next = findSuccessor()
 			) {
 				reigns.Add(new Reign(this, next, reigns.Last().End));
 			}
+			hasCalculatedReigns = true;
+		}
+
+		private Person findSuccessor()
+		{
+			foreach (ISuccessionStrategy strategy in strategies) {
+				Person successor = strategy.getSuccessor();
+				if (successor != null)
+					return successor;
+			}
+			return null;
 		}
 		#endregion
 	}

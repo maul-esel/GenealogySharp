@@ -12,15 +12,15 @@ namespace Genealogy.Succession
 	/// </summary>
 	public class ProximityOfBlood : AbstractSuccessionStrategy
 	{
-		public ProximityOfBlood(IPreferenceFilter[] preferenceFilters, Lineage lineage)
-			: base(preferenceFilters, lineage)
+		public ProximityOfBlood(Title title, IPreferenceFilter[] preferenceFilters, Lineage lineage)
+			: base(title, preferenceFilters, lineage)
 		{
 		}
 
-		public override Person successorTo(Reign[] previousReigns)
+		public override Person getSuccessor()
 		{
-			Person previousRuler = previousReigns[previousReigns.Length - 1].Ruler;
-			Person[] directConnection = findAncestorPath(previousReigns[0].Ruler, previousRuler);
+			Person previousRuler = Title.CalculatedReigns[Title.CalculatedReigns.Length - 1].Ruler;
+			Person[] directConnection = findAncestorPath(Title.CalculatedReigns[0].Ruler, previousRuler);
 
 			List<Person> traversed = new List<Person>();
 			return searchRelatives(previousRuler, directConnection.Reverse().Skip(1), previousRuler.YearOfDeath, traversed);

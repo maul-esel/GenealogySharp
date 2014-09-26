@@ -226,56 +226,48 @@ namespace Genealogy
 
 			var titleNodes = navigator.Select("/data/titles/title");
 			while (titleNodes.MoveNext()) {
-				titles.Add(
-					new Title(
-						uint.Parse(titleNodes.Current.GetAttribute("id", "")),
-						personRegister[ uint.Parse(titleNodes.Current.GetAttribute("firstRuler", "")) ],
-						int.Parse(titleNodes.Current.GetAttribute("established", "")),
-						getSuccession(titleNodes.Current.SelectSingleNode("succession")),
-						getEnumValue<Rank>(titleNodes.Current.GetAttribute("rank", ""))
-					)
+				Title title = new Title(
+					uint.Parse(titleNodes.Current.GetAttribute("id", "")),
+					personRegister[uint.Parse(titleNodes.Current.GetAttribute("firstRuler", ""))],
+					int.Parse(titleNodes.Current.GetAttribute("established", "")),
+					getEnumValue<Rank>(titleNodes.Current.GetAttribute("rank", ""))
 				);
+				getSuccession(titleNodes.Current.SelectSingleNode("succession"), title);
+				titles.Add(title);
 			}
 			this.Titles = titles.ToArray();
 		}
 
-		private ISuccessionStrategy getSuccession(XPathNavigator node)
+		private void getSuccession(XPathNavigator node, Title title)
 		{
 			var strategyNodes = node.SelectChildren(XPathNodeType.Element);
-			if (strategyNodes.Count == 1) {
-				strategyNodes.MoveNext();
-				return getStrategyImpl(strategyNodes.Current);
-			}
 
-			ISuccessionStrategy[] strategies = new ISuccessionStrategy[strategyNodes.Count];
-			while (strategyNodes.MoveNext())
-				strategies[strategyNodes.CurrentPosition - 1] = getStrategyImpl(strategyNodes.Current);
+			while (strategyNodes.MoveNext()) {
+				if (strategyNodes.Current.Name.ToLower() == "appointment")
+					getAppointment(strategyNodes.Current, title);
+				else {
+					IPreferenceFilter[] pref = getPreferenceFilters(strategyNodes.Current.Select("./preferenceFilters/*"), title);
+					Lineage lin = getEnumValue<Lineage>(strategyNodes.Current.GetAttribute("lineage", ""));
 
-			return new FallbackSuccessionStrategy(strategies);
-		}
-
-		private ISuccessionStrategy getStrategyImpl(XPathNavigator node)
-		{
-			if (node.Name.ToLower() == "appointment")
-				return getAppointment(node);
-
-			IPreferenceFilter[] pref = getPreferenceFilters(node.Select("./preferenceFilters/*"));
-			Lineage lin = getEnumValue<Lineage>(node.GetAttribute("lineage", ""));
-
-			switch (node.Name.ToLower()) {
-				case "primogeniture":
-					return new Primogeniture(pref, lin);
-				case "blood-proximity":
-					return new ProximityOfBlood(pref, lin);
-				case "seniority":
-					Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
-					return new Seniority(pref, lin, sorting);
-				default :
-					throw new StorageException("Unknown succession strategy '" + node.Name + "'");
+					switch (strategyNodes.Current.Name.ToLower()) {
+						case "primogeniture":
+							new Primogeniture(title, pref, lin);
+							break;
+						case "blood-proximity":
+							new ProximityOfBlood(title, pref, lin);
+							break;
+						case "seniority":
+							Seniority.Sorting sorting = getEnumValue<Seniority.Sorting>(node.GetAttribute("sorting", ""));
+							new Seniority(title, pref, lin, sorting);
+							break;
+						default :
+							throw new StorageException("Unknown succession strategy '" + node.Name + "'");
+					}
+				}
 			}
 		}
 
-		private IPreferenceFilter[] getPreferenceFilters(XPathNodeIterator nodes)
+		private IPreferenceFilter[] getPreferenceFilters(XPathNodeIterator nodes, Title title)
 		{
 			IPreferenceFilter[] filters = new IPreferenceFilter[nodes.Count];
 			for (int i = 0; nodes.MoveNext(); ++i) {
@@ -287,6 +279,7 @@ namespace Genealogy
 						break;
 					case "porphyrogeniturePreference":
 						filters[i] = new PorpyhorgeniturePreferenceFilter(
+							title,
 							getEnumValue<PorpyhorgeniturePreferenceFilter.FilterKind>(nodes.Current.GetAttribute("filter", "")),
 							getEnumValue<PorpyhorgeniturePreferenceFilter.SortingKind>(nodes.Current.GetAttribute("sort", ""))
 						);
@@ -298,7 +291,7 @@ namespace Genealogy
 			return filters;
 		}
 
-		private Appointment getAppointment(XPathNavigator node)
+		private Appointment getAppointment(XPathNavigator node, Title title)
 		{
 			var successorNodes = node.SelectChildren("successor", "");
 
@@ -306,7 +299,7 @@ namespace Genealogy
 			while (successorNodes.MoveNext())
 				successors[successorNodes.CurrentPosition - 1] = personRegister[ uint.Parse(successorNodes.Current.GetAttribute("id-ref", "")) ];
 
-			return new Appointment(successors);
+			return new Appointment(title, successors);
 		}
 		#endregion
 
