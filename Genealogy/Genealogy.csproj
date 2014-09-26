@@ -43,7 +43,6 @@
     <Compile Include="Storage.cs" />
     <Compile Include="succession\ISuccessionStrategy.cs" />
     <Compile Include="succession\Primogeniture.cs" />
-    <Compile Include="succession\FallbackSuccessionStrategy.cs" />
     <Compile Include="RomanNumerals.cs" />
     <Compile Include="Realm.cs" />
     <Compile Include="DijkstraAlgorithm.cs" />
