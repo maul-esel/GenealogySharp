@@ -291,7 +291,7 @@ namespace TGC
 			StringFormat format = new StringFormat();
 			format.Alignment = format.LineAlignment = StringAlignment.Center;
 
-			RectangleF rect = getCell(node.X, node.Y);
+			RectangleF rect = getCell(node);
 			g.FillRectangle(
 				node.Node == SelectedNode ? SelectedTreeNodeBackground : TreeNodeBackground,
 				rect
@@ -313,7 +313,7 @@ namespace TGC
 				g.DrawLine(ConnectionLinePen, start, second);
 
 				foreach (VisualTreeNode child in visibleChildren) {
-					PointF childPosition = getCell(child.X, child.Y).Location;
+					PointF childPosition = getCell(child).Location;
 
 					PointF third = new PointF(childPosition.X + columnWidth / 2, second.Y);
 					PointF last = new PointF(third.X, childPosition.Y);
@@ -326,11 +326,11 @@ namespace TGC
 			}
 		}
 
-		protected virtual RectangleF getCell(float X, float Y)
+		protected virtual RectangleF getCell(VisualTreeNode node)
 		{
 			RectangleF rect = new RectangleF(
-				5 + (X - minColumn) * (columnWidth + columnMargin),
-				5 + (Y - minLine) * (lineHeight + lineMargin),
+				5 + (node.X - minColumn) * (columnWidth + columnMargin),
+				5 + (node.Y - minLine) * (lineHeight + lineMargin),
 				columnWidth,
 				lineHeight
 			);
@@ -412,7 +412,7 @@ namespace TGC
 		public ITreeNode HitTest(PointF point)
 		{
 			if (currentLayout != null) {
-				VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => getCell(node.X, node.Y).Contains(point));
+				VisualTreeNode visualNode = TreeSearch.FindFirst(currentLayout, node => getCell(node).Contains(point));
 				if (visualNode != null)
 					return visualNode.Node;
 			}
