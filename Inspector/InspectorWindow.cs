@@ -21,18 +21,16 @@ namespace Genealogy.Inspector
 
 			Text = "Genealogy Inspector";
 
-			Menu = new MainMenu();
-
-			var menuFile = new MenuItem("File");
-			Menu.MenuItems.Add(menuFile);
-
-			menuFile.MenuItems.Add(new MenuItem("Open", onFileOpen));
-			menuFile.MenuItems.Add(new MenuItem("Relationship degree window", (s, e) => new RelationshipWindow(DataStorage).Show(this)));
-			menuFile.MenuItems[1].Enabled = false;
-			menuFile.MenuItems.Add(new MenuItem("Chronicle", (s, e) => new ChronicleWindow(DataStorage).Show(this)));
-			menuFile.MenuItems[2].Enabled = false;
-			menuFile.MenuItems.Add(new MenuItem("Marriages", (s, e) => new MarriageSuggestionWindow(DataStorage).Show(this)));
-			menuFile.MenuItems[3].Enabled = false;
+			Menu = new MainMenu(new MenuItem[] {
+				new MenuItem("File", new MenuItem[] {
+					new MenuItem("Open", onFileOpen)
+				}),
+				new MenuItem("Storage", new MenuItem[] {
+					new MenuItem("Relationship degree window", (s, e) => new RelationshipWindow(DataStorage).Show(this)),
+					new MenuItem("Chronicle", (s, e) => new ChronicleWindow(DataStorage).Show(this)),
+					new MenuItem("Marriages", (s, e) => new MarriageSuggestionWindow(DataStorage).Show(this))
+				}) { Enabled = false }
+			});
 
 			noDataLoaded.Text = "Currently no data available. Use 'File -> Open' to load data.";
 			noDataLoaded.Dock = DockStyle.Fill;
@@ -88,7 +86,7 @@ namespace Genealogy.Inspector
 				return;
 			}
 
-			Menu.MenuItems[0].MenuItems[1].Enabled = Menu.MenuItems[0].MenuItems[2].Enabled = Menu.MenuItems[0].MenuItems[3].Enabled = true;
+			Menu.MenuItems[1].Enabled = true;
 			noDataLoaded.Visible = false;
 			titleList.Visible = true;
 
