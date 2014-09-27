@@ -177,8 +177,8 @@ namespace TGC
 					                                 Math.Abs(AutoScrollPosition.Y),
 					                                 ClientSize.Width - SystemInformation.VerticalScrollBarWidth,
 					                                 ClientSize.Height - SystemInformation.HorizontalScrollBarHeight);
-					RectangleF Node = new RectangleF(visualNode.X * (columnWidth + columnMargin),
-					                               visualNode.Y * (lineHeight + lineMargin),
+					RectangleF Node = new RectangleF((visualNode.X - minColumn) * (columnWidth + columnMargin),
+					                               (visualNode.Y - minLine) * (lineHeight + lineMargin),
 					                               columnWidth,
 					                               lineHeight);
 					if (!View.Contains(Node)) {
